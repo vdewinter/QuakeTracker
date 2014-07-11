@@ -1,0 +1,39 @@
+7/7/14
+goal: find a project
+Today I decided on a project, drew mockups, collected the earthquake and tsunami DB's from USGS and NOAA.
+
+7/8/14
+goal: make a 3d globe with three.js, get realtime data source for earthquakes/tsunamis, created my own DB(currently sqlite, in the future postgres), get higher quality images and limit zoom distance
+-I'll have to scrape the NOAA site for tsunami live updates, but I can use the USGS API to get GeoJSON for quakes.
+- I created DB and tables before running seed.py by doing the following:
+    python -i model.py
+    engine = create_engine("sqlite:///ratings.db", echo=True)
+    Base.metadata.create_all(engine)
+
+7/9/14
+goal: plot 2d data on sphere
+Three js was giving me problems implementing a cube mat layer over the globe (maybe due to my blog post I used as an example having a different version from my copy?), and the error has to do with no material list being passed into MeshFaceMaterial, for future debugging purposes. I will try the Google Data Arts Team's globe for now to get an MVP working and come back to implementing my own globe if there is time. I also decided I will use a Flask web socket to connect with USGS and make live updates every minute.
+
+7/10/14
+goal: plot data on Google Data Arts Team WebGL Globe- be able to select vectors, d3 to display data from DB? 
+My concern today is being able to make GET requests when clicking on the cubes that the globe generates. Stackoverflow says I need to implement a raycaster to make three js objects clickable. 
+turnout- I'm moving to 2d with d3.js- much better support for geodata.
+mentor meeting today was good. talked about career day, i have nothing to worry about. important to get MVP early and not have to do too much near career day. was invited to keen io whenever for lunch. they are hiring FE engs.
+
+
+
+
+
+LATER:
+add major fault line layer
+add foreign key b/t quakes and tsunamis?
+build working app interface
+scrape NOAA for realtime tsunami data and integrate USGS GeoJSON
+use geocoding API to take user to lat/lon of a given search location ?
+create tour guide feature
+migrate to postgres
+deploy on heroku
+
+FOR FUNSIES:
+finish Eloquent JS
+Mega Flask tutorial

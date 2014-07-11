@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<meta charset='utf-8'>
+
+<style>
+
+    path {
+        -ms-transform: scale(1.3); /* IE 9 */
+        -webkit-transform: scale(1.3); /* Chrome, Safari, Opera */
+        transform: scale(1.3);
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    points{
+        color: yellow;
+    }
+
+    #timeline {
+        display: none;
+    }
+
+</style>
+
+<body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="static/js/earth.js"></script>
+
+<a href="" name="show-past-quakes" value="Quakes">
+    Show major earthquakes since -2500 BCE
+</a> 
+<br>
+<a href="" name="show-realtime-quakes" value="Quakes">
+    Show realtime earthquakes
+</a>
+
+<div id="timeline">Timeline</div>
+
+<script>
+    $(document).ready(function() {
+        displayMap();
+    });
+    
+</script>
+</body>
+</html>
