@@ -20,14 +20,15 @@ My concern today is being able to make GET requests when clicking on the cubes t
 turnout- I'm moving to 2d with d3.js- much better support for geodata.
 mentor meeting today was good. talked about career day, i have nothing to worry about. important to get MVP early and not have to do too much near career day. was invited to keen io whenever for lunch. they are hiring FE engs.
 
-
+7/11/14
+goal: plot historical data on d3 map
+d3 has a different style of programming from what I'm used to- declarative, not imperative (e.g. the .enter() method, callbacks with d instead of for loops). I found a good example of a project I want mine to end up similar to - realtime data reported back with blinking circles. I want to see the JSON they pass and better understand the .data() and .datum().
 
 
 
 LATER:
-add major fault line layer
+add major fault line layer - got shp but need to plot on map - i like the equirectangular projection
 add foreign key b/t quakes and tsunamis?
-build working app interface
 scrape NOAA for realtime tsunami data and integrate USGS GeoJSON
 use geocoding API to take user to lat/lon of a given search location ?
 create tour guide feature
