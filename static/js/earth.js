@@ -56,15 +56,12 @@ function displayMap() {
     });
 }
 
-function displayTimeline() {
-    
-}
-
-// filter out unknown magnitudes
+// filter out unknown magnitudes - will these automatically have 0 radius and therefore not appear on map?
 function filterPoints() {
 
 }
 
+// add myData param, def val is null, if nothing passed, default val of d3.json
 function displayHistoricalQuakes() {
     d3.json("/read_quakes_from_db", function(error, points) {
     if (error) return console.error(error);
@@ -127,7 +124,4 @@ function globeView() { // orthographic
 //         .call(drag);
 }
 
-// function main() {
-//     var dataset = displayHistoricalQuakes(); //pass the returned object to functions used to create timeline
 
-// }

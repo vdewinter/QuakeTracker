@@ -16,31 +16,29 @@ app.secret_key = 'secret_key' # change
 @app.route('/')
 def index():
     return render_template("index.html")
-# I want to make this all one page- how should I organize requests here
 
 @app.route("/read_quakes_from_db")
 # gets every quake from DB - loop thru and format in dictionary- send as json to js
 def read_quakes_from_db():
     historical_quake_data = model.session.query(model.Quake).all()
-    response_list = []
-    response = {}
+    response_dict = {}
 
     for quake in historical_quake_data:
-        response = {}
+        response_dict[quake.year] = {}
         
-        response["id"] = quake.id
-        response["latitude"] = quake.latitude
-        response["longitude"] = quake.longitude
+        response_dict[quake.year]["id"] = quake.id
+        response_dict[quake.year]["latitude"] = quake.latitude
+        response_dict[quake.year]["longitude"] = quake.longitude
 
-        response["year"] = quake.year
-        response["month"] = quake.month
-        response["day"] = quake.day
-        response["hour"] = quake.hour
+        response_dict[quake.year]["month"] = quake.month
+        response_dict[quake.year]["day"] = quake.day
+        response_dict[quake.year]["hour"] = quake.hour
 
         magnitudes = [quake.magnitude_mw, quake.magnitude_ms, 
         quake.magnitude_mb, quake.magnitude_ml, quake.magnitude_mfa, 
         quake.magnitude_unk]
         magnitudes_to_average = []
+
         for i in magnitudes:
             if i:
                 magnitudes_to_average.append(float(i))
@@ -48,11 +46,9 @@ def read_quakes_from_db():
             avg_magnitude = sum(magnitudes_to_average)/float(len(magnitudes_to_average)) 
         else:
             avg_magnitude = None
-        response["magnitude"] = avg_magnitude 
+        response_dict[quake.year]["magnitude"] = avg_magnitude 
 
-        response_list.append(response)
-
-    return json.dumps(response_list)
+    return json.dumps(response_dict)
 
 @app.route("/write_new_quakes_to_db")
 # add new data since last update to db

@@ -12,6 +12,10 @@ g {
 rect {
   border: solid 1px #aaa;
 }
+
+#slider {
+    width: 1000px;
+}
 /*
 #timeline {
     display: none;

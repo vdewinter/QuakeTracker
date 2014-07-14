@@ -32,6 +32,9 @@ I'd like to explore the orthographic projection/make an interactive globe the us
 7/13/14
 Day of rest. Read a little about timelines and basic d3 stuff. Started to implement timeline. I plan to focus just on earthquakes with a timeline and realtime updates for my MVP.
 
+7/14/14
+goal: implement timeline slider
+talked to Laura- better to do this in jQuery than d3
 
 
 LATER:

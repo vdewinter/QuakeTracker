@@ -3,13 +3,15 @@
 <head>
     <meta charset='utf-8'>
     <title></title>
-    <link href="static/style.css" media="screen" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css"href="static/style.css" media="screen"/>
 </head>
 
 <body>
     <script src="http://d3js.org/d3.v3.min.js"></script>
     <script src="http://d3js.org/topojson.v1.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css"/>
     <script src="static/js/earth.js"></script>
 
     <a href="" id="show-past-quakes" value="Quakes">
@@ -19,10 +21,18 @@
     <a href="" id="show-realtime-quakes" value="Quakes">
         Show realtime earthquakes
     </a>
+    <br>
+    <br>
+    <div id="slider"></div>
 
     <script>
+        var val = null;
+
         $(document).ready(function() {
             displayMap();
+
+            var dataset = displayHistoricalQuakes();
+            console.log(dataset);
 
             $("#show-past-quakes").click(function(e) {
                 e.preventDefault();
@@ -33,15 +43,36 @@
             //     e.preventDefault;
             //     displayRealtimeQuakes();
             // });
+
+            
+            $("#slider").slider({
+                min: -2500,
+                max: 2014,
+                slide: function() {
+                    val = $("#slider").slider("option", "value");
+                    console.log(val);
+
+                    // label slider
+                    for(i = -2500; i <= 2014; i + 500){
+                        var el = $("<label>" + i + "</label")
+                        $("#slider").append(el);
+                    }
+
+                }
+            });
+            // .each(function() {
+            //     var opt = $(this).data().uiSlider.options;
+            //     var vals = opt.max - opt.min;
+            //     for (var i = 0; i <= vals; i+1000) {
+            //         var el = $("<label>" + (i + opt.min) + "</label>").css("left", (i/vals * 100) + "%");
+            //         $("#slider").append(el);
+            //     }
+            // });
+
+            // could also make var x = d3.scale.linear()
         });
 
-        // $(function() {
-        //         $("#slider").slider();
-        // });
-
     </script>
-
-    <!-- <div id="slider"></div> -->
     
 </body>
 </html>
