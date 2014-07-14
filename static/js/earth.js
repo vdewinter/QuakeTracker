@@ -1,7 +1,7 @@
-var width = 1250,
-    height = 830;
+var width = 1200,
+    height = width/2;
 
-var projection = d3.geo.mercator();
+var projection = d3.geo.equirectangular();
 
 var path = d3.geo.path()
     .projection(projection);
@@ -10,15 +10,28 @@ var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height);
 
+var drag = d3.behavior.drag()
+    .origin(Object)
+    .on("drag", dragMove);
+
+// for labeling points
+// var tooltip = d3.select("body")
+//     .append("div")
+//     .style("position", "absolute")
+//     .style("z-index", "10")
+//     .style("visibility", "hidden")
+//     .text("a simple tooltip");
+
 // colors quake points by magnitude
 var pathRamp = d3.scale.linear()
     .domain([6,7,8,9])
-    .range(["yellow","orange","red","#0x800517"]);
+    .range(["yellow","orange","red","#B81324"]);
 
-// var siteLabel = svg.aappend("svg:text")
-//     .attr("x", 20)
-//     .attr("y", 20)
-//     .text("Click for details");
+function dragMove(d) {
+    d3.select(this)
+        .attr("cx", d.x = Math.max(r, Math.min(width - r, d3.event.x)))
+        .attr("cy", d.y = Math.max(r, Math.min(height - r, d3.event.y)));
+}
 
 function displayMap() {
     d3.json("/static/world.json", function(error, world) {
@@ -29,15 +42,27 @@ function displayMap() {
             .attr("d", path);
     });
 
-    // overlay fault lines
-    // d3.json("/static/plate_boundaries.json", function(error, world) {
-    //     if (error) return console.error(error);
+    // fault lines
+    d3.json("/static/tectonics.json", function(error, data) {
+        if (error) return console.error(error);
 
-    //     svg.append("path") // or insert?
-    //         .datum(topojson.object(data, data.objects.tec)) // binds data directly without computing a join
-    //         .attr("class", "tectonic")
-    //         .attr("d", path);
-    // });
+        svg.append("path")
+            .datum(topojson.feature(data, data.objects.tec))
+            .attr("class", "tectonic")
+            .attr("d", path)
+            .style("stroke", 0.1)
+            .style("fill", "white")
+            .style("opacity", 0.5);
+    });
+}
+
+function displayTimeline() {
+    
+}
+
+// filter out unknown magnitudes
+function filterPoints() {
+
 }
 
 function displayHistoricalQuakes() {
@@ -45,27 +70,32 @@ function displayHistoricalQuakes() {
     if (error) return console.error(error);
     console.log(points);
 
-    // make pins for historical data
+    // pins for historical data
     svg.selectAll(".pin")
         .data(points)
         .enter().append("circle", ".pin")
+        // show info on hover
+        // .append("svg:title")
+        // .text(function(d) {
+        //     return d.magnitude, d.month, d.day, d.year;
+        // })
         // radius proportional to magnitude of quake
         .attr("r", function(d) {
             return d.magnitude/2;
         })
+        .style("fill", function(d) {
+            return (pathRamp(d.magnitude));
+        })
+        .style("stroke", 0.001)
         // lat and lon
         .attr("transform", function(d) {
             return "translate(" + projection ([d.longitude, d.latitude]) + ")";
-        })
-        .style("fill", function(d) {
-            return (pathRamp(d.magnitude));
         });
-        // .on("click", function(d) {siteLabel.text(d.magnitude, d.month, d.day, d.year, d.hour, d.minute)});
-
-    // append to svg
+        // .on("mouseover", function(d) {
+        //     tooltip.text(d.magnitude, d.month, d.day, d.year, d.hour, d.minute);
+        //     return tooltip.style("visibility", "visibile");
+        // });
     });
-
-    // });
 
 }
 
@@ -73,9 +103,31 @@ function displayRealtimeQuakes() {
 
 }
 
-// $.ajax({
-//     url: "/read_quakes_from_db",
-//     type : "GET",
-//     dataType: "json"
-// }).done(function(response) {
-//     console.log(response);
+
+// ROTATION http://bl.ocks.org/mbostock/5731578
+// dragging: http://bl.ocks.org/mbostock/3795040 (globe) and http://bl.ocks.org/mbostock/1557377 (dragging) -- interactive, draggable globe
+function globeView() { // orthographic
+//     var projection = d3.geo.orthographic();
+
+//     var lambda = d3.scale.linear()
+//         .domain([0, height])
+//         .range([90, -90]);
+
+//     var phi = d3.scale.linear()
+//         .domain([0, height])
+//         .range([90, -90]);
+
+//     svg.selectAll("#map")
+//         .attr("cx", function(d) {
+//             return d.x;
+//         })
+//         .attr("cy", function(d) {
+//             return d.y;
+//         })
+//         .call(drag);
+}
+
+// function main() {
+//     var dataset = displayHistoricalQuakes(); //pass the returned object to functions used to create timeline
+
+// }

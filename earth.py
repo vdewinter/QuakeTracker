@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request, flash
+from flask import Flask, render_template, redirect, request, flash, jsonify
 # from flask_sockets import Sockets
 import model
 import json
@@ -23,6 +23,7 @@ def index():
 def read_quakes_from_db():
     historical_quake_data = model.session.query(model.Quake).all()
     response_list = []
+    response = {}
 
     for quake in historical_quake_data:
         response = {}
