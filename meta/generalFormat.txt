@@ -1,0 +1,15 @@
+func that gets stuff in DB - loop thru and format into json- send to js
+
+write ajax func in js file that calls route that calls python function (will return json)
+test w dummy func
+
+write func to parse json from server and display on map
+
+hook them up to return results from db
+figure out what format json should be in (lat, lon, mag)
+
+
+API
+
+another AJAX request
+http://comcat.cr.usgs.gov/fdsnws/event/1/[METHOD[?PARAMETERS]]

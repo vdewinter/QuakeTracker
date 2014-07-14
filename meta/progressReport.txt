@@ -1,0 +1,50 @@
+7/7/14
+goal: find a project
+Today I decided on a project, drew mockups, collected the earthquake and tsunami DB's from USGS and NOAA.
+
+7/8/14
+goal: make a 3d globe with three.js, get realtime data source for earthquakes/tsunamis, created my own DB(currently sqlite, in the future postgres), get higher quality images and limit zoom distance
+-I'll have to scrape the NOAA site for tsunami live updates, but I can use the USGS API to get GeoJSON for quakes.
+- I created DB and tables before running seed.py by doing the following:
+    python -i model.py
+    engine = create_engine("sqlite:///ratings.db", echo=True)
+    Base.metadata.create_all(engine)
+
+7/9/14
+goal: plot 2d data on sphere
+Three js was giving me problems implementing a cube mat layer over the globe (maybe due to my blog post I used as an example having a different version from my copy?), and the error has to do with no material list being passed into MeshFaceMaterial, for future debugging purposes. I will try the Google Data Arts Team's globe for now to get an MVP working and come back to implementing my own globe if there is time. I also decided I will use a Flask web socket to connect with USGS and make live updates every minute.
+
+7/10/14
+goal: plot data on Google Data Arts Team WebGL Globe- be able to select vectors, d3 to display data from DB? 
+My concern today is being able to make GET requests when clicking on the cubes that the globe generates. Stackoverflow says I need to implement a raycaster to make three js objects clickable. 
+turnout- I'm moving to 2d with d3.js- much better support for geodata.
+
+7/11/14
+goal: plot historical data on d3 map
+d3 has a different style of programming from what I'm used to- declarative, not imperative (e.g. the .enter() method, callbacks with d instead of for loops). I found a good example of a project I want mine to end up similar to - realtime data reported back with blinking circles. I want to see the JSON they pass and better understand the .data() and .datum().
+.data computes a join (declaratively adds new elts, however many are in the array passed to it). It associates the data at each elt to the __data__ property of each new HTML elt created. .datum does not perform join- use when you expect no dynamic updates.
+
+7/12/14
+goal: plot historical data on d3 map
+DONE finally. Also got tectonic plates on the map. Next step is the timeline slider.
+I'd like to explore the orthographic projection/make an interactive globe the user can drag to spin. 
+
+7/13/14
+Day of rest. Read a little about timelines and basic d3 stuff. Started to implement timeline. I plan to focus just on earthquakes with a timeline and realtime updates for my MVP.
+
+7/14/14
+goal: implement timeline slider
+talked to Laura- better to do this in jQuery than d3
+
+
+LATER:
+add foreign key b/t quakes and tsunamis?
+scrape NOAA for realtime tsunami data and integrate USGS GeoJSON
+use geocoding API to take user to lat/lon of a given search location ?
+create tour guide feature
+migrate to postgres
+deploy on heroku
+
+FOR FUNSIES:
+finish Eloquent JS
+Mega Flask tutorial
