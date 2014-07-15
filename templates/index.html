@@ -29,49 +29,24 @@
 
     <script>
         var val = null;
+        var dataset = 1;
 
         $(document).ready(function() {
             displayMap();
 
-            var dataset = displayHistoricalQuakes();
+            dataset = displayHistoricalQuakes();
             console.log(dataset);
 
-            $("#show-past-quakes").click(function(e) {
-                e.preventDefault();
-                displayHistoricalQuakes();
-            });
+            // $("#show-past-quakes").click(function(e) {
+            //     e.preventDefault();
+            //     displayHistoricalQuakes();
+            // });
 
             // $("#show-realtime-quakes").click(function(e) {
             //     e.preventDefault;
             //     displayRealtimeQuakes();
             // });
 
-            
-            // $("#slider").slider({
-            //     min: -2500,
-            //     max: 2014,
-            //     slide: function() {
-            //         val = $("#slider").slider("option", "value");
-            //         console.log(val);
-
-            //         // label slider
-            //         for(i = -2500; i <= 2014; i + 500){
-            //             var el = $("<label>" + i + "</label")
-            //             $("#slider").append(el);
-            //         }
-
-            //     }
-            // });
-            // .each(function() {
-            //     var opt = $(this).data().uiSlider.options;
-            //     var vals = opt.max - opt.min;
-            //     for (var i = 0; i <= vals; i+1000) {
-            //         var el = $("<label>" + (i + opt.min) + "</label>").css("left", (i/vals * 100) + "%");
-            //         $("#slider").append(el);
-            //     }
-            // });
-
-            // could also make var x = d3.scale.linear()
         });
 
     </script>

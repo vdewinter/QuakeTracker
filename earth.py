@@ -18,22 +18,11 @@ def index():
     return render_template("index.html")
 
 @app.route("/read_quakes_from_db")
-# gets every quake from DB - loop thru and format in dictionary- send as json to js
 def read_quakes_from_db():
     historical_quake_data = model.session.query(model.Quake).all()
     response_dict = {}
 
     for quake in historical_quake_data:
-        response_dict[quake.year] = {}
-        
-        response_dict[quake.year]["id"] = quake.id
-        response_dict[quake.year]["latitude"] = quake.latitude
-        response_dict[quake.year]["longitude"] = quake.longitude
-
-        response_dict[quake.year]["month"] = quake.month
-        response_dict[quake.year]["day"] = quake.day
-        response_dict[quake.year]["hour"] = quake.hour
-
         magnitudes = [quake.magnitude_mw, quake.magnitude_ms, 
         quake.magnitude_mb, quake.magnitude_ml, quake.magnitude_mfa, 
         quake.magnitude_unk]
@@ -44,9 +33,17 @@ def read_quakes_from_db():
                 magnitudes_to_average.append(float(i))
         if len(magnitudes_to_average) > 0:
             avg_magnitude = sum(magnitudes_to_average)/float(len(magnitudes_to_average)) 
-        else:
-            avg_magnitude = None
-        response_dict[quake.year]["magnitude"] = avg_magnitude 
+        
+            if quake.year in response_dict:
+                response_dict[quake.year].append({"id": quake.id, 
+                    "latitude": quake.latitude, "longitude": quake.longitude,
+                    "month": quake.month, "day": quake.day, "hour": quake.hour, 
+                    "magnitude": avg_magnitude})
+            else:
+                response_dict[quake.year] = [{"id": quake.id, 
+                    "latitude": quake.latitude, "longitude": quake.longitude,
+                    "month": quake.month, "day": quake.day, "hour": quake.hour, 
+                    "magnitude": avg_magnitude}]
 
     return json.dumps(response_dict)
 
