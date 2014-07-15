@@ -29,7 +29,15 @@ function dragMove(d) {
         .attr("cy", d.y = Math.max(r, Math.min(height - r, d3.event.y)));
 }
 
-function displayMap() {
+function displayHistoricalQuakes() {
+    d3.json("/read_quakes_from_db", function(error, points) {
+        if (error) return console.error(error);
+        dataset = points;
+        displayMap(points);
+    });
+}
+
+function displayMap(points) {
     // land
     d3.json("/static/world.json", function(error, world) {
         if (error) return console.error(error);
@@ -37,6 +45,8 @@ function displayMap() {
         svg.append("path")
             .datum(topojson.feature(world, world.objects.subunits))
             .attr("d", path);
+        svg.append("g");
+        createPoints(points);
     });
 
     // fault lines
@@ -65,22 +75,18 @@ function displayMap() {
         }));
 }
 
-function filterPoints(value) {
-    // plot each point in value array (year:[datapoint1, datapoint2, ...])
-    if (dataset.hasOwnProperty(value)) {
-        console.log("lookup",dataset[value]);
-        for (i = 0; i < dataset[value].length; i++) {
-            points.push(dataset[value][i]);
+function createPoints(points) {
+    var pointsList = [];
+    for (var year in points) {
+        var yearPoints = points[year];
+        for (var i = 0; i < yearPoints.length; i++) {
+            pointsList.push(yearPoints[i]);
         }
-    displayPoint(points);
-    
     }
-}
-
-function displayPoint(points) {
-    // pins for historical data
-    svg.selectAll(".point")
-        .data(points)
+    console.log(pointsList);
+    d3.select("g")
+        .selectAll(".point")
+        .data(pointsList)
         .enter().append("circle", ".point")
         // radius proportional to magnitude of quake
         .attr("r", function(d) {
@@ -98,18 +104,29 @@ function displayPoint(points) {
         .on("mouseover", function(d) {
             d3.select(this)
                 .text(d.magnitude, d.month, d.day, d.year);
-        });
-    // reset points array after every drawing
-    points = [];
+        })
+        //all points are loaded but hidden until slider reaches year
+        .style("display", "none");
+}
+function filterPoints(value) {
+    // plot each point in value array (year:[datapoint1, datapoint2, ...])
+    if (dataset.hasOwnProperty(value)) {
+        console.log("lookup",dataset[value]);
+        for (i = 0; i < dataset[value].length; i++) {
+            points.push(dataset[value][i]);
+        }
+    }// .show();
+
+    // when slider moves, hide old points
+    // if slider has seen value before, redraw old points
+
+    while(points.length > 0) {
+        points.pop();
+    }
+    
 }
 
-function displayHistoricalQuakes() {
-    d3.json("/read_quakes_from_db", function(error, points) {
-        if (error) return console.error(error);
-        dataset = points;
-        return points;
-    });
-}
+
 
 function displayRealtimeQuakes() {
 // http://comcat.cr.usgs.gov/fdsnws/event/1/[METHOD[?PARAMETERS]]

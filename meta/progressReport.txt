@@ -34,10 +34,21 @@ Day of rest. Read a little about timelines and basic d3 stuff. Started to implem
 
 7/14/14
 goal: implement timeline slider
-I found a nice looking plugin (github/turban) for a timeline slider. I'll only show only 500 years of data on the slider due to pixels/screen width and sliding limitations (skips values when sliding fast).
+I found a nice looking plugin (github/turban) for a timeline slider. I'll only show only 500 years of data on the slider due to num pixels/screen width and sliding limitations (skips values when sliding fast).
 TO READ:
 https://gist.github.com/thiyagaraj/8804699, http://stackoverflow.com/questions/5223/length-of-javascript-object-ie-associative-array
-TO DO: investigate why world.json loading SO SLOWLY
+
+7/15/14
+goal: make points plot correcly as user drags slider
+This was not so hard to get working, but what was hard was 
++ making sure the points don't redraw if the slider is slid forward then backward 
++ making sure points don't display cumulatively (erase data in points array when slider is moved again PLUS erase points already drawn).
+It's funny how implementing a feature that seems so simple can have more problems associated with it than I realized.
+better strategy: plot all points on map load but hide them; show only when slider is on whatever value
+I had to call the func to plot the points inside the d3.json func that draws the map to get the drawing order right (points on top)
+
+7/16/14
+goal: see quake info when hovering over point
 
 
 LATER:
