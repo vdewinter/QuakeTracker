@@ -12,4 +12,3 @@ figure out what format json should be in (lat, lon, mag)
 API
 
 another AJAX request
-http://comcat.cr.usgs.gov/fdsnws/event/1/[METHOD[?PARAMETERS]]

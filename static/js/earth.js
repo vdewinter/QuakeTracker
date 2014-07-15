@@ -1,4 +1,4 @@
-// create array of yrs from object, map slider to years- consider only 300 yrs?
+// create array of yrs from object, map slider to years
 
 var width = 1200,
     height = width/2;
@@ -16,13 +16,7 @@ var drag = d3.behavior.drag()
     .origin(Object)
     .on("drag", dragMove);
 
-// for labeling points
-// var tooltip = d3.select("body")
-//     .append("div")
-//     .style("position", "absolute")
-//     .style("z-index", "10")
-//     .style("visibility", "hidden")
-//     .text("a simple tooltip");
+var points = [];
 
 // colors quake points by magnitude
 var pathRamp = d3.scale.linear()
@@ -59,44 +53,40 @@ function displayMap() {
     });
 
     //slider 
+    var currentYear = new Date().getFullYear();
     d3.select("#slider")
         .call(d3.slider()
             .axis(d3.svg.axis().orient("bottom").ticks(10))
-            .min(-2500)
-            .max(2014)
+            .min(currentYear - 500)
+            .max(currentYear)
             .step(1)
             .on("slide", function(event, value) {
-                console.log(value);
                 filterPoints(value);
         }));
 }
 
 function filterPoints(value) {
-    console.log(dataset[value]);
-    if (dataset[value] == value) {
-        // plot each point in array that is value of year key
+    // plot each point in value array (year:[datapoint1, datapoint2, ...])
+    if (dataset.hasOwnProperty(value)) {
+        console.log("lookup",dataset[value]);
         for (i = 0; i < dataset[value].length; i++) {
-            displayPoint(dataset[value][i]);
+            points.push(dataset[value][i]);
         }
+    displayPoint(points);
+    
     }
 }
 
-function displayPoint(point) {
+function displayPoint(points) {
     // pins for historical data
-    svg.selectAll(".pin")
+    svg.selectAll(".point")
         .data(points)
-        .enter().append("circle", ".pin")
-
-        // show info on hover
-        // .append("svg:title")
-        // .text(function(d) {
-        //     return d.magnitude, d.month, d.day, d.year;
-        // })
-
+        .enter().append("circle", ".point")
         // radius proportional to magnitude of quake
         .attr("r", function(d) {
-            return d.magnitude/2;
+            return d.magnitude;
         })
+        // color ramp by magnitude
         .style("fill", function(d) {
             return (pathRamp(d.magnitude));
         })
@@ -104,7 +94,13 @@ function displayPoint(point) {
         // lat and lon
         .attr("transform", function(d) {
             return "translate(" + projection ([d.longitude, d.latitude]) + ")";
+        })
+        .on("mouseover", function(d) {
+            d3.select(this)
+                .text(d.magnitude, d.month, d.day, d.year);
         });
+    // reset points array after every drawing
+    points = [];
 }
 
 function displayHistoricalQuakes() {
@@ -116,7 +112,7 @@ function displayHistoricalQuakes() {
 }
 
 function displayRealtimeQuakes() {
-
+// http://comcat.cr.usgs.gov/fdsnws/event/1/[METHOD[?PARAMETERS]]
 }
 
 

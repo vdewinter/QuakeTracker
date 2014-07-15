@@ -2,6 +2,7 @@ from flask import Flask, render_template, redirect, request, flash, jsonify
 # from flask_sockets import Sockets
 import model
 import json
+from datetime import date
 
 app = Flask(__name__)
 app.secret_key = 'secret_key' # change
@@ -20,7 +21,8 @@ def index():
 @app.route("/read_quakes_from_db")
 
 def read_quakes_from_db():
-    historical_quake_data = model.session.query(model.Quake).all()
+    date_range = date.today().year - 500
+    historical_quake_data = model.session.query(model.Quake).filter(model.Quake.year >= date_range).all()
     response_dict = {}
 
     for quake in historical_quake_data:

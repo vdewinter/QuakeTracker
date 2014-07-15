@@ -10,21 +10,17 @@
     <script src="http://d3js.org/d3.v3.min.js"></script>
     <script src="http://d3js.org/topojson.v1.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css"/>
     <script src="static/js/earth.js"></script>
     <script src="static/d3Slider/d3.slider.js"></script>
     <link rel="stylesheet" href="static/d3Slider/d3.slider.css"/>
 
-
-    <a href="" id="show-past-quakes" value="Quakes">
-        Show major earthquakes since -2500 BCE
-    </a> 
     <br>
     <a href="" id="show-realtime-quakes" value="Quakes">
         Show realtime earthquakes
     </a>
     <br>
+    <br>
+    <div id="slider-title">Earthquakes of the Last 500 Years</div>
     <br>
     <div id="slider"></div>
 
@@ -33,14 +29,7 @@
 
         $(document).ready(function() {
             displayMap();
-
             dataset = displayHistoricalQuakes();
-            console.log(dataset);
-
-            // $("#show-past-quakes").click(function(e) {
-            //     e.preventDefault();
-            //     displayHistoricalQuakes();
-            // });
 
             // $("#show-realtime-quakes").click(function(e) {
             //     e.preventDefault;
