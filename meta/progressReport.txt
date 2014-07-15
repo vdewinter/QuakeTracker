@@ -35,9 +35,12 @@ Day of rest. Read a little about timelines and basic d3 stuff. Started to implem
 7/14/14
 goal: implement timeline slider
 talked to Laura- better to do this in jQuery than d3
+<<<<<<< HEAD
 I found a nice looking plugin (github/turban) for a timeline slider. I might show only 500 years or so of data on the slider due to pixels/screen and sliding limitations.
 TO READ:
 https://gist.github.com/thiyagaraj/8804699, http://stackoverflow.com/questions/5223/length-of-javascript-object-ie-associative-array
+=======
+>>>>>>> 89aafe54f9c7b4ba9cef5e0acc0aa0a342738777
 
 
 LATER:

@@ -18,6 +18,7 @@ def index():
     return render_template("index.html")
 
 @app.route("/read_quakes_from_db")
+
 def read_quakes_from_db():
     historical_quake_data = model.session.query(model.Quake).all()
     response_dict = {}
@@ -32,7 +33,7 @@ def read_quakes_from_db():
             if i:
                 magnitudes_to_average.append(float(i))
         if len(magnitudes_to_average) > 0:
-            avg_magnitude = sum(magnitudes_to_average)/float(len(magnitudes_to_average)) 
+            avg_magnitude = sum(magnitudes_to_average)/float(len(magnitudes_to_average))
         
             if quake.year in response_dict:
                 response_dict[quake.year].append({"id": quake.id, 
@@ -44,6 +45,7 @@ def read_quakes_from_db():
                     "latitude": quake.latitude, "longitude": quake.longitude,
                     "month": quake.month, "day": quake.day, "hour": quake.hour, 
                     "magnitude": avg_magnitude}]
+
 
     return json.dumps(response_dict)
 

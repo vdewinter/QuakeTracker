@@ -1,6 +1,5 @@
 // create array of yrs from object, map slider to years- consider only 300 yrs?
 
-
 var width = 1200,
     height = width/2;
 
@@ -88,6 +87,12 @@ function displayPoint(point) {
         .data(points)
         .enter().append("circle", ".pin")
 
+        // show info on hover
+        // .append("svg:title")
+        // .text(function(d) {
+        //     return d.magnitude, d.month, d.day, d.year;
+        // })
+
         // radius proportional to magnitude of quake
         .attr("r", function(d) {
             return d.magnitude/2;
@@ -100,24 +105,13 @@ function displayPoint(point) {
         .attr("transform", function(d) {
             return "translate(" + projection ([d.longitude, d.latitude]) + ")";
         });
-
-        // show info on hover
-        // .append("svg:title")
-        // .text(function(d) {
-        //     return d.magnitude, d.month, d.day, d.year;
-        // })
-
-
-        // .on("mouseover", function(d) {
-        //     tooltip.text(d.magnitude, d.month, d.day, d.year, d.hour, d.minute);
-        //     return tooltip.style("visibility", "visibile");
-        // });    
 }
 
 function displayHistoricalQuakes() {
     d3.json("/read_quakes_from_db", function(error, points) {
         if (error) return console.error(error);
         dataset = points;
+        return points;
     });
 }
 

@@ -1,26 +1,12 @@
-/*path {
-}*/
-
-.pin {
+/*.pin {
     margin-top: 30px;
-}
-
-g {
-    width: 1250px;
-    height: 830px;
-}
-
-rect {
-  border: solid 1px #aaa;
-}
+}*/
 
 #slider {
     width: 920px;
     margin-left: 20px;
 }
-
-/*
-.plates {
+/*.plates {
     fill: none;
     stroke: #000;
     opacity: 0.5;
