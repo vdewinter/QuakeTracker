@@ -40,12 +40,12 @@ def read_quakes_from_db():
             if quake.year in response_dict:
                 response_dict[quake.year].append({"id": quake.id, 
                     "latitude": quake.latitude, "longitude": quake.longitude,
-                    "month": quake.month, "day": quake.day, "hour": quake.hour, 
+                    "year": quake.year, "month": quake.month, "day": quake.day, "hour": quake.hour, 
                     "magnitude": avg_magnitude})
             else:
                 response_dict[quake.year] = [{"id": quake.id, 
                     "latitude": quake.latitude, "longitude": quake.longitude,
-                    "month": quake.month, "day": quake.day, "hour": quake.hour, 
+                    "year": quake.year, "month": quake.month, "day": quake.day, "hour": quake.hour, 
                     "magnitude": avg_magnitude}]
 
 

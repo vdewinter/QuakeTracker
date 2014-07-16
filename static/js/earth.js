@@ -45,6 +45,8 @@ function displayMap(points) {
         svg.append("path")
             .datum(topojson.feature(world, world.objects.subunits))
             .attr("d", path);
+        
+        // create points inside g elt once world.json has loaded
         svg.append("g");
         createPoints(points);
     });
@@ -83,11 +85,15 @@ function createPoints(points) {
             pointsList.push(yearPoints[i]);
         }
     }
-    console.log(pointsList);
+
     d3.select("g")
         .selectAll(".point")
         .data(pointsList)
         .enter().append("circle", ".point")
+        // assign year as class - NOT WOKRING
+        .attr("class", function(d) {
+            return d.year;
+        })
         // radius proportional to magnitude of quake
         .attr("r", function(d) {
             return d.magnitude;
@@ -106,27 +112,28 @@ function createPoints(points) {
                 .text(d.magnitude, d.month, d.day, d.year);
         })
         //all points are loaded but hidden until slider reaches year
-        .style("display", "none");
+        .style("visibility", "hidden");
 }
+
 function filterPoints(value) {
-    // plot each point in value array (year:[datapoint1, datapoint2, ...])
+    // as slider moves, see if value in dataset; show circles with class value
     if (dataset.hasOwnProperty(value)) {
         console.log("lookup",dataset[value]);
-        for (i = 0; i < dataset[value].length; i++) {
-            points.push(dataset[value][i]);
-        }
-    }// .show();
-
-    // when slider moves, hide old points
-    // if slider has seen value before, redraw old points
-
-    while(points.length > 0) {
-        points.pop();
+        d3.selectAll("circle")
+            .style("visibility", function(d) {
+                if (d.year === value) {
+                    console.log('met');
+                }
+                return (d.year === value) ? "visible" : "hidden";
+            });
     }
-    
 }
 
-
+function displayAllPoints() {
+    console.log("running");
+    d3.selectAll("circle")
+        .style("visibility", "visible");
+}
 
 function displayRealtimeQuakes() {
 // http://comcat.cr.usgs.gov/fdsnws/event/1/[METHOD[?PARAMETERS]]

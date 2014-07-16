@@ -15,7 +15,11 @@
     <link rel="stylesheet" href="static/d3Slider/d3.slider.css"/>
 
     <br>
-    <a href="" id="show-realtime-quakes" value="Quakes">
+    <a href="" id="show-all-quakes">
+        Show all major earthquakes from the last 500 years
+    </a>
+    <br>
+    <a href="" id="show-realtime-quakes">
         Show realtime earthquakes
     </a>
     <br>
@@ -29,12 +33,18 @@
 
         $(document).ready(function() {
             dataset = displayHistoricalQuakes();
-
-            // $("#show-realtime-quakes").click(function(e) {
-            //     e.preventDefault;
-            //     displayRealtimeQuakes();
-            // });
         });
+
+        $("#show-all-quakes").click(function(e) {
+            e.preventDefault();
+            displayAllPoints();
+        });
+
+        // $("#show-realtime-quakes").click(function(e) {
+        //     e.preventDefault;
+        //     displayRealtimeQuakes();
+        // });
+        
 
     </script>
     
