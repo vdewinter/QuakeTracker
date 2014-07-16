@@ -61,6 +61,8 @@ Use D3's sort operator to reorder the elements.
 
 There was also an issue with the label disappearing too quickly over a point due to the buffer size for the point being too small.
 
+For the realtime data, I could use a CORS proxy to access UGSS' data or a web socket. Mutually exclusive?
+
 
 LATER:
 make slider faster (more DOM manip = less performant)

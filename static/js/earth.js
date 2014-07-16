@@ -112,18 +112,30 @@ function createPoints(points) {
         })
         .style("display", "none")
         .on("mouseover", function() {
+            console.log("over");
             txt.style("opacity", 1);
         })
         .on("mouseout", function() {
+            console.log("out");
             txt.style("opacity", 0);
         })
         .on("mousemove", function(d) {
-            var o = projection([d.longitude, d.latitude]);
-            txt.text(d.magnitude + ", " + d.month + "/" + d.day + "/" + d.year)
-                .style("fill", "#00CCFF")
-                .attr("dy", ".41em")
+            var p = projection([d.longitude, d.latitude]);
+            var str = "";
+            if (d.day) {
+                str = d.month + "/" + d.day + "/" + d.year;
+            }
+            else {
+                str = d.year;
+            }
+            txt.text(parseFloat(d.magnitude).toFixed(1) + ", " + str)
+                .style("fill", "#7D26CD")
+                .style("stroke", "#000000")
+                .style("stroke-width", 0.05)
+                .attr("dy", ".5em")
                 .attr("text-anchor", "middle")
-                .attr("transform", "translate(" + o[0] + "," + o[1] + ")");
+                .attr("transform", "translate(" + p[0] + "," + (p[1] - 19) + ")");
+
         });
 
     circles = d3.selectAll("circle");

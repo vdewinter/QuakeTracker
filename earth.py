@@ -1,18 +1,37 @@
 from flask import Flask, render_template, redirect, request, flash, jsonify
-# from flask_sockets import Sockets
+# from flask.ext.socketio import SocketIO, emit
 import model
 import json
 from datetime import date
 
 app = Flask(__name__)
 app.secret_key = 'secret_key' # change
-# sockets = Sockets(app)
+# socketio = SocketIO(app)
 
-# @sockets.route('/echo')
-# def echo_socket(ws):
-#     while True:
-#         message = ws.receieve()
-#         ws.send(message)
+# message delivers a string payload, json and custome events deliver JSON in form of python dict
+# events can be defined inside a namespace arg (optoinal) that allow a client to open mult connections 
+# to the server that are multiplexed in a single socket. default is global namespace
+
+# send sends string or JSON to client
+# emit sends message under custom event name
+
+# messages are sent to teh connected client by default but broadcast=True allows all clients connected
+ # to the namespace to recieve the message
+# @socketio.on('my event', namespace="/test")
+# def test_message(message): 
+#     emit("my response", {"data": message["data"]})
+
+# @socketio.on("my broadcast event", namespace="/test")
+# def test_message(message):
+#     emit("my response", {"data": message["data"]}, broadcast = True)
+
+# @socketio.on("connect", namespace="/test")
+# def test_connect():
+#     emit("my repsonse", {"data": "Connected"})
+
+# @socketio.on("disconnect", namespace="/test")
+# def test_disconenct():
+#     print("client disconnected")
 
 @app.route('/')
 def index():
@@ -57,4 +76,5 @@ def write_new_quakes_to_db():
     pass
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    # socketio.run(app, debug=True)
+    app.run(debug = True)

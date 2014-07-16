@@ -6,3 +6,15 @@ SQLAlchemy==0.7.9
 WTForms==1.0.2
 Werkzeug==0.8.3
 wsgiref==0.1.2
+Flask==0.9
+Flask-SQLAlchemy==0.16
+Flask-Sockets==0.1
+Flask-WTF==0.8
+Jinja2==2.6
+SQLAlchemy==0.7.9
+WTForms==1.0.2
+Werkzeug==0.8.3
+gevent==1.0.1
+gevent-websocket==0.9.3
+greenlet==0.4.2
+wsgiref==0.1.2
