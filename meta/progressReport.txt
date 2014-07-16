@@ -48,14 +48,15 @@ better strategy: plot all points on map load but hide them; show only when slide
 I had to call the func to plot the points inside the d3.json func that draws the map to get the drawing order right (points on top)
 
 7/16/14
-goal: see quake info when hovering over point
+goal: see quake info when hovering over point, make slider faster (more DOM manip = less performance), add realtime earthquakes
+
 
 
 LATER:
 orthographic projection and interactive globe(drag and zoom)
 add foreign key b/t quakes and tsunamis?
 scrape NOAA for realtime tsunami data and integrate USGS GeoJSON
-use geocoding API to take user to lat/lon of a given search location ?
+use geocoding API to take user to lat/lon of a given search location
 create tour guide feature?
 migrate to postgres
 deploy on heroku

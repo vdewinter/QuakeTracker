@@ -1,3 +1,12 @@
+// look at performance measuring tools--
+// currently changing attrs is time intensive
+// to make slider faster,
+// filter by old year- display none; fiter by new year display block
+// or
+// make hash table with d3 collection by year, 
+// track currently displayed year, 
+// collection#oldyear display: none; collection#newyear display:block
+
 var width = 1200,
     height = width/2;
 
@@ -10,9 +19,9 @@ var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height);
 
-var drag = d3.behavior.drag()
-    .origin(Object)
-    .on("drag", dragMove);
+// var drag = d3.behavior.drag()
+//     .origin(Object)
+//     .on("drag", dragMove);
 
 var circles = null;
 
@@ -21,11 +30,11 @@ var pathRamp = d3.scale.linear()
     .domain([6,7,8,9])
     .range(["yellow","orange","red","#B81324"]);
 
-function dragMove(d) {
-    d3.select(this)
-        .attr("cx", d.x = Math.max(r, Math.min(width - r, d3.event.x)))
-        .attr("cy", d.y = Math.max(r, Math.min(height - r, d3.event.y)));
-}
+// function dragMove(d) {
+//     d3.select(this)
+//         .attr("cx", d.x = Math.max(r, Math.min(width - r, d3.event.x)))
+//         .attr("cy", d.y = Math.max(r, Math.min(height - r, d3.event.y)));
+// }
 
 function displayHistoricalQuakes() {
     d3.json("/read_quakes_from_db", function(error, points) {
@@ -97,24 +106,34 @@ function createPoints(points) {
         .style("fill", function(d) {
             return (pathRamp(d.magnitude));
         })
-        .style("stroke", 0.001)
+        // .style("stroke", 0.001)
         .attr("transform", function(d) {
             return "translate(" + projection ([d.longitude, d.latitude]) + ")";
         })
         .style("display", "none")
         .on("mouseover", function() {
-            focus.style("opacity", 1);
+            txt.style("opacity", 1);
+        })
+        .on("mouseout", function() {
+            txt.style("opacity", 0);
+        })
+        .on("mousemove", function(d) {
+            var o = projection([d.longitude, d.latitude]);
+            txt.text("something here")
+                .style("fill", "#00CCFF")
+                .attr("dy", ".71em")
+                .attr("text-anchor", "middle")
+                .attr("transform", "translate(" + o[0] + "," + o[1] + ")");
         });
-        // .on("mousemove", function(d) {
-        //     var o = projection(d.geometry.coordinates);
-        //     focus
-        //         .text(d.magnitude + ' ' + moment(+d.properties.time).calendar())
-        //         .attr("dy", +20)
-        //         .attr("text-anchor", "middle")
-        //         .attr("transform", "translate(" + o[0] + "," + o[1] + ")");
-        // });
-        circles = d3.selectAll("circle");
+
+    circles = d3.selectAll("circle");
+
+    // add point labels here so they are drawn on top of all other layers
+    var txt = svg.append("text")
+        .attr("class", "txt");
 }
+
+
 
 function filterPoints(value) {
     // as slider moves, see if value in dataset; show circles with class value
@@ -127,7 +146,6 @@ function filterPoints(value) {
 }
 
 function displayAllPoints() {
-    console.log("running");
     circles
         .style("display", "block");
 }
