@@ -43,19 +43,30 @@ goal: make points plot correcly as user drags slider
 This was not so hard to get working, but what was hard was 
 + making sure the points don't redraw if the slider is slid forward then backward 
 + making sure points don't display cumulatively (erase data in points array when slider is moved again PLUS erase points already drawn).
-It's funny how implementing a feature that seems so simple can have more problems associated with it than I realized.
-better strategy: plot all points on map load but hide them; show only when slider is on whatever value
-I had to call the func to plot the points inside the d3.json func that draws the map to get the drawing order right (points on top)
+Implementing a feature that seems so simple can have more problems associated with it than I realized.
+Better strategy: plot all points on map load but hide them; show only when slider is on whatever value
+I had to call the func to plot the points inside the d3.json func that draws the map to get the drawing order right (points on top).
+I added the var circles = svg.selectAll("circle") to improve performance (less DOM searching).
 
 7/16/14
-goal: see quake info when hovering over point, make slider faster (more DOM manip = less performance), add realtime earthquakes
+goal: see quake info when hovering over point, add realtime earthquakes
+getting labels to appear on top of other layers is challenging- hierarchy in DOM matters/where labels are defined. I ended up defining the labels in the same func where I create the points. 
+The creator of d3 says:
+In SVG, the element order determines z-order: elements are drawn in the order they are specified in the document, so later elements will be drawn on top of earlier elements.
+There are several ways you can change the ordering of elements:
+Add the circles after the rectangles, rather than before.
+Use D3's insert operator to insert the rectangles before the circle.
+Create one svg:g element to hold the circles, and another for the rectangles.
+Use D3's sort operator to reorder the elements.
 
+There was also an issue with the label disappearing too quickly over a point due to the buffer size for the point being too small.
 
 
 LATER:
+make slider faster (more DOM manip = less performant)
 orthographic projection and interactive globe(drag and zoom)
 add foreign key b/t quakes and tsunamis?
-scrape NOAA for realtime tsunami data and integrate USGS GeoJSON
+scrape NOAA for realtime tsunami data and integrate USGS GeoJSON?
 use geocoding API to take user to lat/lon of a given search location
 create tour guide feature?
 migrate to postgres

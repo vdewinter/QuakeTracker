@@ -119,9 +119,9 @@ function createPoints(points) {
         })
         .on("mousemove", function(d) {
             var o = projection([d.longitude, d.latitude]);
-            txt.text("something here")
+            txt.text(d.magnitude + ", " + d.month + "/" + d.day + "/" + d.year)
                 .style("fill", "#00CCFF")
-                .attr("dy", ".71em")
+                .attr("dy", ".41em")
                 .attr("text-anchor", "middle")
                 .attr("transform", "translate(" + o[0] + "," + o[1] + ")");
         });
@@ -132,8 +132,6 @@ function createPoints(points) {
     var txt = svg.append("text")
         .attr("class", "txt");
 }
-
-
 
 function filterPoints(value) {
     // as slider moves, see if value in dataset; show circles with class value
