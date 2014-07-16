@@ -1,5 +1,3 @@
-// create array of yrs from object, map slider to years
-
 var width = 1200,
     height = width/2;
 
@@ -16,7 +14,7 @@ var drag = d3.behavior.drag()
     .origin(Object)
     .on("drag", dragMove);
 
-var points = [];
+var circles = null;
 
 // colors quake points by magnitude
 var pathRamp = d3.scale.linear()
@@ -90,49 +88,48 @@ function createPoints(points) {
         .selectAll(".point")
         .data(pointsList)
         .enter().append("circle", ".point")
-        // assign year as class - NOT WOKRING
         .attr("class", function(d) {
             return d.year;
         })
-        // radius proportional to magnitude of quake
         .attr("r", function(d) {
             return d.magnitude;
         })
-        // color ramp by magnitude
         .style("fill", function(d) {
             return (pathRamp(d.magnitude));
         })
         .style("stroke", 0.001)
-        // lat and lon
         .attr("transform", function(d) {
             return "translate(" + projection ([d.longitude, d.latitude]) + ")";
         })
-        .on("mouseover", function(d) {
-            d3.select(this)
-                .text(d.magnitude, d.month, d.day, d.year);
-        })
-        //all points are loaded but hidden until slider reaches year
-        .style("visibility", "hidden");
+        .style("display", "none")
+        .on("mouseover", function() {
+            focus.style("opacity", 1);
+        });
+        // .on("mousemove", function(d) {
+        //     var o = projection(d.geometry.coordinates);
+        //     focus
+        //         .text(d.magnitude + ' ' + moment(+d.properties.time).calendar())
+        //         .attr("dy", +20)
+        //         .attr("text-anchor", "middle")
+        //         .attr("transform", "translate(" + o[0] + "," + o[1] + ")");
+        // });
+        circles = d3.selectAll("circle");
 }
 
 function filterPoints(value) {
     // as slider moves, see if value in dataset; show circles with class value
     if (dataset.hasOwnProperty(value)) {
-        console.log("lookup",dataset[value]);
-        d3.selectAll("circle")
-            .style("visibility", function(d) {
-                if (d.year === value) {
-                    console.log('met');
-                }
-                return (d.year === value) ? "visible" : "hidden";
+        circles
+            .style("display", function(d) {
+                return (d.year === value) ? "block" : "none";
             });
     }
 }
 
 function displayAllPoints() {
     console.log("running");
-    d3.selectAll("circle")
-        .style("visibility", "visible");
+    circles
+        .style("display", "block");
 }
 
 function displayRealtimeQuakes() {
