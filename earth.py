@@ -1,38 +1,43 @@
-from flask import Flask, render_template, redirect, request, flash, jsonify
+from flask import Flask, render_template, redirect, request, flash, jsonify, session
 from flask.ext.socketio import SocketIO, emit
-import model, new_earthquakes
+import model
 import json
 from datetime import date
 import time
+from threading import Thread
+import requests
 
 app = Flask(__name__)
 app.secret_key = 'secret_key' # change
 socketio = SocketIO(app)
 thread = None
 
-# change this to broadcast only when new earthquakes published
-# look at gevent
+# sleep 10 sec, make request, broadcast response only if new earthquakes published (saves bandwidth)
 def background_thread():
-    """Example of how to send server generated events to clients."""
     count = 0
     while True:
         time.sleep(10)
         count += 1
-        socketio.emit('my response',
-                      {'data': 'Server generated event', 'count': count}) # where does this emit code go
+        new_earthquake = handle_new_quake_json()
+        socketio.emit("new_earthquake", new_earthquake) # this is broadcast to mult browsers
 
-
-        # also put new events into DB
-        # map session[socket]:last quake seen
-
-@socketio.on("new earthquake")
-def handle_custom_json(json):
-    message = new_earthquakes.new_earthquake
-    socketio.emit("new_earthquake", {"data": message}, json=True, broadcast=True)
+        write_new_quakes_to_db()
+        # user_id = b_session['user']
+        # last_quake_seen = b_session['user']['last']
 
 @app.route('/')
 def index():
+    global thread
+    if thread is None:
+        thread = Thread(target=background_thread)
+        thread.start()
     return render_template("index.html")
+
+@socketio.on("new earthquake")
+def handle_new_quake_json():
+    r = requests.get("http://earthquake.usgs.gov/earthquakes/feed/geojson/2.5/day")
+    new_earthquake = r.json()
+    return json.dumps(new_earthquake)
 
 # keep in memory instead of loading from DB everytime (Redis?)
 @app.route("/read_quakes_from_db")
@@ -64,13 +69,41 @@ def read_quakes_from_db():
                     "year": quake.year, "month": quake.month, "day": quake.day, "hour": quake.hour, 
                     "magnitude": avg_magnitude}]
 
-
     return json.dumps(response_dict)
 
 @app.route("/write_new_quakes_to_db")
-# add new data since last update to db
 def write_new_quakes_to_db():
-    pass
+    last_update = ""
+    update = json.loads(handle_new_quake_json())
+    for key, value in update.iteritems():
+        if key == "features":
+            counter = 0
+            while counter < len(update[key]):
+                quake_time = update[key][counter]["properties"]["time"]
+                if quake_time > last_update:
+                    pass
+                counter += 1
+       
+            # convert quake epoch time to sep mo, day, yr, etc
+            # new_quake = model.Quake(
+            #     tsunami = 
+            #     year = 
+            #     month = 
+            #     day = 
+            #     hour = 
+            #     magnitude_mw = 
+            #     magnitude_ms = 
+            #     magnitude_mb = 
+            #     magnitude_ml = 
+            #     magnitude_mfa = 
+            #     magnitude_unk = 
+            #     latitude = 
+            #     longitude = 
+            # )
+        # model.session.add(new_quake)
+        # model.session.commit()
+        last_update = time.time() # better to get from metadata in json
+
 
 if __name__ == "__main__":
     socketio.run(app)

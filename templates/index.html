@@ -30,6 +30,9 @@
     <div id="slider-title">Earthquakes of the Last 500 Years (M6.5+)</div>
     <br>
     <div id="slider"></div>
+    <br>
+    <h2>Receive:</h2>
+    <div id="log"></div>
 
     <script type="text/javascript">
         var dataset = 1;
@@ -37,22 +40,19 @@
         $(document).ready(function() {
             dataset = displayHistoricalQuakes();
             var socket = io.connect("http://" +  document.domain + ":" + location.port);
-           
-            // the socket.io documentation recommends sending an explicit package upon connection
-            // this is specially important when using the global namespace
+
             socket.on('connect', function() {
                 socket.emit('my event', {data: 'I\'m connected!'});
             });
 
 
             socket.on("new_earthquake", function(response){
-                debugger
-                console.log(response)
+                console.log(response);
+                $('#log').append('<br>Received #' + response.count + ': ' + response.data);
             })
 
             $("form#broadcast").click(function(e) {
                 console.log("broadcast");
-                socket.emit("new earthquake", {data: $('#broadcast_data').val()});
                 return false;
             });
 

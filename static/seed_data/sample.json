@@ -1,0 +1,1570 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          168.8213,
+          -20.49,
+          36.8
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "rms": "0.93",
+        "code": "b000ru9p",
+        "cdi": 1,
+        "sources": ",us,",
+        "nst": null,
+        "tz": 660,
+        "sig": "385",
+        "magnitudeType": "mb",
+        "net": "us",
+        "status": "reviewed",
+        "updated": "1405710568294",
+        "felt": 0,
+        "alert": null,
+        "dmin": "2.719",
+        "mag": 5,
+        "gap": "88",
+        "types": ",cap,dyfi,geoserve,nearby-cities,origin,phase-data,tectonic-summary,",
+        "url": "http://earthquake.usgs.gov/earthquakes/eventpage/usb000ru9p",
+        "ids": ",usb000ru9p,",
+        "tsunami": null,
+        "place": "114km SSW of Isangel, Vanuatu",
+        "time": "1405709069050",
+        "mmi": null
+      },
+      "id": "usb000ru9p"
+    },
+
+
+
+
+
+          "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -179.6144,
+          -34.6467,
+          33.83
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "rms": "1.16",
+        "code": "b000ru8u",
+        "cdi": 1,
+        "sources": ",us,",
+        "nst": null,
+        "tz": -720,
+        "sig": "482",
+        "magnitudeType": "mb",
+        "net": "us",
+        "status": "reviewed",
+        "updated": "1405709409000",
+        "felt": 0,
+        "alert": null,
+        "dmin": "3.361",
+        "mag": 5.6,
+        "gap": "50",
+        "types": ",cap,dyfi,general-link,geoserve,nearby-cities,origin,phase-data,tectonic-summary,",
+        "url": "http://earthquake.usgs.gov/earthquakes/eventpage/usb000ru8u",
+        "ids": ",usb000ru8u,",
+        "tsunami": null,
+        "place": "South of the Kermadec Islands",
+        "time": "1405707786580",
+        "mmi": null
+      },
+      "id": "usb000ru8u"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          178.3701,
+          51.8096,
+          103.8
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "rms": "1.35",
+        "code": "b000ru82",
+        "cdi": 1,
+        "sources": ",ak,us,",
+        "nst": null,
+        "tz": -540,
+        "sig": "96",
+        "magnitudeType": "ml",
+        "net": "us",
+        "status": "reviewed",
+        "updated": "1405708764987",
+        "felt": 0,
+        "alert": null,
+        "dmin": null,
+        "mag": 2.5,
+        "gap": null,
+        "types": ",cap,dyfi,general-link,geoserve,nearby-cities,origin,phase-data,tectonic-summary,",
+        "url": "http://earthquake.usgs.gov/earthquakes/eventpage/usb000ru82",
+        "ids": ",ak11330418,usb000ru82,",
+        "tsunami": null,
+        "place": "18km SSW of Little Sitkin Island, Alaska",
+        "time": "1405703940000",
+        "mmi": null
+      },
+      "id": "usb000ru82"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -155.9576,
+          57.7573,
+          2.6
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "rms": "0.8",
+        "code": "11330251",
+        "cdi": 1,
+        "sources": ",us,ak,",
+        "nst": null,
+        "tz": -480,
+        "sig": "234",
+        "magnitudeType": "ml",
+        "net": "ak",
+        "status": "reviewed",
+        "updated": "1405695248398",
+        "felt": 0,
+        "alert": "green",
+        "dmin": null,
+        "mag": 3.9,
+        "gap": null,
+        "types": ",cap,dyfi,general-link,geoserve,losspager,nearby-cities,origin,phase-data,shakemap,tectonic-summary,",
+        "url": "http://earthquake.usgs.gov/earthquakes/eventpage/ak11330251",
+        "ids": ",usb000ru5a,ak11330251,",
+        "tsunami": null,
+        "place": "102km W of Larsen Bay, Alaska",
+        "time": "1405692285000",
+        "mmi": 4.17
+      },
+      "id": "ak11330251"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -98.1405,
+          36.654,
+          5
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "rms": "0.69",
+        "code": "b000ru53",
+        "cdi": 1,
+        "sources": ",us,",
+        "nst": null,
+        "tz": -300,
+        "sig": "158",
+        "magnitudeType": "mb_lg",
+        "net": "us",
+        "status": "reviewed",
+        "updated": "1405691980000",
+        "felt": 0,
+        "alert": null,
+        "dmin": "0.195",
+        "mag": 3.2,
+        "gap": "42",
+        "types": ",cap,dyfi,general-link,geoserve,nearby-cities,origin,phase-data,tectonic-summary,",
+        "url": "http://earthquake.usgs.gov/earthquakes/eventpage/usb000ru53",
+        "ids": ",usb000ru53,",
+        "tsunami": null,
+        "place": "16km NE of Helena, Oklahoma",
+        "time": "1405690873520",
+        "mmi": null
+      },
+      "id": "usb000ru53"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -162.2306,
+          67.6998,
+          10.8
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "rms": "0.7",
+        "code": "11330154",
+        "cdi": 1,
+        "sources": ",ak,",
+        "nst": null,
+        "tz": -480,
+        "sig": "138",
+        "magnitudeType": "ml",
+        "net": "ak",
+        "status": "automatic",
+        "updated": "1405687079190",
+        "felt": 0,
+        "alert": null,
+        "dmin": null,
+        "mag": 3,
+        "gap": null,
+        "types": ",dyfi,general-link,geoserve,nearby-cities,origin,",
+        "url": "http://earthquake.usgs.gov/earthquakes/eventpage/ak11330154",
+        "ids": ",ak11330154,",
+        "tsunami": null,
+        "place": "34km ENE of Noatak, Alaska",
+        "time": "1405685522000",
+        "mmi": null
+      },
+      "id": "ak11330154"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          144.0425,
+          42.1079,
+          44.8
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "rms": "0.71",
+        "code": "b000ru49",
+        "cdi": null,
+        "sources": ",us,",
+        "nst": null,
+        "tz": 600,
+        "sig": "312",
+        "magnitudeType": "mb",
+        "net": "us",
+        "status": "reviewed",
+        "updated": "1405712663366",
+        "felt": null,
+        "alert": null,
+        "dmin": "0.665",
+        "mag": 4.5,
+        "gap": "134",
+        "types": ",cap,dyfi,general-link,geoserve,nearby-cities,origin,phase-data,tectonic-summary,",
+        "url": "http://earthquake.usgs.gov/earthquakes/eventpage/usb000ru49",
+        "ids": ",usb000ru49,",
+        "tsunami": null,
+        "place": "100km SSW of Kushiro, Japan",
+        "time": "1405683705690",
+        "mmi": null
+      },
+      "id": "usb000ru49"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -152.279,
+          61.6667,
+          10.8
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "rms": "0.88",
+        "code": "11330083",
+        "cdi": null,
+        "sources": ",ak,",
+        "nst": null,
+        "tz": -480,
+        "sig": "112",
+        "magnitudeType": "ml",
+        "net": "ak",
+        "status": "reviewed",
+        "updated": "1405710495207",
+        "felt": null,
+        "alert": null,
+        "dmin": null,
+        "mag": 2.7,
+        "gap": null,
+        "types": ",cap,dyfi,general-link,geoserve,nearby-cities,origin,tectonic-summary,",
+        "url": "http://earthquake.usgs.gov/earthquakes/eventpage/ak11330083",
+        "ids": ",ak11330083,",
+        "tsunami": null,
+        "place": "118km W of Willow, Alaska",
+        "time": "1405681532000",
+        "mmi": null
+      },
+      "id": "ak11330083"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -161.7039,
+          54.4015,
+          12.4
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "rms": "0.42",
+        "code": "11330005",
+        "cdi": null,
+        "sources": ",ak,",
+        "nst": null,
+        "tz": -660,
+        "sig": "96",
+        "magnitudeType": "ml",
+        "net": "ak",
+        "status": "reviewed",
+        "updated": "1405704037889",
+        "felt": null,
+        "alert": null,
+        "dmin": null,
+        "mag": 2.5,
+        "gap": null,
+        "types": ",cap,dyfi,general-link,geoserve,nearby-cities,origin,tectonic-summary,",
+        "url": "http://earthquake.usgs.gov/earthquakes/eventpage/ak11330005",
+        "ids": ",ak11330005,",
+        "tsunami": null,
+        "place": "109km SE of Cold Bay, Alaska",
+        "time": "1405675083000",
+        "mmi": null
+      },
+      "id": "ak11330005"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -67.9443,
+          -24.3551,
+          112.57
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "rms": "0.94",
+        "code": "b000ru3a",
+        "cdi": null,
+        "sources": ",us,",
+        "nst": null,
+        "tz": -180,
+        "sig": "284",
+        "magnitudeType": "mb",
+        "net": "us",
+        "status": "reviewed",
+        "updated": "1405703053818",
+        "felt": null,
+        "alert": null,
+        "dmin": "1.698",
+        "mag": 4.3,
+        "gap": "63",
+        "types": ",cap,dyfi,general-link,geoserve,nearby-cities,origin,phase-data,tectonic-summary,",
+        "url": "http://earthquake.usgs.gov/earthquakes/eventpage/usb000ru3a",
+        "ids": ",usb000ru3a,",
+        "tsunami": null,
+        "place": "161km S of San Pedro de Atacama, Chile",
+        "time": "1405674105880",
+        "mmi": null
+      },
+      "id": "usb000ru3a"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          168.4703,
+          -16.1993,
+          35
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "rms": "0.95",
+        "code": "b000ru3d",
+        "cdi": null,
+        "sources": ",us,",
+        "nst": null,
+        "tz": 660,
+        "sig": "416",
+        "magnitudeType": "mb",
+        "net": "us",
+        "status": "reviewed",
+        "updated": "1405702877767",
+        "felt": null,
+        "alert": null,
+        "dmin": "1.43",
+        "mag": 5.2,
+        "gap": "59",
+        "types": ",cap,dyfi,geoserve,nearby-cities,origin,phase-data,tectonic-summary,",
+        "url": "http://earthquake.usgs.gov/earthquakes/eventpage/usb000ru3d",
+        "ids": ",usb000ru3d,",
+        "tsunami": null,
+        "place": "113km E of Lakatoro, Vanuatu",
+        "time": "1405673915360",
+        "mmi": null
+      },
+      "id": "usb000ru3d"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          178.4132,
+          51.6015,
+          104.94
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "rms": "0.77",
+        "code": "b000ru39",
+        "cdi": null,
+        "sources": ",us,",
+        "nst": null,
+        "tz": -540,
+        "sig": "259",
+        "magnitudeType": "mb",
+        "net": "us",
+        "status": "reviewed",
+        "updated": "1405702752076",
+        "felt": null,
+        "alert": null,
+        "dmin": "0.598",
+        "mag": 4.1,
+        "gap": "173",
+        "types": ",cap,dyfi,general-link,geoserve,nearby-cities,origin,phase-data,tectonic-summary,",
+        "url": "http://earthquake.usgs.gov/earthquakes/eventpage/usb000ru39",
+        "ids": ",usb000ru39,",
+        "tsunami": null,
+        "place": "39km S of Little Sitkin Island, Alaska",
+        "time": "1405673805270",
+        "mmi": null
+      },
+      "id": "usb000ru39"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.4807,
+          -17.4962,
+          42.53
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "rms": "0.95",
+        "code": "b000ru31",
+        "cdi": null,
+        "sources": ",us,",
+        "nst": null,
+        "tz": -240,
+        "sig": "312",
+        "magnitudeType": "mb",
+        "net": "us",
+        "status": "reviewed",
+        "updated": "1405701373917",
+        "felt": null,
+        "alert": null,
+        "dmin": "4.61",
+        "mag": 4.5,
+        "gap": "93",
+        "types": ",cap,dyfi,general-link,geoserve,nearby-cities,origin,phase-data,tectonic-summary,",
+        "url": "http://earthquake.usgs.gov/earthquakes/eventpage/usb000ru31",
+        "ids": ",usb000ru31,",
+        "tsunami": null,
+        "place": "18km SSW of Portachuelo, Bolivia",
+        "time": "1405672417230",
+        "mmi": null
+      },
+      "id": "usb000ru31"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -151.001,
+          63.1825,
+          2.6
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "rms": "1.1",
+        "code": "11329961",
+        "cdi": null,
+        "sources": ",ak,",
+        "nst": null,
+        "tz": -480,
+        "sig": "129",
+        "magnitudeType": "ml",
+        "net": "ak",
+        "status": "automatic",
+        "updated": "1405700864370",
+        "felt": null,
+        "alert": null,
+        "dmin": null,
+        "mag": 2.9,
+        "gap": null,
+        "types": ",dyfi,general-link,geoserve,nearby-cities,origin,tectonic-summary,",
+        "url": "http://earthquake.usgs.gov/earthquakes/eventpage/ak11329961",
+        "ids": ",ak11329961,",
+        "tsunami": null,
+        "place": "105km NNW of Talkeetna, Alaska",
+        "time": "1405671917000",
+        "mmi": null
+      },
+      "id": "ak11329961"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -140.3567,
+          60.3894,
+          0
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "rms": "0.74",
+        "code": "11329951",
+        "cdi": null,
+        "sources": ",ak,",
+        "nst": null,
+        "tz": -420,
+        "sig": "96",
+        "magnitudeType": "ml",
+        "net": "ak",
+        "status": "automatic",
+        "updated": "1405698114120",
+        "felt": null,
+        "alert": null,
+        "dmin": null,
+        "mag": 2.5,
+        "gap": null,
+        "types": ",dyfi,general-link,geoserve,nearby-cities,origin,",
+        "url": "http://earthquake.usgs.gov/earthquakes/eventpage/ak11329951",
+        "ids": ",ak11329951,",
+        "tsunami": null,
+        "place": "100km NNW of Yakutat, Alaska",
+        "time": "1405669159000",
+        "mmi": null
+      },
+      "id": "ak11329951"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -124.0965,
+          40.596,
+          17.1
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "rms": "0.1",
+        "code": "72259481",
+        "cdi": null,
+        "sources": ",nc,",
+        "nst": "19",
+        "tz": -420,
+        "sig": "96",
+        "magnitudeType": "Md",
+        "net": "nc",
+        "status": "AUTOMATIC",
+        "updated": "1405692481969",
+        "felt": null,
+        "alert": null,
+        "dmin": "0.17966306",
+        "mag": 2.5,
+        "gap": "158.4",
+        "types": ",dyfi,general-link,geoserve,nearby-cities,origin,phase-data,scitech-link,",
+        "url": "http://earthquake.usgs.gov/earthquakes/eventpage/nc72259481",
+        "ids": ",nc72259481,",
+        "tsunami": null,
+        "place": "5km E of Fortuna, California",
+        "time": "1405663521700",
+        "mmi": null
+      },
+      "id": "nc72259481"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -70.8904,
+          -20.1945,
+          15.04
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "rms": "1.2",
+        "code": "b000ru22",
+        "cdi": null,
+        "sources": ",us,",
+        "nst": null,
+        "tz": -300,
+        "sig": "340",
+        "magnitudeType": "mb",
+        "net": "us",
+        "status": "reviewed",
+        "updated": "1405702331000",
+        "felt": null,
+        "alert": null,
+        "dmin": "0.761",
+        "mag": 4.7,
+        "gap": "142",
+        "types": ",cap,dyfi,general-link,geoserve,moment-tensor,nearby-cities,origin,phase-data,tectonic-summary,",
+        "url": "http://earthquake.usgs.gov/earthquakes/eventpage/usb000ru22",
+        "ids": ",usb000ru22,",
+        "tsunami": null,
+        "place": "78km W of Iquique, Chile",
+        "time": "1405662408440",
+        "mmi": null
+      },
+      "id": "usb000ru22"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -161.7064,
+          67.5751,
+          5
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "rms": "1.1",
+        "code": "11329859",
+        "cdi": null,
+        "sources": ",at,us,ak,",
+        "nst": null,
+        "tz": -480,
+        "sig": "326",
+        "magnitudeType": "ml",
+        "net": "ak",
+        "status": "reviewed",
+        "updated": "1405690569127",
+        "felt": null,
+        "alert": "green",
+        "dmin": null,
+        "mag": 4.6,
+        "gap": null,
+        "types": ",cap,dyfi,general-link,geoserve,impact-link,losspager,nearby-cities,origin,phase-data,shakemap,",
+        "url": "http://earthquake.usgs.gov/earthquakes/eventpage/ak11329859",
+        "ids": ",at00n8w7fr,usb000ru1w,ak11329859,",
+        "tsunami": "1",
+        "place": "49km ENE of Noatak, Alaska",
+        "time": "1405661605000",
+        "mmi": 4.51
+      },
+      "id": "ak11329859"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -161.8859,
+          67.5861,
+          16.5
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "rms": "0.76",
+        "code": "11329857",
+        "cdi": null,
+        "sources": ",ak,",
+        "nst": null,
+        "tz": -480,
+        "sig": "178",
+        "magnitudeType": "ml",
+        "net": "ak",
+        "status": "reviewed",
+        "updated": "1405690357638",
+        "felt": null,
+        "alert": null,
+        "dmin": null,
+        "mag": 3.4,
+        "gap": null,
+        "types": ",cap,dyfi,general-link,geoserve,nearby-cities,origin,",
+        "url": "http://earthquake.usgs.gov/earthquakes/eventpage/ak11329857",
+        "ids": ",ak11329857,",
+        "tsunami": null,
+        "place": "45km E of Noatak, Alaska",
+        "time": "1405661401000",
+        "mmi": null
+      },
+      "id": "ak11329857"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -70.8684,
+          -20.1572,
+          14.41
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "rms": "1.19",
+        "code": "b000ru1u",
+        "cdi": null,
+        "sources": ",us,",
+        "nst": null,
+        "tz": -300,
+        "sig": "354",
+        "magnitudeType": "mb",
+        "net": "us",
+        "status": "reviewed",
+        "updated": "1405702109000",
+        "felt": null,
+        "alert": null,
+        "dmin": "0.762",
+        "mag": 4.8,
+        "gap": "113",
+        "types": ",cap,dyfi,general-link,geoserve,moment-tensor,nearby-cities,origin,phase-data,tectonic-summary,",
+        "url": "http://earthquake.usgs.gov/earthquakes/eventpage/usb000ru1u",
+        "ids": ",usb000ru1u,",
+        "tsunami": null,
+        "place": "76km W of Iquique, Chile",
+        "time": "1405661050300",
+        "mmi": null
+      },
+      "id": "usb000ru1u"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -154.3763,
+          58.9168,
+          100
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "rms": "0.9",
+        "code": "11329836",
+        "cdi": null,
+        "sources": ",ak,",
+        "nst": null,
+        "tz": -480,
+        "sig": "112",
+        "magnitudeType": "ml",
+        "net": "ak",
+        "status": "automatic",
+        "updated": "1405689055389",
+        "felt": null,
+        "alert": null,
+        "dmin": null,
+        "mag": 2.7,
+        "gap": null,
+        "types": ",dyfi,general-link,geoserve,nearby-cities,origin,tectonic-summary,",
+        "url": "http://earthquake.usgs.gov/earthquakes/eventpage/ak11329836",
+        "ids": ",ak11329836,",
+        "tsunami": null,
+        "place": "97km SSE of Old Iliamna, Alaska",
+        "time": "1405660095000",
+        "mmi": null
+      },
+      "id": "ak11329836"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          143.5524,
+          39.6907,
+          27.71
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "rms": "0.38",
+        "code": "b000ru1k",
+        "cdi": null,
+        "sources": ",us,",
+        "nst": null,
+        "tz": 600,
+        "sig": "326",
+        "magnitudeType": "mb",
+        "net": "us",
+        "status": "reviewed",
+        "updated": "1405688364213",
+        "felt": null,
+        "alert": null,
+        "dmin": "2.341",
+        "mag": 4.6,
+        "gap": "236",
+        "types": ",cap,dyfi,general-link,geoserve,nearby-cities,origin,phase-data,tectonic-summary,",
+        "url": "http://earthquake.usgs.gov/earthquakes/eventpage/usb000ru1k",
+        "ids": ",usb000ru1k,",
+        "tsunami": null,
+        "place": "137km E of Miyako, Japan",
+        "time": "1405659413670",
+        "mmi": null
+      },
+      "id": "usb000ru1k"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          142.6929,
+          37.0085,
+          10
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "rms": "1.01",
+        "code": "b000ru1d",
+        "cdi": null,
+        "sources": ",us,",
+        "nst": null,
+        "tz": 600,
+        "sig": "340",
+        "magnitudeType": "mb",
+        "net": "us",
+        "status": "reviewed",
+        "updated": "1405687277627",
+        "felt": null,
+        "alert": null,
+        "dmin": "3.629",
+        "mag": 4.7,
+        "gap": "129",
+        "types": ",cap,dyfi,general-link,geoserve,nearby-cities,origin,phase-data,tectonic-summary,",
+        "url": "http://earthquake.usgs.gov/earthquakes/eventpage/usb000ru1d",
+        "ids": ",usb000ru1d,",
+        "tsunami": null,
+        "place": "159km ESE of Namie, Japan",
+        "time": "1405658330030",
+        "mmi": null
+      },
+      "id": "usb000ru1d"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -161.9968,
+          67.5934,
+          21.7
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "rms": "0.82",
+        "code": "11329811",
+        "cdi": null,
+        "sources": ",ak,",
+        "nst": null,
+        "tz": -480,
+        "sig": "211",
+        "magnitudeType": "ml",
+        "net": "ak",
+        "status": "reviewed",
+        "updated": "1405686874493",
+        "felt": null,
+        "alert": null,
+        "dmin": null,
+        "mag": 3.7,
+        "gap": null,
+        "types": ",cap,dyfi,general-link,geoserve,nearby-cities,origin,",
+        "url": "http://earthquake.usgs.gov/earthquakes/eventpage/ak11329811",
+        "ids": ",ak11329811,",
+        "tsunami": null,
+        "place": "41km E of Noatak, Alaska",
+        "time": "1405657913000",
+        "mmi": null
+      },
+      "id": "ak11329811"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -161.7,
+          67.6376,
+          6.4
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "rms": "0.62",
+        "code": "11329808",
+        "cdi": null,
+        "sources": ",ak,",
+        "nst": null,
+        "tz": -480,
+        "sig": "168",
+        "magnitudeType": "ml",
+        "net": "ak",
+        "status": "reviewed",
+        "updated": "1405686731304",
+        "felt": null,
+        "alert": null,
+        "dmin": null,
+        "mag": 3.3,
+        "gap": null,
+        "types": ",cap,dyfi,general-link,geoserve,nearby-cities,origin,",
+        "url": "http://earthquake.usgs.gov/earthquakes/eventpage/ak11329808",
+        "ids": ",ak11329808,",
+        "tsunami": null,
+        "place": "54km E of Noatak, Alaska",
+        "time": "1405657775000",
+        "mmi": null
+      },
+      "id": "ak11329808"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          26.628,
+          38.2998,
+          10.5
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "rms": "0.94",
+        "code": "b000ru16",
+        "cdi": null,
+        "sources": ",us,",
+        "nst": null,
+        "tz": 180,
+        "sig": "271",
+        "magnitudeType": "mb",
+        "net": "us",
+        "status": "reviewed",
+        "updated": "1405684894072",
+        "felt": null,
+        "alert": null,
+        "dmin": null,
+        "mag": 4.2,
+        "gap": null,
+        "types": ",cap,dyfi,general-link,geoserve,nearby-cities,origin,phase-data,tectonic-summary,",
+        "url": "http://earthquake.usgs.gov/earthquakes/eventpage/usb000ru16",
+        "ids": ",usb000ru16,",
+        "tsunami": null,
+        "place": "12km WSW of Urla, Turkey",
+        "time": "1405655938770",
+        "mmi": null
+      },
+      "id": "usb000ru16"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -161.8598,
+          67.6357,
+          16.4
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "rms": "0.66",
+        "code": "11329771",
+        "cdi": 1,
+        "sources": ",ak,",
+        "nst": null,
+        "tz": -480,
+        "sig": "188",
+        "magnitudeType": "ml",
+        "net": "ak",
+        "status": "reviewed",
+        "updated": "1405697935508",
+        "felt": 0,
+        "alert": null,
+        "dmin": null,
+        "mag": 3.5,
+        "gap": null,
+        "types": ",cap,dyfi,general-link,geoserve,nearby-cities,origin,",
+        "url": "http://earthquake.usgs.gov/earthquakes/eventpage/ak11329771",
+        "ids": ",ak11329771,",
+        "tsunami": null,
+        "place": "47km E of Noatak, Alaska",
+        "time": "1405654955000",
+        "mmi": null
+      },
+      "id": "ak11329771"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -153.1063,
+          59.9239,
+          99.9
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "rms": "1.26",
+        "code": "11329741",
+        "cdi": null,
+        "sources": ",ak,",
+        "nst": null,
+        "tz": -480,
+        "sig": "112",
+        "magnitudeType": "ml",
+        "net": "ak",
+        "status": "automatic",
+        "updated": "1405682397312",
+        "felt": null,
+        "alert": null,
+        "dmin": null,
+        "mag": 2.7,
+        "gap": null,
+        "types": ",dyfi,general-link,geoserve,nearby-cities,origin,tectonic-summary,",
+        "url": "http://earthquake.usgs.gov/earthquakes/eventpage/ak11329741",
+        "ids": ",ak11329741,",
+        "tsunami": null,
+        "place": "65km SSW of Redoubt Volcano, Alaska",
+        "time": "1405653445000",
+        "mmi": null
+      },
+      "id": "ak11329741"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -124.0968,
+          40.5923,
+          18.2
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "rms": "0.08",
+        "code": "72259386",
+        "cdi": 2.7,
+        "sources": ",nc,",
+        "nst": "24",
+        "tz": -420,
+        "sig": "122",
+        "magnitudeType": "Md",
+        "net": "nc",
+        "status": "AUTOMATIC",
+        "updated": "1405659668632",
+        "felt": 5,
+        "alert": null,
+        "dmin": "0.1706799",
+        "mag": 2.8,
+        "gap": "133.2",
+        "types": ",dyfi,general-link,geoserve,nearby-cities,origin,phase-data,scitech-link,",
+        "url": "http://earthquake.usgs.gov/earthquakes/eventpage/nc72259386",
+        "ids": ",nc72259386,",
+        "tsunami": null,
+        "place": "4km N of Hydesville, California",
+        "time": "1405652284400",
+        "mmi": null
+      },
+      "id": "nc72259386"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -161.673,
+          67.6517,
+          7.1
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "rms": "0.66",
+        "code": "11329722",
+        "cdi": null,
+        "sources": ",ak,",
+        "nst": null,
+        "tz": -480,
+        "sig": "138",
+        "magnitudeType": "ml",
+        "net": "ak",
+        "status": "reviewed",
+        "updated": "1405696564567",
+        "felt": null,
+        "alert": null,
+        "dmin": null,
+        "mag": 3,
+        "gap": null,
+        "types": ",cap,dyfi,general-link,geoserve,nearby-cities,origin,",
+        "url": "http://earthquake.usgs.gov/earthquakes/eventpage/ak11329722",
+        "ids": ",ak11329722,",
+        "tsunami": null,
+        "place": "55km E of Noatak, Alaska",
+        "time": "1405650564000",
+        "mmi": null
+      },
+      "id": "ak11329722"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -161.8347,
+          67.5749,
+          15.2
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "rms": "0.73",
+        "code": "11329686",
+        "cdi": null,
+        "sources": ",us,ak,",
+        "nst": null,
+        "tz": -480,
+        "sig": "259",
+        "magnitudeType": "ml",
+        "net": "ak",
+        "status": "reviewed",
+        "updated": "1405677863194",
+        "felt": null,
+        "alert": null,
+        "dmin": null,
+        "mag": 4.1,
+        "gap": null,
+        "types": ",cap,dyfi,general-link,geoserve,nearby-cities,origin,phase-data,",
+        "url": "http://earthquake.usgs.gov/earthquakes/eventpage/ak11329686",
+        "ids": ",usb000ru0j,ak11329686,",
+        "tsunami": null,
+        "place": "46km ENE of Noatak, Alaska",
+        "time": "1405648905000",
+        "mmi": null
+      },
+      "id": "ak11329686"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -162.1513,
+          67.5676,
+          10
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "rms": "0.97",
+        "code": "b000ru0e",
+        "cdi": null,
+        "sources": ",us,ak,",
+        "nst": null,
+        "tz": -480,
+        "sig": "271",
+        "magnitudeType": "mb",
+        "net": "us",
+        "status": "reviewed",
+        "updated": "1405677805716",
+        "felt": null,
+        "alert": "green",
+        "dmin": "0.567",
+        "mag": 4.2,
+        "gap": "107",
+        "types": ",cap,dyfi,general-link,geoserve,losspager,nearby-cities,origin,phase-data,shakemap,",
+        "url": "http://earthquake.usgs.gov/earthquakes/eventpage/usb000ru0e",
+        "ids": ",usb000ru0e,ak11329682,",
+        "tsunami": null,
+        "place": "34km E of Noatak, Alaska",
+        "time": "1405648845790",
+        "mmi": 4.25
+      },
+      "id": "usb000ru0e"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -97.3079,
+          36.1332,
+          3.09
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "rms": "0.37",
+        "code": "b000ru06",
+        "cdi": 2,
+        "sources": ",us,",
+        "nst": null,
+        "tz": -300,
+        "sig": "121",
+        "magnitudeType": "mb_lg",
+        "net": "us",
+        "status": "reviewed",
+        "updated": "1405649408283",
+        "felt": 1,
+        "alert": null,
+        "dmin": "0.313",
+        "mag": 2.8,
+        "gap": "31",
+        "types": ",cap,dyfi,general-link,geoserve,nearby-cities,origin,phase-data,tectonic-summary,",
+        "url": "http://earthquake.usgs.gov/earthquakes/eventpage/usb000ru06",
+        "ids": ",usb000ru06,",
+        "tsunami": null,
+        "place": "17km S of Perry, Oklahoma",
+        "time": "1405647448390",
+        "mmi": null
+      },
+      "id": "usb000ru06"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -118.5551667,
+          35.3686667,
+          7.18
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "rms": "0.16",
+        "code": "15527809",
+        "cdi": 1,
+        "sources": ",ci,",
+        "nst": "52",
+        "tz": -420,
+        "sig": "115",
+        "magnitudeType": "ml",
+        "net": "ci",
+        "status": "reviewed",
+        "updated": "1405700074975",
+        "felt": 0,
+        "alert": null,
+        "dmin": "0.1343",
+        "mag": 2.73,
+        "gap": "49",
+        "types": ",cap,dyfi,focal-mechanism,general-link,geoserve,nearby-cities,origin,phase-data,scitech-link,",
+        "url": "http://earthquake.usgs.gov/earthquakes/eventpage/ci15527809",
+        "ids": ",ci15527809,",
+        "tsunami": null,
+        "place": "24km NNE of Bear Valley Springs, California",
+        "time": "1405645497630",
+        "mmi": null
+      },
+      "id": "ci15527809"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          178.3909,
+          51.7959,
+          107.3
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "rms": "0.45",
+        "code": "11329504",
+        "cdi": null,
+        "sources": ",ak,",
+        "nst": null,
+        "tz": -540,
+        "sig": "112",
+        "magnitudeType": "ml",
+        "net": "ak",
+        "status": "reviewed",
+        "updated": "1405674083773",
+        "felt": null,
+        "alert": null,
+        "dmin": null,
+        "mag": 2.7,
+        "gap": null,
+        "types": ",cap,dyfi,general-link,geoserve,nearby-cities,origin,tectonic-summary,",
+        "url": "http://earthquake.usgs.gov/earthquakes/eventpage/ak11329504",
+        "ids": ",ak11329504,",
+        "tsunami": null,
+        "place": "18km SSW of Little Sitkin Island, Alaska",
+        "time": "1405645123000",
+        "mmi": null
+      },
+      "id": "ak11329504"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -149.1486,
+          62.3631,
+          36.5
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "rms": "0.75",
+        "code": "11329459",
+        "cdi": 1,
+        "sources": ",ak,",
+        "nst": null,
+        "tz": -480,
+        "sig": "139",
+        "magnitudeType": "ml",
+        "net": "ak",
+        "status": "reviewed",
+        "updated": "1405646124401",
+        "felt": 1,
+        "alert": null,
+        "dmin": null,
+        "mag": 3,
+        "gap": null,
+        "types": ",cap,dyfi,general-link,geoserve,nearby-cities,origin,tectonic-summary,",
+        "url": "http://earthquake.usgs.gov/earthquakes/eventpage/ak11329459",
+        "ids": ",ak11329459,",
+        "tsunami": null,
+        "place": "42km ENE of Y, Alaska",
+        "time": "1405641268000",
+        "mmi": null
+      },
+      "id": "ak11329459"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -140.2949,
+          60.3437,
+          0
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "rms": "0.8",
+        "code": "11329449",
+        "cdi": null,
+        "sources": ",ak,",
+        "nst": null,
+        "tz": -420,
+        "sig": "112",
+        "magnitudeType": "ml",
+        "net": "ak",
+        "status": "automatic",
+        "updated": "1405669594038",
+        "felt": null,
+        "alert": null,
+        "dmin": null,
+        "mag": 2.7,
+        "gap": null,
+        "types": ",dyfi,general-link,geoserve,nearby-cities,origin,",
+        "url": "http://earthquake.usgs.gov/earthquakes/eventpage/ak11329449",
+        "ids": ",ak11329449,",
+        "tsunami": null,
+        "place": "94km NNW of Yakutat, Alaska",
+        "time": "1405640642000",
+        "mmi": null
+      },
+      "id": "ak11329449"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.0859,
+          43.7888,
+          5
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "rms": "0.87",
+        "code": "b000rtz3",
+        "cdi": 3.3,
+        "sources": ",us,",
+        "nst": null,
+        "tz": -360,
+        "sig": "153",
+        "magnitudeType": "ml",
+        "net": "us",
+        "status": "reviewed",
+        "updated": "1405685991049",
+        "felt": 16,
+        "alert": null,
+        "dmin": "0.151",
+        "mag": 3.1,
+        "gap": "81",
+        "types": ",cap,dyfi,general-link,geoserve,nearby-cities,origin,phase-data,",
+        "url": "http://earthquake.usgs.gov/earthquakes/eventpage/usb000rtz3",
+        "ids": ",usb000rtz3,",
+        "tsunami": null,
+        "place": "7km NNE of Driggs, Idaho",
+        "time": "1405639912710",
+        "mmi": null
+      },
+      "id": "usb000rtz3"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -155.3893,
+          19.7887,
+          23.4
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "rms": "0.11",
+        "code": "60733846",
+        "cdi": null,
+        "sources": ",hv,",
+        "nst": null,
+        "tz": -600,
+        "sig": "104",
+        "magnitudeType": "Ml",
+        "net": "hv",
+        "status": "REVIEWED",
+        "updated": "1405668848233",
+        "felt": null,
+        "alert": null,
+        "dmin": "0.10779783",
+        "mag": 2.6,
+        "gap": "75.6",
+        "types": ",cap,dyfi,general-link,geoserve,nearby-cities,origin,",
+        "url": "http://earthquake.usgs.gov/earthquakes/eventpage/hv60733846",
+        "ids": ",hv60733846,",
+        "tsunami": null,
+        "place": "29km W of Pepeekeo, Hawaii",
+        "time": "1405639885000",
+        "mmi": null
+      },
+      "id": "hv60733846"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -119.6515,
+          41.9425,
+          0
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "rms": "0.132",
+        "code": "00452320",
+        "cdi": null,
+        "sources": ",nn,",
+        "nst": "7",
+        "tz": -420,
+        "sig": "100",
+        "magnitudeType": "ml",
+        "net": "nn",
+        "status": "reviewed",
+        "updated": "1405666563406",
+        "felt": null,
+        "alert": null,
+        "dmin": "0.487",
+        "mag": 2.55,
+        "gap": "118.27",
+        "types": ",cap,dyfi,general-link,geoserve,nearby-cities,origin,phase-data,",
+        "url": "http://earthquake.usgs.gov/earthquakes/eventpage/nn00452320",
+        "ids": ",nn00452320,",
+        "tsunami": null,
+        "place": "63km ESE of Lakeview, Oregon",
+        "time": "1405637610897",
+        "mmi": null
+      },
+      "id": "nn00452320"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          150.587,
+          46.217,
+          123.68
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "rms": "1.39",
+        "code": "b000rtyk",
+        "cdi": null,
+        "sources": ",us,",
+        "nst": null,
+        "tz": 720,
+        "sig": "385",
+        "magnitudeType": "mb",
+        "net": "us",
+        "status": "reviewed",
+        "updated": "1405665318193",
+        "felt": null,
+        "alert": null,
+        "dmin": "5.446",
+        "mag": 5,
+        "gap": "125",
+        "types": ",cap,dyfi,general-link,geoserve,nearby-cities,origin,phase-data,tectonic-summary,",
+        "url": "http://earthquake.usgs.gov/earthquakes/eventpage/usb000rtyk",
+        "ids": ",usb000rtyk,",
+        "tsunami": null,
+        "place": "237km ENE of Kuril'sk, Russia",
+        "time": "1405636369560",
+        "mmi": null
+      },
+      "id": "usb000rtyk"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -140.375,
+          60.3649,
+          0
+        ]
+      },
+      "type": "Feature",
+      "properties": {
+        "rms": "0.61",
+        "code": "11329361",
+        "cdi": null,
+        "sources": ",ak,",
+        "nst": null,
+        "tz": -420,
+        "sig": "104",
+        "magnitudeType": "ml",
+        "net": "ak",
+        "status": "automatic",
+        "updated": "1405665312451",
+        "felt": null,
+        "alert": null,
+        "dmin": null,
+        "mag": 2.6,
+        "gap": null,
+        "types": ",dyfi,general-link,geoserve,nearby-cities,origin,",
+        "url": "http://earthquake.usgs.gov/earthquakes/eventpage/ak11329361",
+        "ids": ",ak11329361,",
+        "tsunami": null,
+        "place": "98km NNW of Yakutat, Alaska",
+        "time": "1405636352000",
+        "mmi": null
+      },
+      "id": "ak11329361"
+    }
+  ],
+  "metadata": {
+    "url": "http://earthquake.usgs.gov/earthquakes/feed/geojson/2.5/day",
+    "generated": 1405712677000,
+    "subTitle": "Real-time, worldwide earthquake list for the past day",
+    "cacheMaxAge": 60,
+    "title": "USGS Magnitude 2.5+ Earthquakes, Past Day"
+  }
+}

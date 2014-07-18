@@ -62,7 +62,16 @@ Use D3's sort operator to reorder the elements.
 There was also an issue with the label disappearing too quickly over a point due to the buffer size for the point being too small. I fixed this by making the label a little further away from the origin of the circle on the y-axis.
 
 For the realtime data, I will use Flask-SocketIO. 
-Could use CORS proxy if USGS site doesn't have open enough sharing.
+Could use CORS proxy if USGS site doesn't have open enough sharing. - no need
+
+7/17/14 
+Negotiation workshop
+Also met w a mentor to discuss FE vs BE and get ideas. Geolocating search that zooms to one fixed zoom level would be cool. Circles will need to be resized and labels could be added.
+
+7/18/14
+goal: get realtime data/web socket set up
+justification for using web socket: not abusing USGS service- all clients load data through socket which pings USGS every 10 sec.
+socket.io documentation recommends sending an explicit package upon connection; this is specially important when using the global namespace.
 
 
 LATER:
@@ -70,7 +79,7 @@ make slider faster (more DOM manip = less performant)
 orthographic projection and interactive globe(drag and zoom)
 add foreign key b/t quakes and tsunamis?
 scrape NOAA for realtime tsunami data and integrate USGS GeoJSON?
-use geocoding API to take user to lat/lon of a given search location
+use geocoding API to take user to lat/lon of a given search location- include labels and resize radii
 create tour guide feature?
 migrate to postgres
 deploy on heroku
