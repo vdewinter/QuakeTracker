@@ -50,7 +50,7 @@ I added the var circles = svg.selectAll("circle") to improve performance (less D
 
 7/16/14
 goal: see quake info when hovering over point, add realtime earthquakes
-getting labels to appear on top of other layers is challenging- hierarchy in DOM matters/where labels are defined. I ended up defining the labels in the same func where I create the points. 
+hierarchy in DOM matters/where labels are defined. I ended up defining the labels in the same func where I create the points to make sure labels are always superimposed. 
 The creator of d3 says:
 In SVG, the element order determines z-order: elements are drawn in the order they are specified in the document, so later elements will be drawn on top of earlier elements.
 There are several ways you can change the ordering of elements:
@@ -59,9 +59,10 @@ Use D3's insert operator to insert the rectangles before the circle.
 Create one svg:g element to hold the circles, and another for the rectangles.
 Use D3's sort operator to reorder the elements.
 
-There was also an issue with the label disappearing too quickly over a point due to the buffer size for the point being too small.
+There was also an issue with the label disappearing too quickly over a point due to the buffer size for the point being too small. I fixed this by making the label a little further away from the origin of the circle on the y-axis.
 
-For the realtime data, I could use a CORS proxy to access UGSS' data or a web socket. Mutually exclusive?
+For the realtime data, I will use Flask-SocketIO. 
+Could use CORS proxy if USGS site doesn't have open enough sharing.
 
 
 LATER:

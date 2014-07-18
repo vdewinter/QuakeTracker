@@ -1,44 +1,41 @@
 from flask import Flask, render_template, redirect, request, flash, jsonify
-# from flask.ext.socketio import SocketIO, emit
-import model
+from flask.ext.socketio import SocketIO, emit
+import model, new_earthquakes
 import json
 from datetime import date
+import time
 
 app = Flask(__name__)
 app.secret_key = 'secret_key' # change
-# socketio = SocketIO(app)
+socketio = SocketIO(app)
+thread = None
 
-# message delivers a string payload, json and custome events deliver JSON in form of python dict
-# events can be defined inside a namespace arg (optoinal) that allow a client to open mult connections 
-# to the server that are multiplexed in a single socket. default is global namespace
+# change this to broadcast only when new earthquakes published
+# look at gevent
+def background_thread():
+    """Example of how to send server generated events to clients."""
+    count = 0
+    while True:
+        time.sleep(10)
+        count += 1
+        socketio.emit('my response',
+                      {'data': 'Server generated event', 'count': count}) # where does this emit code go
 
-# send sends string or JSON to client
-# emit sends message under custom event name
 
-# messages are sent to teh connected client by default but broadcast=True allows all clients connected
- # to the namespace to recieve the message
-# @socketio.on('my event', namespace="/test")
-# def test_message(message): 
-#     emit("my response", {"data": message["data"]})
+        # also put new events into DB
+        # map session[socket]:last quake seen
 
-# @socketio.on("my broadcast event", namespace="/test")
-# def test_message(message):
-#     emit("my response", {"data": message["data"]}, broadcast = True)
-
-# @socketio.on("connect", namespace="/test")
-# def test_connect():
-#     emit("my repsonse", {"data": "Connected"})
-
-# @socketio.on("disconnect", namespace="/test")
-# def test_disconenct():
-#     print("client disconnected")
+@socketio.on("new earthquake")
+def handle_custom_json(json):
+    message = new_earthquakes.new_earthquake
+    socketio.emit("new_earthquake", {"data": message}, json=True, broadcast=True)
 
 @app.route('/')
 def index():
     return render_template("index.html")
 
+# keep in memory instead of loading from DB everytime (Redis?)
 @app.route("/read_quakes_from_db")
-
 def read_quakes_from_db():
     date_range = date.today().year - 500
     historical_quake_data = model.session.query(model.Quake).filter(model.Quake.year >= date_range).all()
@@ -76,5 +73,4 @@ def write_new_quakes_to_db():
     pass
 
 if __name__ == "__main__":
-    # socketio.run(app, debug=True)
-    app.run(debug = True)
+    socketio.run(app)

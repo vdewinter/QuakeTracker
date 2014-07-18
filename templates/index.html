@@ -13,54 +13,54 @@
     <script src="static/js/earth.js"></script>
     <script src="static/d3Slider/d3.slider.js"></script>
     <link rel="stylesheet" href="static/d3Slider/d3.slider.css"/>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.0.0/moment.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
+
+    
 
     <br>
     <a href="" id="show-all-quakes">
         Show all major earthquakes from the last 500 years
     </a>
     <br>
-    <a href="" id="show-realtime-quakes">
-        Show realtime earthquakes
-    </a>
+    <form id="broadcast" method='GET' action='#'>
+        <input type="button" name="broadcast_data" id="broadcast_data" value="Show realtime earthquakes">
+    </form>
     <br>
     <br>
     <div id="slider-title">Earthquakes of the Last 500 Years (M6.5+)</div>
     <br>
     <div id="slider"></div>
 
-    <script>
+    <script type="text/javascript">
         var dataset = 1;
 
         $(document).ready(function() {
             dataset = displayHistoricalQuakes();
+            var socket = io.connect("http://" +  document.domain + ":" + location.port);
+           
+            // the socket.io documentation recommends sending an explicit package upon connection
+            // this is specially important when using the global namespace
+            socket.on('connect', function() {
+                socket.emit('my event', {data: 'I\'m connected!'});
+            });
 
-            // var socket = io.connect("http://" +  document.domain + ":" + location.port + "/test");
-            // socket.on("my response", function(msg) {
-            //     $("#log").append("<p>Received: " + msg.data + "</p>");
-            // });
 
-            // $("form#emit").submit(function(event) {
-            //     socket.emit("my event", {data: $("#emit_data").val()});
-            //     return false;
-            // });
+            socket.on("new_earthquake", function(response){
+                debugger
+                console.log(response)
+            })
 
-            // $("form#broadcast").submit(function(event) {
-            //     socket.emit("my broadcast event", {data: $("#broadcast_data").val()});
-            //     return false;
-            // });
+            $("form#broadcast").click(function(e) {
+                console.log("broadcast");
+                socket.emit("new earthquake", {data: $('#broadcast_data').val()});
+                return false;
+            });
+
+            $("#show-all-quakes").click(function(e) {
+                e.preventDefault();
+                displayAllPoints();
+            });
         });
-
-        $("#show-all-quakes").click(function(e) {
-            e.preventDefault();
-            displayAllPoints();
-        });
-
-        // $("#show-realtime-quakes").click(function(e) {
-        //     e.preventDefault;
-        //     displayRealtimeQuakes();
-        // });
-        
 
     </script>
     

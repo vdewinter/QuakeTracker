@@ -19,16 +19,17 @@ var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height);
 
-// var drag = d3.behavior.drag()
-//     .origin(Object)
-//     .on("drag", dragMove);
-
 var circles = null;
 
 // colors quake points by magnitude
 var pathRamp = d3.scale.linear()
     .domain([6,7,8,9])
     .range(["yellow","orange","red","#B81324"]);
+
+// var drag = d3.behavior.drag()
+//     .origin(Object)
+//     .on("drag", dragMove);
+
 
 // function dragMove(d) {
 //     d3.select(this)
@@ -97,26 +98,20 @@ function createPoints(points) {
         .selectAll(".point")
         .data(pointsList)
         .enter().append("circle", ".point")
-        .attr("class", function(d) {
-            return d.year;
-        })
         .attr("r", function(d) {
             return d.magnitude;
         })
         .style("fill", function(d) {
             return (pathRamp(d.magnitude));
         })
-        // .style("stroke", 0.001)
         .attr("transform", function(d) {
             return "translate(" + projection ([d.longitude, d.latitude]) + ")";
         })
         .style("display", "none")
         .on("mouseover", function() {
-            console.log("over");
             txt.style("opacity", 1);
         })
         .on("mouseout", function() {
-            console.log("out");
             txt.style("opacity", 0);
         })
         .on("mousemove", function(d) {
@@ -146,7 +141,7 @@ function createPoints(points) {
 }
 
 function filterPoints(value) {
-    // as slider moves, see if value in dataset; show circles with class value
+    // as slider moves, see if value in dataset
     if (dataset.hasOwnProperty(value)) {
         circles
             .style("display", function(d) {
