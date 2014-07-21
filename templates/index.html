@@ -7,15 +7,13 @@
 </head>
 
 <body>
-    <script src="http://d3js.org/d3.v3.min.js"></script>
-    <script src="http://d3js.org/topojson.v1.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="static/d3/d3.v3.min.js"></script>
+    <script src="static/js/topojson.v1.min.js"></script>
+    <script src="static/js/jquery.min.js"></script>
     <script src="static/js/earth.js"></script>
     <script src="static/d3Slider/d3.slider.js"></script>
     <link rel="stylesheet" href="static/d3Slider/d3.slider.css"/>
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
-
-    
+    <script type="text/javascript" src="static/js/socket.io.min.js"></script>
 
     <br>
     <a href="" id="show-all-quakes">
@@ -30,14 +28,15 @@
     <div id="slider-title">Earthquakes of the Last 500 Years (M6.5+)</div>
     <br>
     <div id="slider"></div>
-    <br>
-    <h2>Receive:</h2>
-    <div id="log"></div>
 
     <script type="text/javascript">
         var dataset = 1;
 
         $(document).ready(function() {
+
+            // TODO promises- load plate boundaries only after maps and points ready- wait for callback
+
+
             dataset = displayHistoricalQuakes();
             var socket = io.connect("http://" +  document.domain + ":" + location.port);
 
@@ -45,13 +44,11 @@
                 socket.emit('my event', {data: 'I\'m connected!'});
             });
 
-
             socket.on("new_earthquake", function(response){
                 console.log(response);
-                $('#log').append('<br>Received #' + response.count + ': ' + response.data);
             })
 
-            $("form#broadcast").click(function(e) {
+            $("form#broadcast").click(function(e) { // is this func needed?
                 console.log("broadcast");
                 return false;
             });

@@ -117,6 +117,7 @@ function createPoints(points) {
         .on("mousemove", function(d) {
             var p = projection([d.longitude, d.latitude]);
             var str = "";
+
             if (d.day) {
                 str = d.month + "/" + d.day + "/" + d.year;
             }

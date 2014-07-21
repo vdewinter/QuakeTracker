@@ -73,6 +73,24 @@ goal: get realtime data/web socket set up
 justification for using web socket: not abusing USGS service- all clients load data through socket which pings USGS every 10 sec.
 socket.io documentation recommends sending an explicit package upon connection; this is specially important when using the global namespace.
 
+7/19-20/2014
+Went to D3 workshop at Zipfian Academy
+We made charts and a map with pointRadius objects at the centroids of each state showing the number of crimes committed by category.
+Talked about enter, append, exit model; scales; transforms; narrative structure (beginning is author driven then user driven)
+
+Big takeaways for my project:
+Put as many handlers and styles in CSS as possible- faster than JS, can control selections with class names- see classed() in D3
+Circles' radii should use the Math.sqrt() function
+Fading in or out (initial fill #eee); grow and shrink; ease(cubic) transition for polished product
+
+follow mbostock's blog
+will read about callback hell and promises to deal with displaying json files after all data loaded
+
+since I can get all my historical data in geojson, and the new data comes in geojson, it would be nice to use 1 func to put any data in DB. Is redis a good idea?
+
+7/21/2014
+goal: finish new updates/socket stuff
+
 
 LATER:
 make slider faster (more DOM manip = less performant)
