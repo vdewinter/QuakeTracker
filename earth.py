@@ -50,26 +50,30 @@ def handle_new_quake_json():
     return new_earthquake
 
 # TODO: refactor- this needs persist across app's running
-last_update = "1404691200" # when project started
+last_update = "1404691200" # when project started- will need to reseed DB just before deploy? may not need to strip ms from below vars
 recorded_min_magnitude = 6.5 # TODO using DB with data of 2.5+ quakes- consider how to draw these (MANY MORE POINTS)
 
 @app.route("/reformat_new_quake_json")
 def reformat_new_quake_json(update):
-    update_release_time = update["metadata"]["generated"]
+    update_release_time = str(update["metadata"]["generated"])[:-3] # take off ms
+    update_release_time = int(update_release_time)
     global last_update
+    print "first update %s" % last_update
+    last_update = update_release_time 
+    print "updated last_update %s" % last_update
     new_quake_dict = {}
 
     if update_release_time > last_update:
         for quake in update["features"]:
             props = quake['properties']
 
-            quake_time = int(props["time"][:-3]) # take off ms
+            quake_time = int(props["time"][:-3])  # take off ms
             formatted_quake_time = datetime.datetime.fromtimestamp(quake_time)
             quake_year = formatted_quake_time.strftime("%Y")
             quake_month = formatted_quake_time.strftime("%m")
             quake_day = formatted_quake_time.strftime("%d")
             
-            quake_updated = props["updated"]
+            quake_updated = props["updated"][:-3] # take off ms
             quake_magnitude = props["mag"]
 
             # are following conditions sufficient? should handle brand new quakes and those with recent updates.
@@ -82,11 +86,8 @@ def reformat_new_quake_json(update):
                 new_quake_dict[quake_time] = {"updated":quake_updated, "year":quake_year, "month":quake_month, "day":quake_day,
                     "magnitude":quake_magnitude, "mag_type":quake_magnitude_type, "tsunami":quake_tsunami, 
                     "longitude":quake_longitude, "latitude":quake_latitude}
-
                 print new_quake_dict
-
-    last_update = update_release_time
-    return new_quake_dict
+                return new_quake_dict
 
 @app.route("/write_new_quakes_to_db")
 def write_new_quakes_to_db(new_quake_dict):
