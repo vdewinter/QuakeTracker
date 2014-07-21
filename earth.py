@@ -25,9 +25,10 @@ def background_thread():
         count += 1
         new_earthquake = handle_new_quake_json()
         socketio.emit("new_earthquake", new_earthquake)
-        new_earthquake = reformat_new_quake_json(new_earthquake)# if this func returns something, write to db
+        reformatted_new_earthquake = reformat_new_quake_json(new_earthquake)
         # display new points on map
-        write_new_quakes_to_db(new_earthquake)
+        if reformatted_new_earthquake:
+            write_new_quakes_to_db(new_earthquake)
 
 @app.route('/')
 def index():
@@ -61,6 +62,7 @@ def reformat_new_quake_json(update):
     if update_release_time > last_update:
         for quake in update["features"]:
             props = quake['properties']
+
             quake_time = int(props["time"][:-3]) # take off ms
             formatted_quake_time = datetime.datetime.fromtimestamp(quake_time)
             quake_year = formatted_quake_time.strftime("%Y")
@@ -71,10 +73,10 @@ def reformat_new_quake_json(update):
             quake_magnitude = props["mag"]
 
             # are following conditions sufficient? should handle brand new quakes and those with recent updates.
-            if (quake_time > last_update or quake_updated > last_update) and quake_magnitude >= recorded_min_magnitude:
+            if quake_updated > last_update and quake_magnitude >= recorded_min_magnitude:
                 quake_magnitude_type = props["magnitudeType"]
                 quake_tsunami = props["tsunami"]
-                quake_latitude = quake["geometry"]["coordinates"][1] # this and below return correct vals
+                quake_latitude = quake["geometry"]["coordinates"][1]
                 quake_longitude = quake["geometry"]["coordinates"][0] 
         
                 new_quake_dict[quake_time] = {"updated":quake_updated, "year":quake_year, "month":quake_month, "day":quake_day,
@@ -89,7 +91,7 @@ def reformat_new_quake_json(update):
 @app.route("/write_new_quakes_to_db")
 def write_new_quakes_to_db(new_quake_dict):
     print "writing to db"
-    # add to db OR modify if updated
+    #  if quake already here, update info, else make a new one
     # new_quake = model.Quake(
     #     tsunami = new_quake_dict[quake_tsunami]
     #     year = new_quake_dict[year]
