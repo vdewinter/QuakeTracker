@@ -15,10 +15,7 @@
     <link rel="stylesheet" href="static/d3Slider/d3.slider.css"/>
     <script type="text/javascript" src="static/js/socket.io.min.js"></script>
 
-    <br>
-    <a href="" id="show-all-quakes">
-        Show all major earthquakes from the last 500 years
-    </a>
+    <input type="button" name="show-all-quakes" id="show-all-quakes" value="Show all M6.5+ earthquakes in the past 500 years"
     <br>
     <form id="broadcast" method='GET' action='#'>
         <input type="button" name="broadcast_data" id="broadcast_data" value="Show realtime earthquakes">
@@ -33,28 +30,20 @@
         var dataset = 1;
 
         $(document).ready(function() {
-
             // TODO promises- load plate boundaries only after maps and points ready- wait for callback
-
-
             dataset = displayHistoricalQuakes();
             var socket = io.connect("http://" +  document.domain + ":" + location.port);
-
             socket.on('connect', function() {
                 socket.emit('my event', {data: 'I\'m connected!'});
             });
-
             socket.on("new_earthquake", function(response){
                 console.log(response);
             })
-
-            $("form#broadcast").click(function(e) { // is this func needed?
+            $("form#broadcast").click(function(e) {
                 console.log("broadcast");
-                return false;
+                // displayRecentQuakes(points); // how does earth.js know points from backend
             });
-
-            $("#show-all-quakes").click(function(e) {
-                e.preventDefault();
+            $("#show-all-quakes").click(function(e) { 
                 displayAllPoints();
             });
         });

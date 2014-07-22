@@ -45,6 +45,14 @@ function displayHistoricalQuakes() {
     });
 }
 
+function displayRecentQuakes() {
+    d3.json("/new_earthquake", function(error, points) {
+        if (error) return console.error(error);
+        points = points;
+        createPoints(points);
+    });
+}
+
 function displayMap(points) {
     // land
     d3.json("/static/world.json", function(error, world) {
@@ -99,7 +107,7 @@ function createPoints(points) {
         .data(pointsList)
         .enter().append("circle", ".point")
         .attr("r", function(d) {
-            return d.magnitude;
+            return d.magnitude/1.5;
         })
         .style("fill", function(d) {
             return (pathRamp(d.magnitude));
@@ -108,6 +116,7 @@ function createPoints(points) {
             return "translate(" + projection ([d.longitude, d.latitude]) + ")";
         })
         .style("display", "none")
+        // better to move the following to CSS?
         .on("mouseover", function() {
             txt.style("opacity", 1);
         })
@@ -154,10 +163,6 @@ function filterPoints(value) {
 function displayAllPoints() {
     circles
         .style("display", "block");
-}
-
-function displayRealtimeQuakes() {
-// http://comcat.cr.usgs.gov/fdsnws/event/1/[METHOD[?PARAMETERS]]
 }
 
 

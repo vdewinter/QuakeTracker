@@ -7,36 +7,26 @@ import time
 from threading import Thread
 import requests
 
-# TODO: consider redis- what is min data needed to show client what it needs- timestamp as key, etc
-# table with eathquake id, timestamp, json blob -- create index table to query 
-# redis puts stuff in memory - have caches- coudl help w page load speed
-# TODO: smooth animation- make points grow to full size and then disappear
-
 app = Flask(__name__)
 app.secret_key = 'secret_key' # TODO: change/ figure out if client knows about this
 socketio = SocketIO(app)
 thread = None
 
-# sleep, make request, broadcast/draw points only if new earthquakes published (saves bandwidth)
 def background_thread():
     count = 0
     while True:
         time.sleep(10) # reports come every 65-69 sec- change to 65
         count += 1
         new_earthquake = handle_new_quake_json()
+
         socketio.emit("new_earthquake", new_earthquake)
+
         reformatted_new_earthquake = reformat_new_quake_json(new_earthquake)
-        # display new points on map
         if reformatted_new_earthquake:
             write_new_quakes_to_db(new_earthquake)
 
 @app.route('/')
 def index():
-    # run once for loading new data on page load unless sleep time is acceptably short
-    # new_earthquake = handle_new_quake_json() # returns dict
-    # new_earthquake = reformat_new_quake_json(new_earthquake) # returns dict
-    # socketio.emit("new_earthquake", new_earthquake)
-    # write_new_quakes_to_db(new_earthquake)
     global thread
     if thread is None:
         thread = Thread(target=background_thread)
@@ -44,13 +34,15 @@ def index():
     return render_template("index.html")
 
 @socketio.on("new_earthquake") #TODO do I need this line?
+@app.route("/new_earthquake")
 def handle_new_quake_json():
     r = requests.get("http://earthquake.usgs.gov/earthquakes/feed/geojson/2.5/day")
     new_earthquake = r.json()
     return new_earthquake
 
 # TODO: refactor- this needs persist across app's running
-last_update = "1404691200" # when project started- will need to reseed DB just before deploy? may not need to strip ms from below vars
+last_update = "1404691200" # need to reseed DB just before deploy? may not need to strip ms from below vars- 
+# get last_update from db... when was last time run
 recorded_min_magnitude = 6.5 # TODO using DB with data of 2.5+ quakes- consider how to draw these (MANY MORE POINTS)
 
 @app.route("/reformat_new_quake_json")
@@ -65,7 +57,8 @@ def reformat_new_quake_json(update):
 
     if update_release_time > last_update:
         for quake in update["features"]:
-            props = quake['properties']
+            props = quake["properties"]
+            quake_id = quake["id"]
 
             quake_time = int(props["time"][:-3])  # take off ms
             formatted_quake_time = datetime.datetime.fromtimestamp(quake_time)
@@ -76,35 +69,47 @@ def reformat_new_quake_json(update):
             quake_updated = props["updated"][:-3] # take off ms
             quake_magnitude = props["mag"]
 
-            # are following conditions sufficient? should handle brand new quakes and those with recent updates.
+            # are following conditions sufficient?
             if quake_updated > last_update and quake_magnitude >= recorded_min_magnitude:
                 quake_magnitude_type = props["magnitudeType"]
                 quake_tsunami = props["tsunami"]
                 quake_latitude = quake["geometry"]["coordinates"][1]
                 quake_longitude = quake["geometry"]["coordinates"][0] 
         
-                new_quake_dict[quake_time] = {"updated":quake_updated, "year":quake_year, "month":quake_month, "day":quake_day,
+                new_quake_dict[quake_id] = {"updated":quake_updated, "year":quake_year, "month":quake_month, "day":quake_day,
                     "magnitude":quake_magnitude, "mag_type":quake_magnitude_type, "tsunami":quake_tsunami, 
                     "longitude":quake_longitude, "latitude":quake_latitude}
-                print new_quake_dict
-                return new_quake_dict
+        print new_quake_dict
+        return new_quake_dict
 
 @app.route("/write_new_quakes_to_db")
 def write_new_quakes_to_db(new_quake_dict):
     print "writing to db"
-    #  if quake already here, update info, else make a new one
-    # new_quake = model.Quake(
-    #     tsunami = new_quake_dict[quake_tsunami]
-    #     year = new_quake_dict[year]
-    #     month = new_quake_dict[month]
-    #     day = new_quake_dict[day]
-    #     magnitude = new_quake_dict[magnitude]
-    #     magnitude_type -- handle where to put which type 
-    #     latitude = new_quake_dict[quake_latitude]
-    #     longitude = new_quake_dict[quake_longitude]
-    # )
-# model.session.add(new_quake)
-# model.session.commit()
+    db = json.loads(read_quakes_from_db())
+    if new_quake_dict["id"] in db:
+        pass
+        # update
+    else:
+        # magnitude = new_quake_dict["magnitude"]
+        # magnitude_type = new_quake_dict["magnitude_type"].split("_")[0].lower()
+
+        new_quake = model.Quake(
+            tsunami = new_quake_dict["tsunami"],
+            year = new_quake_dict["year"],
+            month = new_quake_dict["month"],
+            day = new_quake_dict["day"],
+            magnitude = new_quake_dict["magnitude"],
+            # magnitude_mw = magnitude if magnitude_type == "mw",
+            # magnitude_ms = magnitude if magnitude_type == "ms",
+            # magnitude_mb = magnitude if magnitude_type == "mb",
+            # magnitude_ml = magnitude if magnitude_type == "ml" or magnitude_type == "md", # these are consistent
+            # magnitude_mfa = magnitude if magnitude_type == "mfa",
+            # magnitude_unk = magnitude if magnitude_type == "unk",
+            latitude = new_quake_dict["latitude"],
+            longitude = new_quake_dict["longitude"]
+        )
+    model.session.add(new_quake)
+    model.session.commit()
 
 @app.route("/read_quakes_from_db")
 def read_quakes_from_db():

@@ -61,7 +61,7 @@ Use D3's sort operator to reorder the elements.
 
 There was also an issue with the label disappearing too quickly over a point due to the buffer size for the point being too small. I fixed this by making the label a little further away from the origin of the circle on the y-axis.
 
-For the realtime data, I will use Flask-SocketIO. 
+For the realtime data, I will use Flask-SocketIO.
 Could use CORS proxy if USGS site doesn't have open enough sharing. - no need
 
 7/17/14 
@@ -71,6 +71,7 @@ Also met w a mentor to discuss FE vs BE and get ideas. Geolocating search that z
 7/18/14
 goal: get realtime data/web socket set up
 justification for using web socket: not abusing USGS service- all clients load data through socket which pings USGS every 10 sec.
+Background thread will sleep, make request, broadcast/draw points only if new earthquakes published (saves bandwidth).
 socket.io documentation recommends sending an explicit package upon connection; this is specially important when using the global namespace.
 
 7/19-20/2014
@@ -84,22 +85,33 @@ Circles' radii should use the Math.sqrt() function
 Fading in or out (initial fill #eee); grow and shrink; ease(cubic) transition for polished product
 
 follow mbostock's blog
-will read about callback hell and promises to deal with displaying json files after all data loaded
+will read about callback hell and "promises" to deal with displaying json files after all data loaded
 
-since I can get all my historical data in geojson, and the new data comes in geojson, it would be nice to use 1 func to put any data in DB. Is redis a good idea?
+Since I can get all my historical data in geojson, and the new data comes in geojson, it would be nice to use 1 func to put any data in DB. Is redis a good idea?
 
 7/21/2014
 goal: finish new updates/socket stuff
+Disk space cheaper than cpu so it's fine to have all diff magnitudes as fields in DB and some null rather than 1 magnitude pruned for a master magnitude field.
+Don't need to worry about memcached for now bc I don't have a lot of data and am not concerned w scaling right now.
 
 
 LATER:
+smooth animation- make points grow to full size and then disappear
+
+memcached w a timeout every hour OR when new data is written to DB; script to connect to memcahced
+check if key exists:
+if not set it
+second run should display key
+set timeout (1 min) - test expiration
+
 make slider faster (more DOM manip = less performant)
+
 orthographic projection and interactive globe(drag and zoom)
-add foreign key b/t quakes and tsunamis?
-scrape NOAA for realtime tsunami data and integrate USGS GeoJSON?
+
 use geocoding API to take user to lat/lon of a given search location- include labels and resize radii
-create tour guide feature?
+
 migrate to postgres
+
 deploy on heroku
 
 FOR FUNSIES:
