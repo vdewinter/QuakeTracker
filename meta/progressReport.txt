@@ -93,6 +93,7 @@ Since I can get all my historical data in geojson, and the new data comes in geo
 goal: finish new updates/socket stuff
 Disk space cheaper than cpu so it's fine to have all diff magnitudes as fields in DB and some null rather than 1 magnitude pruned for a master magnitude field.
 Don't need to worry about memcached for now bc I don't have a lot of data and am not concerned w scaling right now.
+Ended up rewriting DB schema to be make new data from USGS and historical data consistent.
 
 
 LATER:

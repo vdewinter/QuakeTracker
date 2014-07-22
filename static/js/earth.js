@@ -81,7 +81,7 @@ function displayMap(points) {
     });
 
     //slider 
-    var currentYear = new Date().getFullYear();
+    var currentYear = new Date().getFullYear(); // this could also be passed from server
     d3.select("#slider")
         .call(d3.slider()
             .axis(d3.svg.axis().orient("bottom").ticks(10))
@@ -126,7 +126,7 @@ function createPoints(points) {
         .on("mousemove", function(d) {
             var p = projection([d.longitude, d.latitude]);
             var str = "";
-
+            // display m/d/y if available, else display only year
             if (d.day) {
                 str = d.month + "/" + d.day + "/" + d.year;
             }
@@ -152,10 +152,14 @@ function createPoints(points) {
 
 function filterPoints(value) {
     // as slider moves, see if value in dataset
-    if (dataset.hasOwnProperty(value)) {
+    value_string = value.toString();
+    console.log(value_string);
+    console.log(dataset);
+    if (dataset.hasOwnProperty(value_string)) {
+        console.log("in");
         circles
             .style("display", function(d) {
-                return (d.year === value) ? "block" : "none";
+                return (d.year === value_string) ? "block" : "none";
             });
     }
 }
