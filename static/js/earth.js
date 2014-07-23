@@ -22,7 +22,7 @@ var circles = null;
 // colors quake points by magnitude
 var pathRamp = d3.scale.linear()
     .domain([2,3,4,5,6,7,8,9])
-    .range(["purple","blue","teal","green",
+    .range(["purple","#003EFF","teal","#00FF00",
         "yellow","orange","red","#B81324"]);
 
 // var drag = d3.behavior.drag()
@@ -44,25 +44,13 @@ function displayHistoricalQuakes() {
     });
 }
 
-function convertObjToArr(points) {
-    var keys = Object.keys(points),
-        arr = [];
-    for (var i=0; i < keys.length; i++) {
-        var current_elem = points[keys[i]];
-        arr.push(current_elem);
-    }
-    return arr;
-}
-
-// this is diff from create points only in that this sets display: block, circles appended to newg, and class is .newPoint
+// this is diff from create points only in that this sets display: block, circles appended to g w other class, and class is .newPoint
 function displayRecentQuakes() {
+    // TODO: make these pulse (shrink/grow)
     d3.json("/new_earthquake", function(error, points) {
         if (error) return console.error(error);
         console.log(points);
-        // do i need to put points in list for below to work?
 
-        points = convertObjToArr(points);
-        
         d3.select(".recent")
             .selectAll(".newPoint")
             .data(points)
@@ -82,7 +70,7 @@ function displayRecentQuakes() {
             .on("mouseover", function(d) {
                 txt.style("opacity", 1);
                 var p = projection([d.longitude, d.latitude]);
-                var date = new Date(d.timestamp);
+                var date = new Date(parseInt(d.timestamp, 10));
                 var str = (date.getUTCMonth() + 1) + "/" + date.getUTCDate() + "/" + date.getUTCFullYear();
                 txt.text(parseFloat(d.magnitude).toFixed(1) + ", " + str)
                     .style("fill", "#7D26CD")
@@ -206,9 +194,14 @@ function filterPoints(value) {
     }
 }
 
+// no longer working
 function displayAllPoints() {
     circles
         .style("display", "block");
+    // d3.selectAll("g.historical")
+    //     .style("display", "block");
+    // d3.selectAll(".recent")
+    //     .style("display", "none");
 }
 
 

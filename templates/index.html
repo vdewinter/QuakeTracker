@@ -36,14 +36,12 @@
             socket.on('connect', function() {
                 socket.emit('my event', {data: 'I\'m connected!'});
             });
-            // socket.on("new_earthquake", function(response){ // needed?
-            //     console.log(response);
-            // })
+
             $("form#broadcast").click(function(e) {
                 console.log("broadcast");
-                // $(".recent").hide();
-                displayRecentQuakes(); // is this in the right place?
+                displayRecentQuakes();
             });
+            
             $("#show-all-quakes").click(function(e) { 
                 displayAllPoints();
             });

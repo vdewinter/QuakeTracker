@@ -50,7 +50,7 @@ def handle_new_quake_json():
     last_update = update_release_time 
     print "updated last_update %s" % last_update
 
-    new_quake_dict = {}
+    new_quake_list = []
 
     for quake in new_quakes["features"]:
         props = quake["properties"]
@@ -62,13 +62,11 @@ def handle_new_quake_json():
         quake_latitude = quake["geometry"]["coordinates"][1]
         quake_longitude = quake["geometry"]["coordinates"][0] 
 
-        new_quake_dict[quake_id] = {"timestamp":quake_time, "updated":quake_updated,
+        new_quake_list.append({"id": quake_id, "timestamp":quake_time, "updated":quake_updated,
             "magnitude":quake_magnitude, "tsunami":quake_tsunami, 
-            "longitude":quake_longitude, "latitude":quake_latitude, "id": quake_id}
+            "longitude":quake_longitude, "latitude":quake_latitude, "id": quake_id})
 
-            # array of dictionaries
-            # and filter out no lat/long/magnitude
-    return json.dumps(new_quake_dict)
+    return json.dumps(new_quake_list)
 
 @app.route("/reformat_new_quake_json")
 def reformat_new_quake_json(update):
