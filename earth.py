@@ -18,7 +18,6 @@ def background_thread():
         time.sleep(10) # reports come every 65-69 sec- change to 65
         count += 1
         new_earthquake = handle_new_quake_json()
-
         socketio.emit("new_earthquake", new_earthquake)
 
         reformatted_new_earthquake = reformat_new_quake_json(new_earthquake)
@@ -47,8 +46,7 @@ recorded_min_magnitude = 6
 
 @app.route("/reformat_new_quake_json")
 def reformat_new_quake_json(update):
-    update_release_time = str(update["metadata"]["generated"])
-    update_release_time = int(update_release_time)
+    update_release_time = int(update["metadata"]["generated"])
     global last_update
     print "first update %s" % last_update
     last_update = update_release_time 
@@ -71,18 +69,20 @@ def reformat_new_quake_json(update):
         
                 new_quake_dict[quake_id] = {"time":quake_time, "updated":quake_updated,
                     "magnitude":quake_magnitude, "tsunami":quake_tsunami, 
-                    "longitude":quake_longitude, "latitude":quake_latitude}
+                    "longitude":quake_longitude, "latitude":quake_latitude, "id": quake_id}
         print new_quake_dict
         return new_quake_dict
 
 @app.route("/write_new_quakes_to_db")
 def write_new_quakes_to_db(new_quake_dict):
     print "writing to db"
-    db = json.loads(read_quakes_from_db())
+    db = json.loads(read_quakes_from_db()) # inefficient to read from db every time - how to get around- perhaps memcached
+    print db
     if new_quake_dict["id"] in db:
+        print "updating quake"
         pass
-        # update
     else:
+        print "adding new quake"
         new_quake = model.Quake(
             id = new_quake_dict["id"],
             tsunami = new_quake_dict["tsunami"],
@@ -97,18 +97,16 @@ def write_new_quakes_to_db(new_quake_dict):
 
 @app.route("/read_quakes_from_db")
 def read_quakes_from_db():
-    historical_quake_data = model.session.query(model.Quake).all() # start epoch converted to milliseconds
-    # print len(historical_quake_data) # this returns 8462/8642 entries in DB (only missing 180); 2834 dates < 0
+    historical_quake_data = model.session.query(model.Quake).all()
     response_dict = {}
     
     for quake in historical_quake_data:
-        quake_time = datetime.datetime(1970, 1, 1) + datetime.timedelta(seconds=(quake.timestamp/1000))
+        quake_time = datetime.datetime(1970, 1, 1) + datetime.timedelta(seconds=(quake.timestamp/1000)) # converted from milliseconds to seconds
         quake_year = quake_time.strftime("%Y")
         response_dict.setdefault(quake_year, []).append({
                 "id": quake.id, "timestamp": quake.timestamp,
                 "latitude": quake.latitude, "longitude": quake.longitude,
                 "magnitude": quake.magnitude, "tsunami": quake.tsunami})
-    # print response_dict
     return json.dumps(response_dict)
     
 if __name__ == "__main__":

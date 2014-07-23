@@ -107,7 +107,7 @@ function createPoints(points) {
         .data(pointsList)
         .enter().append("circle", ".point")
         .attr("r", function(d) {
-            return d.magnitude/1.5;
+            return Math.pow(10, Math.sqrt(d.magnitude))/100;
         })
         .style("fill", function(d) {
             return (pathRamp(d.magnitude));
@@ -127,7 +127,7 @@ function createPoints(points) {
             var p = projection([d.longitude, d.latitude]);
             var str = "";
             var date = new Date(d.timestamp);
-            // display m/d/y if available, else display only year
+            // display m/d/y if available, else display only year - MAY NOT NEED THIS ANYMORE
             if (date.getUTCDate()) {
                 str = date.getUTCMonth() + "/" + date.getUTCDate() + "/" + date.getUTCFullYear();
             }
@@ -150,9 +150,6 @@ function createPoints(points) {
 }
 
 function filterPoints(value) {
-    // value_string = value.toString();
-    // console.log(value_string);
-    // console.log(dataset);
     if (dataset.hasOwnProperty(value)) {
         circles
             .style("display", function(d) {
