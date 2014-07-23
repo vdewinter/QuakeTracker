@@ -95,26 +95,31 @@ Disk space cheaper than cpu so it's fine to have all diff magnitudes as fields i
 Don't need to worry about memcached for now bc I don't have a lot of data and am not concerned w scaling right now.
 Ended up rewriting DB schema to be make new data from USGS and historical data consistent.
 
+7/22/2014
+visit to Heroku - learned how to migrate DB to Postgres and deploy app (see Google notes)
+
+In my app, I need to translate an epoch timestamp to m/d/y. Doing this with negative timestamps is harder in python than js (32 bit vs 64 bit integer precision). Javascript can readily handle around 285,616 years on either side of the 1970 epoch. Better reason to use js for converting epoch to m/d/y is that python datetime objects != js'.
+
+Mousing over some points on map to see info doesn't always produce text.
+
+New data is only for 1900 and on- considering only showing quakes since 1900
+
+
+
 
 LATER:
-smooth animation- make points grow to full size and then disappear
-
-memcached w a timeout every hour OR when new data is written to DB; script to connect to memcahced
+-- take commas out of slider
+-- smooth animation- make points grow to full size and then disappear
+-- memcached w a timeout every hour OR when new data is written to DB; script to connect to memcahced
 check if key exists:
 if not set it
 second run should display key
 set timeout (1 min) - test expiration
-
-make slider faster (more DOM manip = less performant)
-
-orthographic projection and interactive globe(drag and zoom)
-
-use geocoding API to take user to lat/lon of a given search location- include labels and resize radii
-
-migrate to postgres
-
-deploy on heroku
+-- make slider faster (more DOM manip = less performant)
+-- orthographic projection and interactive globe(drag and zoom)
+-- use geocoding API to take user to lat/lon of a given search location- include labels and resize radii
+-- migrate to postgres
+-- deploy on heroku
 
 FOR FUNSIES:
 finish Eloquent JS
-Mega Flask tutorial

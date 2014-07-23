@@ -97,26 +97,18 @@ def write_new_quakes_to_db(new_quake_dict):
 
 @app.route("/read_quakes_from_db")
 def read_quakes_from_db():
-    now = int(time.time())
-    delta = 500 * 365.242 * 86400 # 500 years of seconds
-    start_epoch = int(now - delta)
-
-    historical_quake_data = model.session.query(model.Quake).filter(model.Quake.timestamp >= start_epoch).all()
+    historical_quake_data = model.session.query(model.Quake).all() # start epoch converted to milliseconds
+    # print len(historical_quake_data) # this returns 8462/8642 entries in DB (only missing 180); 2834 dates < 0
     response_dict = {}
-
+    
     for quake in historical_quake_data:
-        shortened_quake_timestamp = int(str(quake.timestamp)[:-3]) # strip milliseconds
-        converted_date = datetime.datetime.fromtimestamp(shortened_quake_timestamp)
-        year = converted_date.strftime("%Y")
-        month = converted_date.strftime("%m")
-        day = converted_date.strftime("%d")
-
-        response_dict.setdefault(year, []).append({
-                "id": quake.id, "timestamp": quake.timestamp, 
-                "month": month, "day": day, "year": year,
+        quake_time = datetime.datetime(1970, 1, 1) + datetime.timedelta(seconds=(quake.timestamp/1000))
+        quake_year = quake_time.strftime("%Y")
+        response_dict.setdefault(quake_year, []).append({
+                "id": quake.id, "timestamp": quake.timestamp,
                 "latitude": quake.latitude, "longitude": quake.longitude,
                 "magnitude": quake.magnitude, "tsunami": quake.tsunami})
-
+    # print response_dict
     return json.dumps(response_dict)
     
 if __name__ == "__main__":

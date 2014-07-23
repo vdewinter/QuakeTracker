@@ -81,11 +81,11 @@ function displayMap(points) {
     });
 
     //slider 
-    var currentYear = new Date().getFullYear(); // this could also be passed from server
+    var currentYear = new Date().getFullYear();
     d3.select("#slider")
         .call(d3.slider()
             .axis(d3.svg.axis().orient("bottom").ticks(10))
-            .min(currentYear - 500)
+            .min(currentYear - 100)
             .max(currentYear)
             .step(1)
             .on("slide", function(event, value) {
@@ -126,12 +126,13 @@ function createPoints(points) {
         .on("mousemove", function(d) {
             var p = projection([d.longitude, d.latitude]);
             var str = "";
+            var date = new Date(d.timestamp);
             // display m/d/y if available, else display only year
-            if (d.day) {
-                str = d.month + "/" + d.day + "/" + d.year;
+            if (date.getUTCDate()) {
+                str = date.getUTCMonth() + "/" + date.getUTCDate() + "/" + date.getUTCFullYear();
             }
             else {
-                str = d.year;
+                str = date.getUTCFullYear();
             }
             txt.text(parseFloat(d.magnitude).toFixed(1) + ", " + str)
                 .style("fill", "#7D26CD")
@@ -140,26 +141,23 @@ function createPoints(points) {
                 .attr("dy", ".5em")
                 .attr("text-anchor", "middle")
                 .attr("transform", "translate(" + p[0] + "," + (p[1] - 19) + ")");
-
         });
 
     circles = d3.selectAll("circle");
-
     // add point labels here so they are drawn on top of all other layers
     var txt = svg.append("text")
         .attr("class", "txt");
 }
 
 function filterPoints(value) {
-    // as slider moves, see if value in dataset
-    value_string = value.toString();
-    console.log(value_string);
-    console.log(dataset);
-    if (dataset.hasOwnProperty(value_string)) {
-        console.log("in");
+    // value_string = value.toString();
+    // console.log(value_string);
+    // console.log(dataset);
+    if (dataset.hasOwnProperty(value)) {
         circles
             .style("display", function(d) {
-                return (d.year === value_string) ? "block" : "none";
+                year = new Date(d.timestamp).getUTCFullYear();
+                return (year === value) ? "block" : "none";
             });
     }
 }
