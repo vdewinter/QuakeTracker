@@ -104,11 +104,12 @@ Mousing over some points on map to see info doesn't always produce text.
 Changed point radii size to better reflect shaking amplitude differences between magnitudes.
 New data is only for 1900 and on- only showing quakes since 1900
 
-
+1906 SF earthquake displays one month too early- investigate-- added 1 to month, and recent data looks good.
 
 
 LATER:
--- take commas out of slider
+
+-- take commas out of slider and display current year over sliding point
 -- smooth animation- make points grow to full size and then disappear
 -- memcached w a timeout every hour OR when new data is written to DB; script to connect to memcahced
 check if key exists:

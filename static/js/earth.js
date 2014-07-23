@@ -45,10 +45,12 @@ function displayHistoricalQuakes() {
     });
 }
 
+// DEBUG- points not defined? 500 error
 function displayRecentQuakes() {
     d3.json("/new_earthquake", function(error, points) {
         if (error) return console.error(error);
-        points = points;
+        dataset = points;
+        console.log(points);
         createPoints(points);
     });
 }
@@ -84,8 +86,10 @@ function displayMap(points) {
     var currentYear = new Date().getFullYear();
     d3.select("#slider")
         .call(d3.slider()
-            .axis(d3.svg.axis().orient("bottom").ticks(10))
-            .min(currentYear - 100)
+            .axis(d3.svg.axis().orient("bottom")
+            .ticks(15))
+            // .tickFormat(d3.format("d"))
+            .min(1900)
             .max(currentYear)
             .step(1)
             .on("slide", function(event, value) {
@@ -125,9 +129,8 @@ function createPoints(points) {
         })
         .on("mousemove", function(d) {
             var p = projection([d.longitude, d.latitude]);
-            var str = "";
             var date = new Date(d.timestamp);
-            str = date.getUTCMonth() + "/" + date.getUTCDate() + "/" + date.getUTCFullYear();
+            var str = (date.getUTCMonth() + 1) + "/" + date.getUTCDate() + "/" + date.getUTCFullYear();
             txt.text(parseFloat(d.magnitude).toFixed(1) + ", " + str)
                 .style("fill", "#7D26CD")
                 .style("stroke", "#000000")

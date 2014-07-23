@@ -18,11 +18,11 @@
     <input type="button" name="show-all-quakes" id="show-all-quakes" value="Show all M6+ earthquakes since 1900"
     <br>
     <form id="broadcast" method='GET' action='#'>
-        <input type="button" name="broadcast_data" id="broadcast_data" value="Show realtime earthquakes">
+        <input type="button" name="broadcast_data" id="broadcast_data" value="Show Earthquakes in the Last Week (M2.5+)">
     </form>
     <br>
     <br>
-    <div id="slider-title">Earthquakes of the Last 100 Years (M6+)</div>
+    <div id="slider-title">Earthquakes Since 1900 (M6+)</div>
     <br>
     <div id="slider"></div>
 
@@ -41,7 +41,7 @@
             })
             $("form#broadcast").click(function(e) {
                 console.log("broadcast");
-                // displayRecentQuakes(points); // how does earth.js know points from backend
+                displayRecentQuakes(); // how does earth.js know points from backend
             });
             $("#show-all-quakes").click(function(e) { 
                 displayAllPoints();

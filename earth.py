@@ -15,11 +15,11 @@ thread = None
 def background_thread():
     count = 0
     while True:
-        time.sleep(10) # reports come every 65-69 sec- change to 65
+        time.sleep(30) # reports come every 65-69 sec- change to 65
         count += 1
         new_earthquake = handle_new_quake_json()
         socketio.emit("new_earthquake", new_earthquake)
-
+        # draw new points
         reformatted_new_earthquake = reformat_new_quake_json(new_earthquake)
         if reformatted_new_earthquake:
             write_new_quakes_to_db(new_earthquake)
@@ -35,14 +35,14 @@ def index():
 @socketio.on("new_earthquake") #TODO do I need this line?
 @app.route("/new_earthquake")
 def handle_new_quake_json():
-    r = requests.get("http://earthquake.usgs.gov/earthquakes/feed/geojson/2.5/day")
-    new_earthquake = r.json()
+    r = requests.get("http://earthquake.usgs.gov/earthquakes/feed/geojson/2.5/week")
+    new_earthquake = r.json() # built-in decoder; need to send to client in json
     return new_earthquake
 
 # TODO: refactor- this needs persist across app's running
 last_update = "1406001828000" # need to reseed DB just before deploy? may not need to strip ms from below vars- 
 # In gen, get last_update from db... when was last time run
-recorded_min_magnitude = 6
+min_recorded_magnitude = 6
 
 @app.route("/reformat_new_quake_json")
 def reformat_new_quake_json(update):
@@ -60,14 +60,14 @@ def reformat_new_quake_json(update):
             quake_magnitude = props["mag"]
 
             # are following conditions sufficient?
-            if quake_updated > last_update and quake_magnitude >= recorded_min_magnitude:
+            if quake_updated > last_update and quake_magnitude >= min_recorded_magnitude:
                 quake_id = quake["id"]
                 quake_time = props["time"]
                 quake_tsunami = props["tsunami"]
                 quake_latitude = quake["geometry"]["coordinates"][1]
                 quake_longitude = quake["geometry"]["coordinates"][0] 
         
-                new_quake_dict[quake_id] = {"time":quake_time, "updated":quake_updated,
+                new_quake_dict[quake_id] = {"timestamp":quake_time, "updated":quake_updated,
                     "magnitude":quake_magnitude, "tsunami":quake_tsunami, 
                     "longitude":quake_longitude, "latitude":quake_latitude, "id": quake_id}
         print new_quake_dict
@@ -76,24 +76,38 @@ def reformat_new_quake_json(update):
 @app.route("/write_new_quakes_to_db")
 def write_new_quakes_to_db(new_quake_dict):
     print "writing to db"
-    db = json.loads(read_quakes_from_db()) # inefficient to read from db every time - how to get around- perhaps memcached
+    db = json.loads(read_quakes_from_db()) # inefficient to read from db every time? - how to get around- perhaps memcached
     print db
-    if new_quake_dict["id"] in db:
-        print "updating quake"
-        pass
-    else:
-        print "adding new quake"
-        new_quake = model.Quake(
-            id = new_quake_dict["id"],
-            tsunami = new_quake_dict["tsunami"],
-            timestamp = new_quake_dict["timestamp"],
-            updated = new_quake_dict["updated"],
-            magnitude = new_quake_dict["magnitude"],
-            latitude = new_quake_dict["latitude"],
-            longitude = new_quake_dict["longitude"]
-        )
-    model.session.add(new_quake)
+    for quake in new_quake_dict:
+        if quake in db:
+            print "updating quake"
+            existing_quake = model.Quake.query.get(id)
+            existing_quake.timestamp = quake["timestamp"]
+            existing_quake.updated = quake["updated"]
+            existing_quake.magnitude = quake["magnitude"]
+            existing_quake.tsunami = quake["tsunami"]
+            existing_quake.longitude = quake["longitude"]
+            existing_quake.latitude = quake["latitude"]
+        else:
+            print "adding new quake"
+            new_quake = model.Quake(
+                id = new_quake_dict["id"],
+                tsunami = new_quake_dict["tsunami"],
+                timestamp = new_quake_dict["timestamp"],
+                updated = new_quake_dict["updated"],
+                magnitude = new_quake_dict["magnitude"],
+                latitude = new_quake_dict["latitude"],
+                longitude = new_quake_dict["longitude"]
+            )
+        model.session.add(new_quake)
     model.session.commit()
+
+    quake_time = datetime.datetime(1970, 1, 1) + datetime.timedelta(seconds=(quake.timestamp/1000)) # converted from milliseconds to seconds
+    quake_year = quake_time.strftime("%Y")
+    response_dict = {quake_year: {"id": quake.id, "timestamp": quake.timestamp,
+                "latitude": quake.latitude, "longitude": quake.longitude,
+                "magnitude": quake.magnitude, "tsunami": quake.tsunami}}
+    return response_dict
 
 @app.route("/read_quakes_from_db")
 def read_quakes_from_db():
