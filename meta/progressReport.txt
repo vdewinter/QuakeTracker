@@ -101,8 +101,8 @@ visit to Heroku - learned how to migrate DB to Postgres and deploy app (see Goog
 In my app, I need to translate an epoch timestamp to m/d/y. Doing this with negative timestamps is harder in python than js (32 bit vs 64 bit integer precision). Javascript can readily handle around 285,616 years on either side of the 1970 epoch. Better reason to use js for converting epoch to m/d/y is that python datetime objects != js'.
 
 Mousing over some points on map to see info doesn't always produce text.
-
-New data is only for 1900 and on- considering only showing quakes since 1900
+Changed point radii size to better reflect shaking amplitude differences between magnitudes.
+New data is only for 1900 and on- only showing quakes since 1900
 
 
 

@@ -127,13 +127,7 @@ function createPoints(points) {
             var p = projection([d.longitude, d.latitude]);
             var str = "";
             var date = new Date(d.timestamp);
-            // display m/d/y if available, else display only year - MAY NOT NEED THIS ANYMORE
-            if (date.getUTCDate()) {
-                str = date.getUTCMonth() + "/" + date.getUTCDate() + "/" + date.getUTCFullYear();
-            }
-            else {
-                str = date.getUTCFullYear();
-            }
+            str = date.getUTCMonth() + "/" + date.getUTCDate() + "/" + date.getUTCFullYear();
             txt.text(parseFloat(d.magnitude).toFixed(1) + ", " + str)
                 .style("fill", "#7D26CD")
                 .style("stroke", "#000000")
