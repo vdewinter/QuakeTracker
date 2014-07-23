@@ -9,8 +9,14 @@ import requests
 
 app = Flask(__name__)
 app.secret_key = 'secret_key' # TODO: change/ figure out if client knows about this
+app.debug = True
 socketio = SocketIO(app)
 thread = None
+
+# TODO: refactor- this needs persist across app's running
+last_update = "1406001828000" # need to reseed DB just before deploy? may not need to strip ms from below vars- 
+# In gen, get last_update from db... when was last time run
+min_recorded_magnitude = 6
 
 def background_thread():
     count = 0
@@ -32,25 +38,41 @@ def index():
         thread.start()
     return render_template("index.html")
 
-@socketio.on("new_earthquake") #TODO do I need this line?
+# refactor this and reformat_new_quake_json to deal w both reading from db and handling new json
 @app.route("/new_earthquake")
 def handle_new_quake_json():
     r = requests.get("http://earthquake.usgs.gov/earthquakes/feed/geojson/2.5/week")
-    new_earthquake = r.json() # built-in decoder; need to send to client in json
-    return new_earthquake
-
-# TODO: refactor- this needs persist across app's running
-last_update = "1406001828000" # need to reseed DB just before deploy? may not need to strip ms from below vars- 
-# In gen, get last_update from db... when was last time run
-min_recorded_magnitude = 6
-
-@app.route("/reformat_new_quake_json")
-def reformat_new_quake_json(update):
-    update_release_time = int(update["metadata"]["generated"])
+    new_quakes = r.json()
+    global update_release_time
+    update_release_time = int(new_quakes["metadata"]["generated"])
     global last_update
     print "first update %s" % last_update
     last_update = update_release_time 
     print "updated last_update %s" % last_update
+
+    new_quake_dict = {}
+
+    for quake in new_quakes["features"]:
+        props = quake["properties"]
+        quake_updated = props["updated"]
+        quake_magnitude = props["mag"]
+        quake_id = quake["id"]
+        quake_time = props["time"]
+        quake_tsunami = props["tsunami"]
+        quake_latitude = quake["geometry"]["coordinates"][1]
+        quake_longitude = quake["geometry"]["coordinates"][0] 
+
+        new_quake_dict[quake_id] = {"timestamp":quake_time, "updated":quake_updated,
+            "magnitude":quake_magnitude, "tsunami":quake_tsunami, 
+            "longitude":quake_longitude, "latitude":quake_latitude, "id": quake_id}
+
+            # array of dictionaries
+            # and filter out no lat/long/magnitude
+    return json.dumps(new_quake_dict)
+
+@app.route("/reformat_new_quake_json")
+def reformat_new_quake_json(update):
+    update = json.loads(update)
     new_quake_dict = {}
 
     if update_release_time > last_update:
@@ -70,18 +92,18 @@ def reformat_new_quake_json(update):
                 new_quake_dict[quake_id] = {"timestamp":quake_time, "updated":quake_updated,
                     "magnitude":quake_magnitude, "tsunami":quake_tsunami, 
                     "longitude":quake_longitude, "latitude":quake_latitude, "id": quake_id}
-        print new_quake_dict
-        return new_quake_dict
+    return new_quake_dict
 
 @app.route("/write_new_quakes_to_db")
 def write_new_quakes_to_db(new_quake_dict):
+    # filter out new quakes above M6 here, not in reformat, then can del reformat
     print "writing to db"
     db = json.loads(read_quakes_from_db()) # inefficient to read from db every time? - how to get around- perhaps memcached
     print db
     for quake in new_quake_dict:
         if quake in db:
             print "updating quake"
-            existing_quake = model.Quake.query.get(id)
+            existing_quake = model.Quake.query.get(quake) # id
             existing_quake.timestamp = quake["timestamp"]
             existing_quake.updated = quake["updated"]
             existing_quake.magnitude = quake["magnitude"]

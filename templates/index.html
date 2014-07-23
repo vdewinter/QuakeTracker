@@ -36,12 +36,13 @@
             socket.on('connect', function() {
                 socket.emit('my event', {data: 'I\'m connected!'});
             });
-            socket.on("new_earthquake", function(response){
-                console.log(response);
-            })
+            // socket.on("new_earthquake", function(response){ // needed?
+            //     console.log(response);
+            // })
             $("form#broadcast").click(function(e) {
                 console.log("broadcast");
-                displayRecentQuakes(); // how does earth.js know points from backend
+                // $(".recent").hide();
+                displayRecentQuakes(); // is this in the right place?
             });
             $("#show-all-quakes").click(function(e) { 
                 displayAllPoints();

@@ -1,10 +1,8 @@
 // look at performance measuring tools--
 // currently changing attrs is time intensive
-// to make slider faster,
-// filter by old year- display none; fiter by new year display block
+// to make slider faster, filter by old year- display none; fiter by new year display block
 // or
-// make hash table with d3 collection by year, 
-// track currently displayed year, 
+// make hash table with d3 collection by year, track currently displayed year, 
 // collection#oldyear display: none; collection#newyear display:block
 
 var width = 1200,
@@ -23,8 +21,9 @@ var circles = null;
 
 // colors quake points by magnitude
 var pathRamp = d3.scale.linear()
-    .domain([6,7,8,9])
-    .range(["yellow","orange","red","#B81324"]);
+    .domain([2,3,4,5,6,7,8,9])
+    .range(["purple","blue","teal","green",
+        "yellow","orange","red","#B81324"]);
 
 // var drag = d3.behavior.drag()
 //     .origin(Object)
@@ -45,14 +44,63 @@ function displayHistoricalQuakes() {
     });
 }
 
-// DEBUG- points not defined? 500 error
+function convertObjToArr(points) {
+    var keys = Object.keys(points),
+        arr = [];
+    for (var i=0; i < keys.length; i++) {
+        var current_elem = points[keys[i]];
+        arr.push(current_elem);
+    }
+    return arr;
+}
+
+// this is diff from create points only in that this sets display: block, circles appended to newg, and class is .newPoint
 function displayRecentQuakes() {
     d3.json("/new_earthquake", function(error, points) {
         if (error) return console.error(error);
-        dataset = points;
         console.log(points);
-        createPoints(points);
-    });
+        // do i need to put points in list for below to work?
+
+        points = convertObjToArr(points);
+        
+        d3.select(".recent")
+            .selectAll(".newPoint")
+            .data(points)
+            .enter().append("circle", ".newPoint")
+            .attr("r", function(d) {
+                return Math.pow(10, Math.sqrt(d.magnitude))/60;
+            })
+            .style("fill", function(d) {
+                return (pathRamp(d.magnitude));
+            })
+            // there might be a pt with no lat/long- filter func
+            .attr("transform", function(d) {
+                return "translate(" + projection ([d.longitude, d.latitude]) + ")";
+            })
+            .style("display", "block")
+            // better to move the following to CSS?
+            .on("mouseover", function(d) {
+                txt.style("opacity", 1);
+                var p = projection([d.longitude, d.latitude]);
+                var date = new Date(d.timestamp);
+                var str = (date.getUTCMonth() + 1) + "/" + date.getUTCDate() + "/" + date.getUTCFullYear();
+                txt.text(parseFloat(d.magnitude).toFixed(1) + ", " + str)
+                    .style("fill", "#7D26CD")
+                    .style("stroke", "#000000")
+                    .style("stroke-width", 0.05)
+                    .attr("dy", ".5em")
+                    .attr("text-anchor", "middle")
+                    .attr("transform", "translate(" + p[0] + "," + (p[1] - 19) + ")");
+            })
+            .on("mouseout", function() {
+                txt.style("opacity", 0);
+            });
+
+        circles = d3.selectAll("circle");
+        // add point labels here so they are drawn on top of all other layers
+        var txt = svg.append("text")
+            .attr("class", "txt");
+        });
 }
 
 function displayMap(points) {
@@ -65,7 +113,10 @@ function displayMap(points) {
             .attr("d", path);
         
         // create points inside g elt once world.json has loaded
-        svg.append("g");
+        svg.append("g")
+            .attr("class", "historical");
+        svg.append("g")
+            .attr("class", "recent");
         createPoints(points);
     });
 
@@ -106,7 +157,8 @@ function createPoints(points) {
         }
     }
 
-    d3.select("g")
+    // points = convertObjToArr(points);
+    d3.select("g.historical")
         .selectAll(".point")
         .data(pointsList)
         .enter().append("circle", ".point")
@@ -121,13 +173,8 @@ function createPoints(points) {
         })
         .style("display", "none")
         // better to move the following to CSS?
-        .on("mouseover", function() {
+        .on("mouseover", function(d) {
             txt.style("opacity", 1);
-        })
-        .on("mouseout", function() {
-            txt.style("opacity", 0);
-        })
-        .on("mousemove", function(d) {
             var p = projection([d.longitude, d.latitude]);
             var date = new Date(d.timestamp);
             var str = (date.getUTCMonth() + 1) + "/" + date.getUTCDate() + "/" + date.getUTCFullYear();
@@ -138,6 +185,9 @@ function createPoints(points) {
                 .attr("dy", ".5em")
                 .attr("text-anchor", "middle")
                 .attr("transform", "translate(" + p[0] + "," + (p[1] - 19) + ")");
+        })
+        .on("mouseout", function() {
+            txt.style("opacity", 0);
         });
 
     circles = d3.selectAll("circle");
