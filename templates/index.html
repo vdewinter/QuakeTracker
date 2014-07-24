@@ -14,14 +14,17 @@
     <script src="static/d3Slider/d3.slider.js"></script>
     <link rel="stylesheet" href="static/d3Slider/d3.slider.css"/>
     <script type="text/javascript" src="static/js/socket.io.min.js"></script>
+    
+    <h3>Quake Tracker</h3>
 
-    <input type="button" name="show-all-quakes" id="show-all-quakes" value="Show all M6+ earthquakes since 1900"
-    <br>
     <form id="broadcast" method='GET' action='#'>
-        <input type="button" name="broadcast_data" id="broadcast_data" value="Show Earthquakes in the Last Week (M2.5+)">
+        <input type="button" name="broadcast_data" id="broadcast_data" value="M2.5+ Earthquakes in the Last Week">
     </form>
-    <br>
-    <br>
+
+    <input type="button" name="show-all-quakes" id="show-all-quakes" value="All M6+ earthquakes since 1900"> 
+
+    <br><br><br>
+
     <div id="slider-title">Earthquakes Since 1900 (M6+)</div>
     <br>
     <div id="slider"></div>
@@ -39,11 +42,11 @@
 
             $("form#broadcast").click(function(e) {
                 console.log("broadcast");
-                displayRecentQuakes();
+                displayRecentPoints();
             });
-            
+
             $("#show-all-quakes").click(function(e) { 
-                displayAllPoints();
+                displayHistoricalPoints();
             });
         });
 

@@ -1,10 +1,45 @@
-/*.pin {
-    margin-top: 30px;
-}*/
+h3 {
+    margin: 10px 30px;
+    color: #FFFFFF;
+    font-family: Courier;
+    font-size: 200%;
+}
 
 #slider {
-    width: 920px;
-    margin-left: 20px;
+    width: 950px;
+    margin-left: 30px;
+}
+
+#slider-title {
+    margin: 5px 30px;
+    color: #FFFFFF;
+    font-family: Courier;
+}
+
+body {
+    background-color: #404040;
+}
+
+svg {
+    background-color: #FFFFFF;
+    margin: 10px 30px;
+}
+
+.d3-slider-axis {
+    background-color: #404040;
+}
+
+.d3-slider-axis>text {
+    color: #FFFFFF;
+}
+
+input {
+    margin: 8px 5px 8px 30px;
+    background: #4D71A3;
+    color: #FFFFFF;
+    font-family: Courier;
+    float: left;
+    height: 30px;
 }
 
 /*.plates {
@@ -12,8 +47,3 @@
     stroke: #000;
     opacity: 0.5;
 }
-
-.quake {
-    fill: rgba(0, 0, 0, 0);
-    stroke-width: 1.5px;
-}*/

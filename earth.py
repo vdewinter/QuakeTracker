@@ -25,7 +25,6 @@ def background_thread():
         count += 1
         new_earthquake = handle_new_quake_json()
         socketio.emit("new_earthquake", new_earthquake)
-        # draw new points
         reformatted_new_earthquake = reformat_new_quake_json(new_earthquake)
         if reformatted_new_earthquake:
             write_new_quakes_to_db(new_earthquake)

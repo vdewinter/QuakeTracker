@@ -5,8 +5,8 @@
 // make hash table with d3 collection by year, track currently displayed year, 
 // collection#oldyear display: none; collection#newyear display:block
 
-var width = 1200,
-    height = width/2;
+var width = 960,
+    height = 500;
 
 var projection = d3.geo.equirectangular();
 
@@ -22,7 +22,7 @@ var circles = null;
 // colors quake points by magnitude
 var pathRamp = d3.scale.linear()
     .domain([2,3,4,5,6,7,8,9])
-    .range(["purple","#003EFF","teal","#00FF00",
+    .range(["#7D26CD","#003EFF","teal","#00FF00",
         "yellow","orange","red","#B81324"]);
 
 // var drag = d3.behavior.drag()
@@ -55,8 +55,9 @@ function displayRecentQuakes() {
             .selectAll(".newPoint")
             .data(points)
             .enter().append("circle", ".newPoint")
+            .attr("class", "newPoint")
             .attr("r", function(d) {
-                return Math.pow(10, Math.sqrt(d.magnitude))/60;
+                return Math.pow(10, Math.sqrt(d.magnitude))/40;
             })
             .style("fill", function(d) {
                 return (pathRamp(d.magnitude));
@@ -65,7 +66,7 @@ function displayRecentQuakes() {
             .attr("transform", function(d) {
                 return "translate(" + projection ([d.longitude, d.latitude]) + ")";
             })
-            .style("display", "block")
+            .style("display", "none")
             // better to move the following to CSS?
             .on("mouseover", function(d) {
                 txt.style("opacity", 1);
@@ -87,7 +88,8 @@ function displayRecentQuakes() {
         circles = d3.selectAll("circle");
         // add point labels here so they are drawn on top of all other layers
         var txt = svg.append("text")
-            .attr("class", "txt");
+            .attr("class", "txt")
+            .style("fill", "white");
         });
 }
 
@@ -106,6 +108,7 @@ function displayMap(points) {
         svg.append("g")
             .attr("class", "recent");
         createPoints(points);
+        displayRecentQuakes();
     });
 
     // fault lines
@@ -145,11 +148,11 @@ function createPoints(points) {
         }
     }
 
-    // points = convertObjToArr(points);
     d3.select("g.historical")
         .selectAll(".point")
         .data(pointsList)
         .enter().append("circle", ".point")
+        .attr("class", "point")
         .attr("r", function(d) {
             return Math.pow(10, Math.sqrt(d.magnitude))/100;
         })
@@ -194,16 +197,19 @@ function filterPoints(value) {
     }
 }
 
-// no longer working
-function displayAllPoints() {
-    circles
+function displayHistoricalPoints() {
+    d3.selectAll(".point")
         .style("display", "block");
-    // d3.selectAll("g.historical")
-    //     .style("display", "block");
-    // d3.selectAll(".recent")
-    //     .style("display", "none");
+    d3.selectAll(".newPoint")
+        .style("display", "none");
 }
 
+function displayRecentPoints() {
+    d3.selectAll(".newPoint")
+        .style("display", "block");
+    d3.selectAll(".point")
+        .style("display", "none");
+}
 
 // ROTATION http://bl.ocks.org/mbostock/5731578
 // dragging: http://bl.ocks.org/mbostock/3795040 (globe) and http://bl.ocks.org/mbostock/1557377 (dragging) -- interactive, draggable globe
