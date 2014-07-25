@@ -106,6 +106,29 @@ New data is only for 1900 and on- only showing quakes since 1900
 
 1906 SF earthquake displays one month too early- investigate-- added 1 to month, and recent data looks good.
 
+7/23/2014
+goal: finish displaying new data and storing it in db if M >= 6 or an update to a quake in the db has occured
+Moved mousemove functionality inside mouseover event handler- this was slowing computer down a ton.
+Got the new points displayed, but a lot of code is repeated. Will get a code review with Giovanna tomorrow. Also added styling today.
+Still need to get data writing to db properly.
+
+7/24/2014
+goal: add tooltip (custom version)
+
+websocket is broken- also think of storing new points in db so it's ok if usgs goes down
+code review by Giovanna: can add a few functions
+
+in css: 
+/*give each elt a class, dont refer by elt type*/
+/*css reset*/
+/*make buttons divs to avoid rectangular shadow- also easier to style*/
+
+7/24/2014
+TODO: fix socket, get data writing to db properly (include smaller mags), fix css, refactor to have more funcs, add tooltip, add filter by mag
+
+Major refactoring today. Feels good man.
+
+
 
 LATER:
 

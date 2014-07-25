@@ -1,8 +1,44 @@
-h3 {
+/*give each elt a class, dont refer by elt type*/
+/*css reset*/
+/*make buttons divs to avoid rectangular shadow- also easier to style*/
+
+body {
+    background-color: #EEEEEE;
+}
+
+.project-title {
     margin: 10px 30px;
-    color: #FFFFFF;
-    font-family: Courier;
+    color: #42827E;
+    font-family: "HelveticaNeue-Light";
     font-size: 200%;
+    text-shadow: 2px 2px #FFFFFF;
+}
+
+#tooltip {
+    position: absolute;
+    width: auto;
+    height: auto;
+    padding: 10px;
+    background-color: white;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: 2px 2px 3px rgba(255, 0, 0, 0.4);
+    -moz-box-shadow: 2px 2px 3px rgba(255, 0, 0, 0.4);
+    box-shadow: 2px 2px 3px rgba(255, 0, 0, 0.4);
+    pointer-events: none;
+    font-family: "HelveticaNeue-Light";
+}
+
+#tooltip.hidden {
+    display: none;
+}
+
+#tooltip p {
+    margin: 0;
+    font-family: "HelveticaNeue-Light";
+    font-size: 16px;
+    line-height: 20px;
 }
 
 #slider {
@@ -11,35 +47,52 @@ h3 {
 }
 
 #slider-title {
-    margin: 5px 30px;
-    color: #FFFFFF;
-    font-family: Courier;
+    margin: 2px 30px;
+    color: #42827E;
+    font-family: "HelveticaNeue-Light";
 }
 
-body {
-    background-color: #404040;
+/*not working*/
+#handle-one {
+    color: white;
 }
 
-svg {
+.map {
     background-color: #FFFFFF;
     margin: 10px 30px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
 }
 
 .d3-slider-axis {
-    background-color: #404040;
+    background-color: #EEEEEE;
 }
 
+/*not working*/
 .d3-slider-axis>text {
     color: #FFFFFF;
 }
 
 input {
     margin: 8px 5px 8px 30px;
-    background: #4D71A3;
+    background: #00A89D;
     color: #FFFFFF;
-    font-family: Courier;
+    font-family: "HelveticaNeue-Light";
     float: left;
     height: 30px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: 2px 2px 3px rgba(255, 0, 0, 0.4);
+    -moz-box-shadow: 2px 2px 3px rgba(255, 0, 0, 0.4);
+    box-shadow: 2px 2px 3px rgba(255, 0, 0, 0.4);
+    font-size: 90%;
+}
+
+/*not working as intended*/
+#filter-by-magnitude {
+    margin-left: 30px;
 }
 
 /*.plates {

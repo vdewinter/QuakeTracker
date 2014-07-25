@@ -15,9 +15,21 @@ var path = d3.geo.path()
 
 var svg = d3.select("body").append("svg")
     .attr("width", width)
-    .attr("height", height);
+    .attr("height", height)
+    .attr("class", "map");
+
+var newsvg = d3.select("newsvg")
+    .attr("class", "magnitude-filter");
 
 var circles = null;
+
+var tooltip = d3.select("svg").append("div")
+    .attr("width", "50px")
+    .attr("height", "20px")
+    .attr("class", "hidden")
+    .attr("id", "tooltip");
+
+var text = d3.select("tooltip").append("text");
 
 // colors quake points by magnitude
 var pathRamp = d3.scale.linear()
@@ -51,6 +63,7 @@ function displayRecentQuakes() {
         if (error) return console.error(error);
         console.log(points);
 
+        // make func where elt to append to and constant to divide circles by are params
         d3.select(".recent")
             .selectAll(".newPoint")
             .data(points)
@@ -62,37 +75,31 @@ function displayRecentQuakes() {
             .style("fill", function(d) {
                 return (pathRamp(d.magnitude));
             })
-            // there might be a pt with no lat/long- filter func
             .attr("transform", function(d) {
                 return "translate(" + projection ([d.longitude, d.latitude]) + ")";
             })
             .style("display", "none")
-            // better to move the following to CSS?
             .on("mouseover", function(d) {
-                txt.style("opacity", 1);
-                var p = projection([d.longitude, d.latitude]);
-                var date = new Date(parseInt(d.timestamp, 10));
+                console.log(d);
+                var date = new Date(parseInt(d.timestamp));
                 var str = (date.getUTCMonth() + 1) + "/" + date.getUTCDate() + "/" + date.getUTCFullYear();
-                txt.text(parseFloat(d.magnitude).toFixed(1) + ", " + str)
-                    .style("fill", "#7D26CD")
-                    .style("stroke", "#000000")
-                    .style("stroke-width", 0.05)
-                    .attr("dy", ".5em")
-                    .attr("text-anchor", "middle")
-                    .attr("transform", "translate(" + p[0] + "," + (p[1] - 19) + ")");
+                console.log(str);
+                text.text("M" + parseFloat(d.magnitude).toFixed(1) + " on " + str);
+                tooltip.classed("hidden", false);
             })
             .on("mouseout", function() {
-                txt.style("opacity", 0);
+                tooltip.classed("hidden", true);
             });
 
-        circles = d3.selectAll("circle");
-        // add point labels here so they are drawn on top of all other layers
-        var txt = svg.append("text")
-            .attr("class", "txt")
-            .style("fill", "white");
-        });
+            circles = d3.selectAll("circle");
+            // add point labels here so they are drawn on top of all other layers
+            // var txt = d3.select("#tooltip")
+            //     .append("text")
+            //     .attr("class", "txt");
+    });
 }
 
+// TODO: use queue to async load: https://github.com/mbostock/queue
 function displayMap(points) {
     // land
     d3.json("/static/world.json", function(error, world) {
@@ -100,7 +107,8 @@ function displayMap(points) {
 
         svg.append("path")
             .datum(topojson.feature(world, world.objects.subunits))
-            .attr("d", path);
+            .attr("d", path)
+            .style("opacity", 0.7);
         
         // create points inside g elt once world.json has loaded
         svg.append("g")
@@ -163,28 +171,31 @@ function createPoints(points) {
             return "translate(" + projection ([d.longitude, d.latitude]) + ")";
         })
         .style("display", "none")
-        // better to move the following to CSS?
+
+        //  something is awry here-- seeing multiple mags and dates in tooltip
+        // append rect to svg and set x, y to center of circles- caution- can't dynamically style size- only display tooltip for elts not hidden
         .on("mouseover", function(d) {
-            txt.style("opacity", 1);
-            var p = projection([d.longitude, d.latitude]);
-            var date = new Date(d.timestamp);
+            var tooltip = d3.select("#tooltip");
+            console.log(d);
+            var date = new Date(parseInt(d.timestamp));
             var str = (date.getUTCMonth() + 1) + "/" + date.getUTCDate() + "/" + date.getUTCFullYear();
-            txt.text(parseFloat(d.magnitude).toFixed(1) + ", " + str)
-                .style("fill", "#7D26CD")
-                .style("stroke", "#000000")
-                .style("stroke-width", 0.05)
-                .attr("dy", ".5em")
-                .attr("text-anchor", "middle")
-                .attr("transform", "translate(" + p[0] + "," + (p[1] - 19) + ")");
+            text.text("M" + parseFloat(d.magnitude).toFixed(1) + " on " + str);
+            
+            tooltip.classed("hidden", false);
+                // where do these go- not working
+            // tooltip.html(d)
+            //     .style("left", d + "px")
+            //     .style("top", d + "px");
         })
         .on("mouseout", function() {
-            txt.style("opacity", 0);
+            d3.select("#tooltip")
+                .classed("hidden", true);
         });
 
-    circles = d3.selectAll("circle");
-    // add point labels here so they are drawn on top of all other layers
-    var txt = svg.append("text")
-        .attr("class", "txt");
+        circles = d3.selectAll("circle");
+        // add point labels here so they are drawn on top of all other layers
+        var text = d3.select("#tooltip")
+            .append("text");
 }
 
 function filterPoints(value) {
@@ -209,6 +220,44 @@ function displayRecentPoints() {
         .style("display", "block");
     d3.selectAll(".point")
         .style("display", "none");
+}
+
+function filterByMagnitude() {
+    // legend
+    newsvg.append("cirlce")
+        .attr("r", function(d) {
+        return Math.pow(10, Math.sqrt(6))/40;
+        })
+        .style("fill", function(d) {
+            return (pathRamp(6));
+        });
+
+   newsvg.append("cirlce")
+        .attr("r", function(d) {
+        return Math.pow(10, Math.sqrt(7))/40;
+        })
+        .style("fill", function(d) {
+            return (pathRamp(7));
+        });
+
+    newsvg.append("cirlce")
+        .attr("r", function(d) {
+        return Math.pow(10, Math.sqrt(8))/40;
+        })
+        .style("fill", function(d) {
+            return (pathRamp(8));
+        });
+
+    newsvg.append("cirlce")
+        .attr("r", function(d) {
+        return Math.pow(10, Math.sqrt(9))/40;
+        })
+        .style("fill", function(d) {
+            return (pathRamp(9));
+        });
+
+    // turn all current points off
+    // for any point in db, if val = mag, display: block
 }
 
 // ROTATION http://bl.ocks.org/mbostock/5731578
