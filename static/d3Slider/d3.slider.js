@@ -24,7 +24,6 @@ d3.slider = function module() {
   var axisScale,
       dispatch = d3.dispatch("slide", "slideend"),
       formatPercent = d3.format(".2%"),
-      tickFormat = d3.format(".0"),
       sliderLength;
 
   function slider(selection) {
@@ -133,7 +132,7 @@ d3.slider = function module() {
 
           axis = d3.svg.axis()
               .ticks(Math.round(sliderLength / 100))
-              .tickFormat(tickFormat)
+              .tickFormat(function(d) {return d;})
               .orient((orientation === "horizontal") ? "bottom" :  "right");
 
         }

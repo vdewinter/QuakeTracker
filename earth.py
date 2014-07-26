@@ -14,19 +14,21 @@ app.debug = True
 socketio = SocketIO(app)
 thread = None
 
-# TODO: refactor- this needs persist across app's running
-# In gen, get last_update from db... when was last time run
-last_update = 1406001828000
+last_update = 0
+ms_per_week = 604800000
 
 def background_thread():
     count = 0
+    db_last_update = model.session.query(model.QuakeUpdate).one()
+    global last_update 
+    last_update = db_last_update.update_time # set to what's in db
+
     while True:
         time.sleep(15)
         count += 1
-        new_earthquake = handle_new_quake_json() # returns json
+        new_earthquake = handle_new_quake_json()
         socketio.emit("new_earthquake", new_earthquake) # without reloading page, add points to svg
-        print "socket ran"
-        new_earthquake = json.loads(new_earthquake, "latin-1") # decodes json
+        new_earthquake = json.loads(new_earthquake, "latin-1")
         write_new_quakes_to_db(new_earthquake)
 
 @app.route('/')
@@ -36,10 +38,6 @@ def index():
         thread = Thread(target=background_thread)
         thread.start()
     return render_template("index.html")
-
-@socketio.on("my event")
-def emit_event():
-    socketio.emit("foo")
 
 def create_quake_dict(quake):
     props = quake["properties"]
@@ -55,36 +53,40 @@ def create_quake_dict(quake):
         "magnitude":quake_magnitude, "tsunami":quake_tsunami, 
         "longitude":quake_longitude, "latitude":quake_latitude}
 
+@socketio.on("new_earthquake")
 @app.route("/new_earthquake")
 def handle_new_quake_json():
     r = requests.get("http://earthquake.usgs.gov/earthquakes/feed/geojson/2.5/week")
     new_quakes = r.json()
-    print new_quakes
 
     # when USGS is down - TEST!!!!!!!!!!!!
     if not r.status_code == 200:
+        print "USGS down"
         # read all quakes from last week from db
-        one_week_ago = int(time.time()) - 604800000 # milliseconds in one week
+        one_week_ago = int(time.time()) - ms_per_week
         new_quakes = model.session.query(model.Quake).filter(model.Quake.timestamp >= one_week_ago).all()
         
         new_quake_list = []
         for quake in new_quakes:
-            print quake
             new_quake_list.append(quake)
     else:
         global last_update 
         last_update = int(new_quakes["metadata"]["generated"])
+        db_last_update = model.session.query(model.QuakeUpdate).one()
+        db_last_update.update_time = last_update
+        model.session.commit()
+        
         new_quake_list = []
 
         for quake in new_quakes["features"]:
             response = create_quake_dict(quake)
             new_quake_list.append(response)
 
-    return json.dumps(new_quake_list) # encode to json to pass to front end
+    return json.dumps(new_quake_list)
 
 def write_new_quakes_to_db(new_quake_dict):
     print "writing to db"
-    db = model.session.query(model.Quake).all() # inefficient to read from db every time -> memcached
+    db = model.session.query(model.Quake).all() # inefficient to read from db every time -> memcached/redis
 
     db_objects = {}
     for obj in db:
@@ -93,26 +95,22 @@ def write_new_quakes_to_db(new_quake_dict):
     for quake in new_quake_dict:
         # update quakes that are already in db if they were updated after occurence and update greater than last report time
         global last_update
-        if quake["id"] in db_objects.keys():
-            print "first if"
-            if int(quake["updated"]) > int(quake["timestamp"]):
-                print "second if"
-                print "last_update %s, quake_updated %s" % (last_update - 604800000, quake["updated"])
-                if int(quake["updated"]) > last_update - 604800000: # one week of ms
-                    print "updating quake"
-                    existing_quake = model.Quake.query.get(quake["id"])
-                    existing_quake.timestamp = quake["timestamp"]
-                    existing_quake.updated = quake["updated"]
-                    existing_quake.magnitude = quake["magnitude"]
-                    existing_quake.tsunami = quake["tsunami"]
-                    existing_quake.longitude = quake["longitude"]
-                    existing_quake.latitude = quake["latitude"]
+        quake_update = int(quake["updated"])
+        if quake["id"] in db_objects.keys() and ( quake_update > int(quake["timestamp"]) ) and ( quake_update > (last_update - ms_per_week) ):
+            print "updating quake"
+            existing_quake = model.Quake.query.get(quake["id"])
+            existing_quake.timestamp = quake["timestamp"]
+            existing_quake.updated = quake_update
+            existing_quake.magnitude = quake["magnitude"]
+            existing_quake.tsunami = quake["tsunami"]
+            existing_quake.longitude = quake["longitude"]
+            existing_quake.latitude = quake["latitude"]
         else:
             new_quake = model.Quake(
                 id = quake["id"],
                 tsunami = quake["tsunami"],
                 timestamp = quake["timestamp"],
-                updated = quake["updated"],
+                updated = quake_update,
                 magnitude = quake["magnitude"],
                 latitude = quake["latitude"],
                 longitude = quake["longitude"]
@@ -122,11 +120,11 @@ def write_new_quakes_to_db(new_quake_dict):
 
 @app.route("/read_quakes_from_db")
 def read_quakes_from_db():
-    historical_quake_data = model.session.query(model.Quake).filter(model.Quake.magnitude >= 6).all() # TEST!!!!!!!!!!!!!!!!!!!
+    historical_quake_data = model.session.query(model.Quake).filter(model.Quake.magnitude >= 6).all()
     response_dict = {}
     
     for quake in historical_quake_data:
-        quake_time = datetime.datetime(1970, 1, 1) + datetime.timedelta(seconds=(quake.timestamp/1000)) # converted from milliseconds to seconds
+        quake_time = datetime.datetime(1970, 1, 1) + datetime.timedelta(seconds=(quake.timestamp/1000)) # converted to sec
         quake_year = quake_time.strftime("%Y")
 
         # sort quakes by year for slider

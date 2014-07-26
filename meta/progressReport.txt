@@ -115,30 +115,57 @@ Still need to get data writing to db properly.
 7/24/2014
 goal: add tooltip (custom version)
 
-websocket is broken- also think of storing new points in db so it's ok if usgs goes down
+websocket is broken- also thinking of storing new points in db so it's ok if usgs goes down
 code review by Giovanna: can add a few functions
 
 in css: 
-/*give each elt a class, dont refer by elt type*/
-/*css reset*/
-/*make buttons divs to avoid rectangular shadow- also easier to style*/
+give each elt a class, don't refer by elt type
+css reset
+make buttons divs to avoid rectangular shadow- also easier to style
 
 7/24/2014
 TODO: fix socket, get data writing to db properly (include smaller mags), fix css, refactor to have more funcs, add tooltip, add filter by mag
 
-Major refactoring today. Feels good man.
+Major refactoring today. Feels good man. 
+Data writing to db or updating if already in db. Need memcached bc right now every single data point is updated every time new report is released, and db is being read from/written to directly. Started exploring redis:
+    Map/dict/hashmap => everything is a key-value pair
+    Data smart => values are not completely opaque. Redis offers support for integers, strings, list and recently maps. There is support for additional operations on values depending on their type. 
+    Persistent => the key – value pairs are not in memory only (nb: there are more details about how Redis is working.)
+    Highly optimized => see the numbers mentioned in the article. Plus you could consult the docs for additional operations and see their O.
+
+Socket working- needed @socketio.on handler
+Added .exit().remove() to recent points drawing function to get rid of data older than 1 week (not in newest report)
+Need to figure out why the following did not work:
+    changing tickFormat on slider
+    adding transition to recent quake circles as they draw (breaks the mouseover handler)
+
+7/25/2014
+goal: front end review
+
+fixed commas on years in slider (changed tickFormat and moved a paren of the d3.svg.axis function)
+problem: recent points disappear every time a new report comes in- fixed by calling displayRecentPoints() inside createRecentPoints- consequence is new points appear on page load BUT also appear when historical points on if new report comes in
+Adding this:
+if (! d3.selectAll(".point").classed("hidden")) { displayRecentPoints(); } 
+makes all recent and historical pts disppear when new report comes in but not if slider is displaying a certain year's points
 
 
 
 LATER:
 
--- take commas out of slider and display current year over sliding point
--- smooth animation- make points grow to full size and then disappear
--- memcached w a timeout every hour OR when new data is written to DB; script to connect to memcahced
+-- redis w a timeout every hour OR when new data is written to DB; script to connect to redis
 check if key exists:
 if not set it
 second run should display key
 set timeout (1 min) - test expiration
+
+-- CSS
+give each elt a class, don't refer by elt type
+css reset
+make buttons divs to avoid rectangular shadow- also easier to style
+
+-- Need to test handling when USGS is down
+-- smooth animation- make points grow to full size and then disappear - transition() is breaking something?
+-- use queue to async load: https://github.com/mbostock/queue
 -- make slider faster (more DOM manip = less performant)
 -- orthographic projection and interactive globe(drag and zoom)
 -- use geocoding API to take user to lat/lon of a given search location- include labels and resize radii

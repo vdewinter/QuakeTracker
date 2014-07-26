@@ -5,6 +5,8 @@
 // make hash table with d3 collection by year, track currently displayed year, 
 // collection#oldyear display: none; collection#newyear display:block
 
+
+// tooltip should only display info for a pt if pt if dipslay: block
 var width = 960,
     height = 500;
 
@@ -37,17 +39,6 @@ var pathRamp = d3.scale.linear()
     .range(["#7D26CD","#003EFF","teal","#00FF00",
         "yellow","orange","red","#B81324"]);
 
-// var drag = d3.behavior.drag()
-//     .origin(Object)
-//     .on("drag", dragMove);
-
-
-// function dragMove(d) {
-//     d3.select(this)
-//         .attr("cx", d.x = Math.max(r, Math.min(width - r, d3.event.x)))
-//         .attr("cy", d.y = Math.max(r, Math.min(height - r, d3.event.y)));
-// }
-
 function displayHistoricalQuakes() {
     d3.json("/read_quakes_from_db", function(error, points) {
         if (error) return console.error(error);
@@ -56,19 +47,74 @@ function displayHistoricalQuakes() {
     });
 }
 
-// this is diff from create points only in that this sets display: block, circles appended to g w other class, and class is .newPoint
-function displayRecentQuakes() {
-    // TODO: make these pulse (shrink/grow)
+// TODO: use queue to async load: https://github.com/mbostock/queue
+function displayMap(points) {
+    // land
+    d3.json("/static/world.json", function(error, world) {
+        if (error) return console.error(error);
+
+        svg.append("path")
+            .datum(topojson.feature(world, world.objects.subunits))
+            .attr("d", path)
+            .style("opacity", 0.7);
+        
+        // create points inside g elt once world.json has loaded
+        svg.append("g")
+            .attr("class", "historical");
+        svg.append("g")
+            .attr("class", "recent");
+        createHistoricalPoints(points);
+        createRecentPoints();
+    });
+
+    // fault lines
+    d3.json("/static/tectonics.json", function(error, data) {
+        if (error) return console.error(error);
+
+        svg.append("path")
+            .datum(topojson.feature(data, data.objects.tec))
+            .attr("class", "tectonic")
+            .attr("d", path)
+            .style("stroke", 0.1)
+            .style("fill", "white")
+            .style("opacity", 0.5);
+    });
+
+    //slider 
+    var currentYear = new Date().getFullYear();
+    d3.select("#slider")
+        .call(d3.slider()
+            .axis(d3.svg.axis().orient("bottom")
+            .ticks(15)
+            .tickFormat(function (d) {return d;}))
+            .min(1900)
+            .max(currentYear)
+            .step(1)
+            .on("slide", function(event, value) {
+                filterPoints(value);
+        }));
+}
+
+// TODO: make these pulse (shrink/grow)
+// this is diff from create points only in that this sets display: block, circles appended to g w other class, class is .newPoint, removes circles if data no longer attached
+function createRecentPoints() {
     d3.json("/new_earthquake", function(error, points) {
         if (error) return console.error(error);
         console.log(points);
-
         // make func where elt to append to and constant to divide circles by are params
-        d3.select(".recent")
+        var recentPoints = d3.select(".recent")
             .selectAll(".newPoint")
-            .data(points)
-            .enter().append("circle", ".newPoint")
+            .data(points);
+
+        recentPoints.enter().append("circle", ".newPoint");
+
+        recentPoints.exit()
+            .transition().attr("r", 0) // this might break bc below does
+            .remove();
+            
+        recentPoints
             .attr("class", "newPoint")
+            // .attr("r", 0).transition() // this line is making mouseover be considered an undefined func
             .attr("r", function(d) {
                 return Math.pow(10, Math.sqrt(d.magnitude))/40;
             })
@@ -97,57 +143,14 @@ function displayRecentQuakes() {
             //     .append("text")
             //     .attr("class", "txt");
     });
+    
+    // if (! d3.selectAll(".point").classed("hidden")) {
+    //     displayRecentPoints();
+    // }
+    
 }
 
-// TODO: use queue to async load: https://github.com/mbostock/queue
-function displayMap(points) {
-    // land
-    d3.json("/static/world.json", function(error, world) {
-        if (error) return console.error(error);
-
-        svg.append("path")
-            .datum(topojson.feature(world, world.objects.subunits))
-            .attr("d", path)
-            .style("opacity", 0.7);
-        
-        // create points inside g elt once world.json has loaded
-        svg.append("g")
-            .attr("class", "historical");
-        svg.append("g")
-            .attr("class", "recent");
-        createPoints(points);
-        displayRecentQuakes();
-    });
-
-    // fault lines
-    d3.json("/static/tectonics.json", function(error, data) {
-        if (error) return console.error(error);
-
-        svg.append("path")
-            .datum(topojson.feature(data, data.objects.tec))
-            .attr("class", "tectonic")
-            .attr("d", path)
-            .style("stroke", 0.1)
-            .style("fill", "white")
-            .style("opacity", 0.5);
-    });
-
-    //slider 
-    var currentYear = new Date().getFullYear();
-    d3.select("#slider")
-        .call(d3.slider()
-            .axis(d3.svg.axis().orient("bottom")
-            .ticks(15))
-            // .tickFormat(d3.format("d"))
-            .min(1900)
-            .max(currentYear)
-            .step(1)
-            .on("slide", function(event, value) {
-                filterPoints(value);
-        }));
-}
-
-function createPoints(points) {
+function createHistoricalPoints(points) {
     var pointsList = [];
     for (var year in points) {
         var yearPoints = points[year];
@@ -210,20 +213,24 @@ function filterPoints(value) {
 
 function displayHistoricalPoints() {
     d3.selectAll(".point")
-        .style("display", "block");
+        .style("display", "block")
+        .classed("hidden", false);
     d3.selectAll(".newPoint")
-        .style("display", "none");
+        .style("display", "none")
+        .classed("hidden", true);
 }
 
 function displayRecentPoints() {
     d3.selectAll(".newPoint")
-        .style("display", "block");
+        .style("display", "block")
+        .classed("hidden", false);
     d3.selectAll(".point")
-        .style("display", "none");
+        .style("display", "none")
+        .classed("hidden", true);
 }
 
+// legend and magnitude filter for M6+
 function filterByMagnitude() {
-    // legend
     newsvg.append("cirlce")
         .attr("r", function(d) {
         return Math.pow(10, Math.sqrt(6))/40;
@@ -260,6 +267,7 @@ function filterByMagnitude() {
     // for any point in db, if val = mag, display: block
 }
 
+// add drag behavior
 // ROTATION http://bl.ocks.org/mbostock/5731578
 // dragging: http://bl.ocks.org/mbostock/3795040 (globe) and http://bl.ocks.org/mbostock/1557377 (dragging) -- interactive, draggable globe
 function globeView() { // orthographic

@@ -30,6 +30,11 @@ class Quake(Base):
     latitude = Column(String(10))
     longitude = Column(String(10))
 
+class QuakeUpdate(Base):
+    __tablename__ = "quake_update"
+
+    update_time = Column(String(30), primary_key = True)
+
 def main():
     pass
 

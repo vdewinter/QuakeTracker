@@ -48,9 +48,8 @@
                 socket.emit("my event", {data: "I'm connected!"});
             });
 
-            socket.on("new_earthquake", function() { // listening?
-                console.log("listening?");
-                displayRecentQuakes();
+            socket.on("new_earthquake", function() {
+                createRecentPoints();
             })
 
             $("form#broadcast").click(function(e) {
@@ -76,7 +75,7 @@
             }
 
             socket.on('*',function(event, data) {
-                console.log('Event received: ' + event + ' - data:' + JSON.stringify(data));
+                console.log('Event received:');
             });
         });
 
