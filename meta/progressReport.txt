@@ -140,7 +140,7 @@ Need to figure out why the following did not work:
     adding transition to recent quake circles as they draw (breaks the mouseover handler)
 
 7/25/2014
-goal: front end review
+goal: filter by magnitude working
 
 fixed commas on years in slider (changed tickFormat and moved a paren of the d3.svg.axis function)
 problem: recent points disappear every time a new report comes in- fixed by calling displayRecentPoints() inside createRecentPoints- consequence is new points appear on page load BUT also appear when historical points on if new report comes in
@@ -148,9 +148,20 @@ Adding this:
 if (! d3.selectAll(".point").classed("hidden")) { displayRecentPoints(); } 
 makes all recent and historical pts disppear when new report comes in but not if slider is displaying a certain year's points
 
+7/26/2014
+day off
+
+7/27/2014
+goal: make new reports actually display points after deleting those from old report, add labels
+
+historical points are no longer disappearing when new reports come in - forgot what i changed there. Added a refreshPoints function to handle drawing new reports - thanks to this site: http://pothibo.com/2013/09/d3-js-how-to-handle-dynamic-json-data/
+other relevant notes - transition, enter and exit are separated since those three methods are not chainable. It also think it gives a boost on readability.
+
+
 
 
 LATER:
+-- filter by magnitude
 
 -- redis w a timeout every hour OR when new data is written to DB; script to connect to redis
 check if key exists:

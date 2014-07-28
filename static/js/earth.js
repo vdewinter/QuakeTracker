@@ -95,60 +95,59 @@ function displayMap(points) {
         }));
 }
 
-// TODO: make these pulse (shrink/grow)
-// this is diff from create points only in that this sets display: block, circles appended to g w other class, class is .newPoint, removes circles if data no longer attached
-function createRecentPoints() {
+
+var data = null;
+
+var createRecentPoints = function () {
     d3.json("/new_earthquake", function(error, points) {
         if (error) return console.error(error);
         console.log(points);
-        // make func where elt to append to and constant to divide circles by are params
-        var recentPoints = d3.select(".recent")
-            .selectAll(".newPoint")
-            .data(points);
-
-        recentPoints.enter().append("circle", ".newPoint");
-
-        recentPoints.exit()
-            .transition().attr("r", 0) // this might break bc below does
-            .remove();
-            
-        recentPoints
-            .attr("class", "newPoint")
-            // .attr("r", 0).transition() // this line is making mouseover be considered an undefined func
-            .attr("r", function(d) {
-                return Math.pow(10, Math.sqrt(d.magnitude))/40;
-            })
-            .style("fill", function(d) {
-                return (pathRamp(d.magnitude));
-            })
-            .attr("transform", function(d) {
-                return "translate(" + projection ([d.longitude, d.latitude]) + ")";
-            })
-            .style("display", "none")
-            .on("mouseover", function(d) {
-                console.log(d);
-                var date = new Date(parseInt(d.timestamp));
-                var str = (date.getUTCMonth() + 1) + "/" + date.getUTCDate() + "/" + date.getUTCFullYear();
-                console.log(str);
-                text.text("M" + parseFloat(d.magnitude).toFixed(1) + " on " + str);
-                tooltip.classed("hidden", false);
-            })
-            .on("mouseout", function() {
-                tooltip.classed("hidden", true);
-            });
-
-            circles = d3.selectAll("circle");
-            // add point labels here so they are drawn on top of all other layers
-            // var txt = d3.select("#tooltip")
-            //     .append("text")
-            //     .attr("class", "txt");
+        data = points;
+        refreshPoints();
     });
-    
-    // if (! d3.selectAll(".point").classed("hidden")) {
-    //     displayRecentPoints();
-    // }
-    
-}
+};
+
+var refreshPoints = function() {
+    var recentPoints = d3.select(".recent")
+        .selectAll(".newPoint")
+        .data(data);
+
+    recentPoints.enter().append("circle", ".newPoint")
+        .attr("class", "newPoint")
+        // .attr("r", 0).transition() // this line is making mouseover be considered an undefined func
+        .attr("r", function(d) {
+            return Math.pow(10, Math.sqrt(d.magnitude))/40;
+        })
+        .style("fill", function(d) {
+            return (pathRamp(d.magnitude));
+        })
+        .attr("transform", function(d) {
+            return "translate(" + projection ([d.longitude, d.latitude]) + ")";
+        })
+        .style("display", "none")
+        .on("mouseover", function(d) {
+            console.log(d);
+            var date = new Date(parseInt(d.timestamp));
+            var str = (date.getUTCMonth() + 1) + "/" + date.getUTCDate() + "/" + date.getUTCFullYear();
+            console.log(str);
+            text.text("M" + parseFloat(d.magnitude).toFixed(1) + " on " + str);
+            tooltip.classed("hidden", false);
+        })
+        .on("mouseout", function() {
+            tooltip.classed("hidden", true);
+        });
+
+    recentPoints.exit()
+        .remove();
+
+        // circles = d3.selectAll("circle");
+//         // // add point labels here so they are drawn on top of all other layers
+//         // // var txt = d3.select("#tooltip")
+//         // //     .append("text")
+//         // //     .attr("class", "txt");
+};
+// refreshPoints(); // this was in example- why is it needed there, and is it needed here?
+
 
 function createHistoricalPoints(points) {
     var pointsList = [];
@@ -211,6 +210,7 @@ function filterPoints(value) {
     }
 }
 
+// In the following, are the .classed methods needed?
 function displayHistoricalPoints() {
     d3.selectAll(".point")
         .style("display", "block")
