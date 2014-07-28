@@ -6,7 +6,13 @@
 // collection#oldyear display: none; collection#newyear display:block
 
 
-// tooltip should only display info for a pt if pt if dipslay: block
+var mouse = {x: 0, y: 0};
+
+document.addEventListener('mousemove', function(e){
+    mouse.x = e.clientX || e.pageX;
+    mouse.y = e.clientY || e.pageY;
+}, false);
+
 var width = 960,
     height = 500;
 
@@ -22,16 +28,6 @@ var svg = d3.select("body").append("svg")
 
 var newsvg = d3.select("newsvg")
     .attr("class", "magnitude-filter");
-
-var circles = null;
-
-var tooltip = d3.select("svg").append("div")
-    .attr("width", "50px")
-    .attr("height", "20px")
-    .attr("class", "hidden")
-    .attr("id", "tooltip");
-
-var text = d3.select("tooltip").append("text");
 
 // colors quake points by magnitude
 var pathRamp = d3.scale.linear()
@@ -95,9 +91,6 @@ function displayMap(points) {
         }));
 }
 
-
-var data = null;
-
 var createRecentPoints = function () {
     d3.json("/new_earthquake", function(error, points) {
         if (error) return console.error(error);
@@ -128,23 +121,28 @@ var refreshPoints = function() {
         .on("mouseover", function(d) {
             console.log(d);
             var date = new Date(parseInt(d.timestamp));
-            var str = (date.getUTCMonth() + 1) + "/" + date.getUTCDate() + "/" + date.getUTCFullYear();
+            var str = (date.getUTCMonth() + 1) + "/" + date.getUTCDate() + "/" + date.getUTCFullYear(); //also show time?
             console.log(str);
-            text.text("M" + parseFloat(d.magnitude).toFixed(1) + " on " + str);
-            tooltip.classed("hidden", false);
+            d3.select("#p1").text("M" + parseFloat(d.magnitude).toFixed(1));
+            d3.select("#p2").text(str);
+            
+            var xPos = mouse["x"] + 5;
+            var yPos = mouse["y"] + 5;
+
+            d3.select("#tooltip")
+                .classed("hidden", false)
+                .style("left", + xPos + "px")
+                .style("top", + yPos + "px");
         })
         .on("mouseout", function() {
-            tooltip.classed("hidden", true);
+            d3.select("#tooltip")
+                .classed("hidden", true);
         });
 
     recentPoints.exit()
         .remove();
 
-        // circles = d3.selectAll("circle");
-//         // // add point labels here so they are drawn on top of all other layers
-//         // // var txt = d3.select("#tooltip")
-//         // //     .append("text")
-//         // //     .attr("class", "txt");
+//  add point labels here so they are drawn on top of all other layers
 };
 // refreshPoints(); // this was in example- why is it needed there, and is it needed here?
 
@@ -174,35 +172,33 @@ function createHistoricalPoints(points) {
         })
         .style("display", "none")
 
-        //  something is awry here-- seeing multiple mags and dates in tooltip
-        // append rect to svg and set x, y to center of circles- caution- can't dynamically style size- only display tooltip for elts not hidden
         .on("mouseover", function(d) {
             var tooltip = d3.select("#tooltip");
             console.log(d);
             var date = new Date(parseInt(d.timestamp));
             var str = (date.getUTCMonth() + 1) + "/" + date.getUTCDate() + "/" + date.getUTCFullYear();
-            text.text("M" + parseFloat(d.magnitude).toFixed(1) + " on " + str);
-            
-            tooltip.classed("hidden", false);
-                // where do these go- not working
-            // tooltip.html(d)
-            //     .style("left", d + "px")
-            //     .style("top", d + "px");
+            console.log(str);
+            d3.select("#p1").text("M" + parseFloat(d.magnitude).toFixed(1));
+            d3.select("#p2").text(str);
+
+            var xPos = mouse["x"] + 5;
+            var yPos = mouse["y"]+ 5;
+
+            d3.select("#tooltip")
+                .classed("hidden", false)
+                .style("left", + xPos + "px")
+                .style("top", + yPos + "px");
         })
         .on("mouseout", function() {
             d3.select("#tooltip")
                 .classed("hidden", true);
         });
-
-        circles = d3.selectAll("circle");
-        // add point labels here so they are drawn on top of all other layers
-        var text = d3.select("#tooltip")
-            .append("text");
+        // was adding labels here so they are drawn on top of all other layers
 }
 
 function filterPoints(value) {
     if (dataset.hasOwnProperty(value)) {
-        circles
+        d3.selectAll("circle")
             .style("display", function(d) {
                 year = new Date(d.timestamp).getUTCFullYear();
                 return (year === value) ? "block" : "none";

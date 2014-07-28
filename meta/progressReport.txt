@@ -169,6 +169,8 @@ if not set it
 second run should display key
 set timeout (1 min) - test expiration
 
+- zoom functionality
+
 -- CSS
 give each elt a class, don't refer by elt type
 css reset

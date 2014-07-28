@@ -15,10 +15,12 @@ body {
 }
 
 #tooltip {
+    left: 286px; 
+    top: 185px;;
     position: absolute;
     width: auto;
-    height: auto;
-    padding: 10px;
+    height: 39px;
+    padding: 5px;
     background-color: white;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
@@ -30,6 +32,7 @@ body {
     font-family: "HelveticaNeue-Light";
 }
 
+/* needed? */
 #tooltip.hidden {
     display: none;
 }
