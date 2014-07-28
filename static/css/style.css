@@ -25,9 +25,9 @@ body {
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border-radius: 10px;
-    -webkit-box-shadow: 2px 2px 3px rgba(255, 0, 0, 0.4);
-    -moz-box-shadow: 2px 2px 3px rgba(255, 0, 0, 0.4);
-    box-shadow: 2px 2px 3px rgba(255, 0, 0, 0.4);
+    -webkit-box-shadow: 1px 1px 2px rgba(255, 0, 0, 0.4);
+    -moz-box-shadow: 1px 1px 2px rgba(255, 0, 0, 0.4);
+    box-shadow: 1px 1px 2px rgba(255, 0, 0, 0.4);
     pointer-events: none;
     font-family: "HelveticaNeue-Light";
 }
@@ -44,13 +44,37 @@ body {
     line-height: 20px;
 }
 
+#slider-tooltip {
+    left: 286px; 
+    top: 705px;;
+    position: absolute;
+    width: auto;
+    height: 10px;
+    padding: 5px;
+    pointer-events: none;
+    font-family: "HelveticaNeue-Light";
+}
+
+/* needed? */
+#slider-tooltip.hidden {
+    display: none;
+}
+
+#slider-tooltip p {
+    margin: 0;
+    font-family: "HelveticaNeue-Light";
+    font-size: 8px;
+    line-height: 20px;
+}
+
 #slider {
     width: 950px;
     margin-left: 30px;
 }
 
 #slider-title {
-    margin: 2px 30px;
+    margin-left: 30px;
+    margin-bottom: 30px;
     color: #42827E;
     font-family: "HelveticaNeue-Light";
 }
@@ -78,7 +102,7 @@ body {
 }
 
 input {
-    margin: 8px 5px 8px 30px;
+    margin: 8px 5px 5px 25px;
     background: #00A89D;
     color: #FFFFFF;
     font-family: "HelveticaNeue-Light";
@@ -87,15 +111,27 @@ input {
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border-radius: 10px;
-    -webkit-box-shadow: 2px 2px 3px rgba(255, 0, 0, 0.4);
-    -moz-box-shadow: 2px 2px 3px rgba(255, 0, 0, 0.4);
-    box-shadow: 2px 2px 3px rgba(255, 0, 0, 0.4);
+    -webkit-box-shadow: 1px 1px 2px rgba(255, 0, 0, 0.4);
+    -moz-box-shadow: 1px 1px 2px rgba(255, 0, 0, 0.4);
+    box-shadow: 1px 1px 2px rgba(255, 0, 0, 0.4);
     font-size: 90%;
 }
 
 /*not working as intended*/
 #filter-by-magnitude {
-    margin-left: 30px;
+    margin: -44px 5px 8px 25px;
+    float: left;
+    width: 430px;
+    height: 100px;
+    padding: 10px;
+    background-color: white;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: 1px 1px 2px rgba(255, 0, 0, 0.4);
+    -moz-box-shadow: 1px 1px 2px rgba(255, 0, 0, 0.4);
+    box-shadow: 1px 1px 2px rgba(255, 0, 0, 0.4);
+    font-family: "HelveticaNeue-Light";
 }
 
 /*.plates {

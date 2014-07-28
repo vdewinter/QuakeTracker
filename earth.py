@@ -24,10 +24,10 @@ def background_thread():
     last_update = db_last_update.update_time # set to what's in db
 
     while True:
-        time.sleep(15)
+        time.sleep(60)
         count += 1
         new_earthquake = handle_new_quake_json()
-        socketio.emit("new_earthquake", new_earthquake) # without reloading page, add points to svg
+        socketio.emit("new_earthquake", new_earthquake)
         new_earthquake = json.loads(new_earthquake, "latin-1")
         write_new_quakes_to_db(new_earthquake)
 

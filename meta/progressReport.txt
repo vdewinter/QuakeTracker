@@ -157,6 +157,9 @@ goal: make new reports actually display points after deleting those from old rep
 historical points are no longer disappearing when new reports come in - forgot what i changed there. Added a refreshPoints function to handle drawing new reports - thanks to this site: http://pothibo.com/2013/09/d3-js-how-to-handle-dynamic-json-data/
 other relevant notes - transition, enter and exit are separated since those three methods are not chainable. It also think it gives a boost on readability.
 
+Succesfully added tooltip- was easier to use mouse position (after adding mouse event handler) than getting x,y of circles.
+
+Noticed some magnitudes aren't corresponding to correct color.
 
 
 
@@ -176,6 +179,7 @@ give each elt a class, don't refer by elt type
 css reset
 make buttons divs to avoid rectangular shadow- also easier to style
 
+-- Could inclue "place" in label and time for recent quakes
 -- Need to test handling when USGS is down
 -- smooth animation- make points grow to full size and then disappear - transition() is breaking something?
 -- use queue to async load: https://github.com/mbostock/queue

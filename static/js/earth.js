@@ -5,7 +5,6 @@
 // make hash table with d3 collection by year, track currently displayed year, 
 // collection#oldyear display: none; collection#newyear display:block
 
-
 var mouse = {x: 0, y: 0};
 
 document.addEventListener('mousemove', function(e){
@@ -26,14 +25,12 @@ var svg = d3.select("body").append("svg")
     .attr("height", height)
     .attr("class", "map");
 
-var newsvg = d3.select("newsvg")
-    .attr("class", "magnitude-filter");
-
 // colors quake points by magnitude
 var pathRamp = d3.scale.linear()
     .domain([2,3,4,5,6,7,8,9])
-    .range(["#7D26CD","#003EFF","teal","#00FF00",
+    .range(["#9B30FF","#003EFF","teal","#00FF00",
         "yellow","orange","red","#B81324"]);
+
 
 function displayHistoricalQuakes() {
     d3.json("/read_quakes_from_db", function(error, points) {
@@ -87,6 +84,11 @@ function displayMap(points) {
             .max(currentYear)
             .step(1)
             .on("slide", function(event, value) {
+                d3.select("#slider-tooltip")
+                    .classed("hidden", false)
+                    .style("left", + mouse["x"] + "px")
+                    .text(value);
+
                 filterPoints(value);
         }));
 }
@@ -107,12 +109,13 @@ var refreshPoints = function() {
 
     recentPoints.enter().append("circle", ".newPoint")
         .attr("class", "newPoint")
-        // .attr("r", 0).transition() // this line is making mouseover be considered an undefined func
+        // .attr("r", 0).transition()
+        // .duration(1000) // these lines is making mouseover be considered an undefined func
         .attr("r", function(d) {
             return Math.pow(10, Math.sqrt(d.magnitude))/40;
         })
         .style("fill", function(d) {
-            return (pathRamp(d.magnitude));
+            return (pathRamp(Math.floor(d.magnitude)));
         })
         .attr("transform", function(d) {
             return "translate(" + projection ([d.longitude, d.latitude]) + ")";
@@ -126,7 +129,7 @@ var refreshPoints = function() {
             d3.select("#p1").text("M" + parseFloat(d.magnitude).toFixed(1));
             d3.select("#p2").text(str);
             
-            var xPos = mouse["x"] + 5;
+            var xPos = mouse["x"] + 10;
             var yPos = mouse["y"] + 5;
 
             d3.select("#tooltip")
@@ -141,8 +144,6 @@ var refreshPoints = function() {
 
     recentPoints.exit()
         .remove();
-
-//  add point labels here so they are drawn on top of all other layers
 };
 // refreshPoints(); // this was in example- why is it needed there, and is it needed here?
 
@@ -162,10 +163,10 @@ function createHistoricalPoints(points) {
         .enter().append("circle", ".point")
         .attr("class", "point")
         .attr("r", function(d) {
-            return Math.pow(10, Math.sqrt(d.magnitude))/100;
+            return Math.pow(10, Math.sqrt(d.magnitude))/90;
         })
         .style("fill", function(d) {
-            return (pathRamp(d.magnitude));
+            return (pathRamp(Math.floor(d.magnitude)));
         })
         .attr("transform", function(d) {
             return "translate(" + projection ([d.longitude, d.latitude]) + ")";
@@ -193,7 +194,6 @@ function createHistoricalPoints(points) {
             d3.select("#tooltip")
                 .classed("hidden", true);
         });
-        // was adding labels here so they are drawn on top of all other layers
 }
 
 function filterPoints(value) {
@@ -206,27 +206,27 @@ function filterPoints(value) {
     }
 }
 
-// In the following, are the .classed methods needed?
 function displayHistoricalPoints() {
     d3.selectAll(".point")
-        .style("display", "block")
-        .classed("hidden", false);
+        .style("display", "block");
     d3.selectAll(".newPoint")
-        .style("display", "none")
-        .classed("hidden", true);
+        .style("display", "none");
 }
 
 function displayRecentPoints() {
     d3.selectAll(".newPoint")
-        .style("display", "block")
-        .classed("hidden", false);
+        .style("display", "block");
     d3.selectAll(".point")
-        .style("display", "none")
-        .classed("hidden", true);
+        .style("display", "none");
 }
 
 // legend and magnitude filter for M6+
 function filterByMagnitude() {
+    var newsvg = d3.select("#filter-by-magnitude")
+        .append("newsvg")
+        .attr("height", "80px")
+        .attr("width", "300px");
+
     newsvg.append("cirlce")
         .attr("r", function(d) {
         return Math.pow(10, Math.sqrt(6))/40;

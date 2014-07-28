@@ -30,14 +30,16 @@
 
     <div id="filter-by-magnitude">
         <p>Filter by Magnitude</p>
-        <newsvg></newsvg>
     </div>
 
-    <br>
+    <div id="slider-tooltip" class="hidden">
+        <p id="slider-year"></p>
+    </div>
 
     <div id="slider-title">Earthquakes Since 1900 (M6+)</div>
     <br>
     <div id="slider"></div>
+
 
     <script type="text/javascript">
         var dataset = 1;
@@ -63,9 +65,9 @@
                 displayHistoricalPoints();
             });
 
-            $("filter-by-magnitude").click(function(e) {
-
-            })
+            // $("filter-by-magnitude").click(function(e) {
+            //     filterByMagnitude();
+            // })
 
             var original_$emit = socket.$emit;
             socket.$emit = function() {
