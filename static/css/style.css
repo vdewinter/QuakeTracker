@@ -80,6 +80,10 @@ body {
     border-radius: 10px;
 }
 
+.main-g {
+    pointer-events: all;
+}
+
 .d3-slider-axis {
     background-color: #FFFFFF;
 }
@@ -98,37 +102,22 @@ input {
     font-size: 75%;
 }
 
-#broadcast {
-
-}
-
-#show-all-quakes {
-
-}
-
-/*not working as intended*/
 #filter-by-magnitude {
-    float: right;
+    float: left;
     width: 45%;
     height: 70px;
-    margin-top: -30px;
+    margin-top: -15px;
     margin-right: 1.858736059%;
     font-family: "HelveticaNeue-Light";
 }
 
-div {
+/*div {
     border: solid;
-}
+}*/
 
 .container {
     margin-left: 30px;
     margin-top: 5px;
     width: 960px;
     height: 60px;
-}
-
-/*.plates {
-    fill: none;
-    stroke: #000;
-    opacity: 0.5;
 }

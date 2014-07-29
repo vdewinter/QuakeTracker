@@ -23,10 +23,20 @@ var path = d3.geo.path()
 var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height)
-    .attr("class", "map");
+    .attr("class", "map")
+    .append("g")
+    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
+    .call(zoom);
 
-var g = svg.append("g")
-    .attr("class", "main-g");
+var g = svg.append("g");
+
+// overlay
+svg.append("rect")
+    .attr("class", "overlay")
+    .attr("x", -width / 2)
+    .attr("y", -height / 2)
+    .attr("width", width)
+    .attr("height", height);
 
 // colors quake points by magnitude
 var pathRamp = d3.scale.linear()
@@ -39,12 +49,12 @@ var zoom = d3.behavior.zoom()
     .on("zoom", move);
 
 function move() {
-  var t = d3.event.translate,
+    var t = d3.event.translate,
       s = d3.event.scale;
-  t[0] = Math.min(width / 2 * (s - 1), Math.max(width / 2 * (1 - s), t[0]));
-  t[1] = Math.min(height / 2 * (s - 1) + 230 * s, Math.max(height / 2 * (1 - s) - 230 * s, t[1]));
-  zoom.translate(t);
-  d3.select(".main-g").style("stroke-width", 1 / s).attr("transform", "translate(" + t + ")scale(" + s + ")");
+    t[0] = Math.min(width / 2 * (s - 1), Math.max(width / 2 * (1 - s), t[0]));
+    t[1] = Math.min(height / 2 * (s - 1) + 230 * s, Math.max(height / 2 * (1 - s) - 230 * s, t[1]));
+    zoom.translate(t);
+    g.style("stroke-width", 1 / s).attr("transform", "translate(" + t + ")scale(" + s + ")");
 }
 
 function displayHistoricalQuakes() {
@@ -61,15 +71,15 @@ function displayMap(points) {
     d3.json("/static/world.json", function(error, world) {
         if (error) return console.error(error);
 
-        svg.append("path")
+        g.append("path")
             .datum(topojson.feature(world, world.objects.subunits))
             .attr("d", path)
             .style("opacity", 0.7);
         
         // create points inside g elt once world.json has loaded
-        svg.append("g")
+        g.append("g")
             .attr("class", "historical");
-        svg.append("g")
+        g.append("g")
             .attr("class", "recent");
         createHistoricalPoints(points);
         createRecentPoints();
@@ -79,7 +89,7 @@ function displayMap(points) {
     d3.json("/static/tectonics.json", function(error, data) {
         if (error) return console.error(error);
 
-        svg.append("path")
+        g.append("path")
             .datum(topojson.feature(data, data.objects.tec))
             .attr("class", "tectonic")
             .attr("d", path)
@@ -108,105 +118,50 @@ function displayMap(points) {
         }));
 
     var newsvg = d3.select("#filter-by-magnitude")
-        .append("svg")
-        .attr("class", "newsvg")
-        .attr("height", "60px")
-        .attr("width", "400px");
+        .append("newsvg")
+        .attr("height", "50px")
+        .attr("width", "200px");
 
-    newsvg.append("circle")
-        .attr("r", function() {
-        return Math.pow(10, Math.sqrt(2))/10;
+    newsvg.append("cirlce")
+        .attr("r", function(d) {
+        return Math.pow(10, Math.sqrt(6))/40;
         })
-        .style("fill", function() {
-            return (pathRamp(2));
-        })
-        .attr("cx", function() {
-            return d3.select(this).attr("r") * 10 + 20;
-        })
-        .attr("cy", "30");
-        
-    newsvg.append("circle")
-        .attr("r", function() {
-        return Math.pow(10, Math.sqrt(3))/10;
-        })
-        .style("fill", function() {
-            return (pathRamp(3));
-        })
-        .attr("cx", function() {
-            return d3.select(this).attr("r") * 10 + 10;
-        })
-        .attr("cy", "30");
-    newsvg.append("circle")
-        .attr("r", function() {
-        return Math.pow(10, Math.sqrt(4))/15;
-        })
-        .style("fill", function() {
-            return (pathRamp(4));
-        })
-        .attr("cx", function() {
-            return d3.select(this).attr("r") * 10 + 20;
-        })
-        .attr("cy", "30");
-    newsvg.append("circle")
-        .attr("r", function() {
-        return Math.pow(10, Math.sqrt(5))/20;
-        })
-        .style("fill", function() {
-            return (pathRamp(5));
-        })
-        .attr("cx", function() {
-            return d3.select(this).attr("r") * 10 + 25;
-        })
-        .attr("cy", "30");
-
-    // when only historical data is displayed, show these; otherwise show these + smaller ones
-    newsvg.append("circle")
-        .attr("r", function() {
-        return Math.pow(10, Math.sqrt(6))/25;
-        })
-        .style("fill", function() {
+        .style("fill", function(d) {
             return (pathRamp(6));
         })
-        .attr("cx", function() {
-            return d3.select(this).attr("r") * 10 + 28;
-        })
-        .attr("cy", "30");
+        .style("left", "30px");
 
-   newsvg.append("circle")
-        .attr("r", function() {
-        return Math.pow(10, Math.sqrt(7))/30;
+   newsvg.append("cirlce")
+        .attr("r", function(d) {
+        return Math.pow(10, Math.sqrt(7))/40;
         })
-        .style("fill", function() {
+        .style("fill", function(d) {
             return (pathRamp(7));
         })
-        .attr("cx", function() {
-            return d3.select(this).attr("r") * 10 + 30;
-        })
-        .attr("cy", "30");
+        .style("left", "50px");
 
-    newsvg.append("circle")
-        .attr("r", function() {
+    newsvg.append("cirlce")
+        .attr("r", function(d) {
         return Math.pow(10, Math.sqrt(8))/40;
         })
-        .style("fill", function() {
+        .style("fill", function(d) {
             return (pathRamp(8));
         })
-        .attr("cx", function() {
-            return d3.select(this).attr("r") * 10 + 50;
-        })
-        .attr("cy", "30");
+        .style("left", "70px");
 
-    newsvg.append("circle")
-        .attr("r", function() {
+    newsvg.append("cirlce")
+        .attr("r", function(d) {
         return Math.pow(10, Math.sqrt(9))/40;
         })
-        .style("fill", function() {
+        .style("fill", function(d) {
             return (pathRamp(9));
         })
-        .attr("cx", function() {
-            return d3.select(this).attr("r") * 10 + 24;
-        })
-        .attr("cy", "30");
+        .style("left", "90px");
+
+    // turn all current points off
+    // for any point in db, if val = mag, display: block
+    // update legend func
+    // use jquery to select all circles of w/e class, get fill for each, add them to an object, append a circle to newsvg
 }
 
 var createRecentPoints = function () {
@@ -224,7 +179,7 @@ var refreshPoints = function() {
         .data(data);
 
     recentPoints.enter().append("circle", ".newPoint")
-        .attr("class", "newPoint circle")
+        .attr("class", "newPoint")
         // .attr("r", 0).transition()
         // .duration(1000) // these lines is making mouseover be considered an undefined func
         .attr("r", function(d) {
@@ -275,7 +230,7 @@ function createHistoricalPoints(points) {
         .selectAll(".point")
         .data(pointsList)
         .enter().append("circle", ".point")
-        .attr("class", "point circle")
+        .attr("class", "point")
         .attr("r", function(d) {
             return Math.pow(10, Math.sqrt(d.magnitude))/90;
         })
@@ -312,7 +267,7 @@ function createHistoricalPoints(points) {
 
 function filterPoints(value) {
     if (dataset.hasOwnProperty(value)) {
-        d3.selectAll(".circle")
+        d3.selectAll("circle")
             .style("display", function(d) {
                 year = new Date(d.timestamp).getUTCFullYear();
                 return (year === value) ? "block" : "none";
@@ -333,11 +288,6 @@ function displayRecentPoints() {
     d3.selectAll(".point")
         .style("display", "none");
 }
-
-    // turn all current points off
-    // for any point in db, if val = mag, display: block
-    // update legend func
-    // use jquery to select all circles of w/e class, get fill for each, add them to an object, append a circle to newsvg
 
 // add drag behavior
 // ROTATION http://bl.ocks.org/mbostock/5731578
@@ -362,4 +312,5 @@ function globeView() { // orthographic
 //         })
 //         .call(drag);
 }
+
 

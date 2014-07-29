@@ -177,8 +177,19 @@ don't use eval
 7/27/2014
 goal: add zoom and potentially draggable globe view, get filter by magnitude working, start working with redis
 
+a note about d3 - to add 2 classes, don't use .attr first but use .attr("class", "newPoint circle")
+circles for filter by magnitude drawn and spaced well
+
+zoom- http://bl.ocks.org/mbostock/4987520- try leaving out overlay
 
 LATER:
+
+-- optimize js performance- move scripts to end of body
+look into caching http://betterexplained.com/articles/how-to-optimize-your-site-with-http-caching/
+https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Tips_for_authoring_fast-loading_HTML_pages
+slider should have buffer to group several mouse pts together
+underscore js debounce func- only executes func after certain amt of time
+backbone - fe mvc
 
 -- use an IFEE
 
@@ -194,18 +205,21 @@ set timeout (1 min) - test expiration
 
 -- make site repsonsive (consider writing a custom timeline to deal- responsive)
 
+-- Need to test handling when USGS is down
+
+-- make slider faster (more DOM manip = less performant)
+
 -- CSS
 give each elt a class, don't refer by elt type
 css reset
 make buttons divs to avoid rectangular shadow- also easier to style
 
+Extras
+
 -- Could inclue "place" in label and time for recent quakes
--- Need to test handling when USGS is down
 -- smooth animation- make points grow to full size and then disappear - transition() is breaking something?
 -- use queue to async load: https://github.com/mbostock/queue
--- make slider faster (more DOM manip = less performant)
 -- orthographic projection and interactive globe(drag and zoom) - the points would need their clipping param adjusted
--- use geocoding API to take user to lat/lon of a given search location- include labels and resize radii
 -- migrate to postgres
 -- deploy on heroku
 
