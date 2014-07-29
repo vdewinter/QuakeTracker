@@ -91,6 +91,44 @@ function displayMap(points) {
 
                 filterPoints(value);
         }));
+
+    var newsvg = d3.select("#filter-by-magnitude")
+        .append("newsvg")
+        .attr("height", "80px")
+        .attr("width", "300px");
+
+    newsvg.append("cirlce")
+        .attr("r", function(d) {
+        return Math.pow(10, Math.sqrt(6))/40;
+        })
+        .style("fill", function(d) {
+            return (pathRamp(6));
+        });
+
+   newsvg.append("cirlce")
+        .attr("r", function(d) {
+        return Math.pow(10, Math.sqrt(7))/40;
+        })
+        .style("fill", function(d) {
+            return (pathRamp(7));
+        });
+
+    newsvg.append("cirlce")
+        .attr("r", function(d) {
+        return Math.pow(10, Math.sqrt(8))/40;
+        })
+        .style("fill", function(d) {
+            return (pathRamp(8));
+        });
+
+    newsvg.append("cirlce")
+        .attr("r", function(d) {
+        return Math.pow(10, Math.sqrt(9))/40;
+        })
+        .style("fill", function(d) {
+            return (pathRamp(9));
+        });
+
 }
 
 var createRecentPoints = function () {
@@ -222,11 +260,6 @@ function displayRecentPoints() {
 
 // legend and magnitude filter for M6+
 function filterByMagnitude() {
-    var newsvg = d3.select("#filter-by-magnitude")
-        .append("newsvg")
-        .attr("height", "80px")
-        .attr("width", "300px");
-
     newsvg.append("cirlce")
         .attr("r", function(d) {
         return Math.pow(10, Math.sqrt(6))/40;
@@ -261,6 +294,8 @@ function filterByMagnitude() {
 
     // turn all current points off
     // for any point in db, if val = mag, display: block
+    // update legend func
+    // use jquery to select all circles of w/e class, get fill for each, add them to an object, append a circle to newsvg
 }
 
 // add drag behavior

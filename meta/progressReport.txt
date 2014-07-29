@@ -157,13 +157,31 @@ goal: make new reports actually display points after deleting those from old rep
 historical points are no longer disappearing when new reports come in - forgot what i changed there. Added a refreshPoints function to handle drawing new reports - thanks to this site: http://pothibo.com/2013/09/d3-js-how-to-handle-dynamic-json-data/
 other relevant notes - transition, enter and exit are separated since those three methods are not chainable. It also think it gives a boost on readability.
 
-Succesfully added tooltip- was easier to use mouse position (after adding mouse event handler) than getting x,y of circles.
+newsvg is 0 by 0- investigate why
 
-Noticed some magnitudes aren't corresponding to correct color.
+Succesfully added tooltip- was easier to use mouse position (after adding mouse event handler) than getting x,y of circles. Added years above slider handle with tooltip div technique. Need reponsive design because I'm using a constant margin-top on the slider tooltip.
 
+Noticed some magnitudes aren't corresponding to correct color- used Math.floor() to fix.
+
+watched Douglas Crockford videos on JS
+key ideas:
+loose typing
+objects as general containers
+prototypical inheritance
+lambda (funcs as first class citizens)
+linkage thru global vars- global window object- use IFEE to avoid destruction, no block scope
+don't use eval
+
+
+
+7/27/2014
+goal: get filter by magnitude working, start working with redis
 
 
 LATER:
+
+-- use an IFEE
+
 -- filter by magnitude
 
 -- redis w a timeout every hour OR when new data is written to DB; script to connect to redis
@@ -172,7 +190,9 @@ if not set it
 second run should display key
 set timeout (1 min) - test expiration
 
-- zoom functionality
+-- zoom functionality
+
+-- make site repsonsive
 
 -- CSS
 give each elt a class, don't refer by elt type
