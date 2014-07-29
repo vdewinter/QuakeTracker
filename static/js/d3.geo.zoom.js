@@ -56,17 +56,17 @@ function position(projection, point) {
 }
 
 function quaternionFromEuler(euler) {
-  var Î» = .5 * euler[0] * radians,
-      Ï† = .5 * euler[1] * radians,
-      Î³ = .5 * euler[2] * radians,
-      sinÎ» = Math.sin(Î»), cosÎ» = Math.cos(Î»),
-      sinÏ† = Math.sin(Ï†), cosÏ† = Math.cos(Ï†),
-      sinÎ³ = Math.sin(Î³), cosÎ³ = Math.cos(Î³);
+  var iHat = 0.5 * euler[0] * radians,
+      iCross = 0.5 * euler[1] * radians,
+      iThree = 0.5 * euler[2] * radians,
+      siniHat = Math.sin(iHat), cosiHat = Math.cos(iHat),
+      siniCross = Math.sin(iCross), cosiCross = Math.cos(iCross),
+      siniThree = Math.sin(iThree), cosiThree = Math.cos(iThree);
   return [
-    cosÎ» * cosÏ† * cosÎ³ + sinÎ» * sinÏ† * sinÎ³,
-    sinÎ» * cosÏ† * cosÎ³ - cosÎ» * sinÏ† * sinÎ³,
-    cosÎ» * sinÏ† * cosÎ³ + sinÎ» * cosÏ† * sinÎ³,
-    cosÎ» * cosÏ† * sinÎ³ - sinÎ» * sinÏ† * cosÎ³
+    cosiHat * cosiCross * cosiThree + siniHat * siniCross * siniThree,
+    siniHat * cosiCross * cosiThree - cosiHat * siniCross * siniThree,
+    cosiHat * siniCross * cosiThree + siniHat * cosiCross * siniThree,
+    cosiHat * cosiCross * siniThree - siniHat * siniCross * cosiThree
   ];
 }
 
@@ -85,9 +85,9 @@ function rotateBetween(a, b) {
   if (!a || !b) return;
   var axis = cross(a, b),
       norm = Math.sqrt(dot(axis, axis)),
-      halfÎ³ = .5 * Math.acos(Math.max(-1, Math.min(1, dot(a, b)))),
-      k = Math.sin(halfÎ³) / norm;
-  return norm && [Math.cos(halfÎ³), axis[2] * k, -axis[1] * k, axis[0] * k];
+      halfiThree = 0.5 * Math.acos(Math.max(-1, Math.min(1, dot(a, b)))),
+      k = Math.sin(halfiThree) / norm;
+  return norm && [Math.cos(halfiThree), axis[2] * k, -axis[1] * k, axis[0] * k];
 }
 
 function eulerFromQuaternion(q) {
@@ -99,13 +99,13 @@ function eulerFromQuaternion(q) {
 }
 
 function cartesian(spherical) {
-  var Î» = spherical[0] * radians,
-      Ï† = spherical[1] * radians,
-      cosÏ† = Math.cos(Ï†);
+  var iHat = spherical[0] * radians,
+      iCross = spherical[1] * radians,
+      cosiCross = Math.cos(iCross);
   return [
-    cosÏ† * Math.cos(Î»),
-    cosÏ† * Math.sin(Î»),
-    Math.sin(Ï†)
+    cosiCross * Math.cos(iHat),
+    cosiCross * Math.sin(iHat),
+    Math.sin(iCross)
   ];
 }
 

@@ -16,34 +16,26 @@
     <link rel="stylesheet" href="static/d3Slider/d3.slider.css"/>
     <script type="text/javascript" src="static/js/socket.io.min.js"></script>
 
-    
-    <h3 class="project-title">Quake Tracker</h3>
-
     <div id="tooltip" class="hidden">
         <p id="p1"></p>
         <p id="p2"></p>
     </div>
 
-    <form id="broadcast" method='GET' action='#'>
-        <input type="button" name="broadcast_data" id="broadcast_data" value="M2.5+ Earthquakes in the Last Week">
-    </form>
+    <h3 class="project-title">Quake Tracker</h3>
 
-    <input type="button" name="show-all-quakes" id="show-all-quakes" value="All M6+ earthquakes since 1900"> 
-
-    <div id="filter-by-magnitude">
-        <p>Filter by Magnitude</p>
-    </div>
-
-    <br><br><br><br><br>
-
-    <div id="slider-tooltip" class="hidden">
-        <p id="slider-year"></p>
+    <div class="container">
+        <form id="broadcast" method='GET' action='#'>
+            <input type="button" name="broadcast_data" id="broadcast_data" value="M2.5+ in the Last Week">
+        </form>
+        <input type="button" name="show-all-quakes" id="show-all-quakes" value="All M6+ since 1900"> 
+        <div id="filter-by-magnitude"></div>
     </div>
 
     <div id="slider-title">Earthquakes Since 1900 (M6+)</div>
-    <br>
+    <div id="slider-tooltip" class="hidden">
+        <p id="slider-year"></p>
+    </div>
     <div id="slider"></div>
-
 
     <script type="text/javascript">
         var dataset = 1;

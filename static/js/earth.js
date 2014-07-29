@@ -25,12 +25,27 @@ var svg = d3.select("body").append("svg")
     .attr("height", height)
     .attr("class", "map");
 
+var g = svg.append("g")
+    .attr("class", "main-g");
+
 // colors quake points by magnitude
 var pathRamp = d3.scale.linear()
     .domain([2,3,4,5,6,7,8,9])
     .range(["#9B30FF","#003EFF","teal","#00FF00",
         "yellow","orange","red","#B81324"]);
 
+var zoom = d3.behavior.zoom()
+    .scaleExtent([1,8])
+    .on("zoom", move);
+
+function move() {
+  var t = d3.event.translate,
+      s = d3.event.scale;
+  t[0] = Math.min(width / 2 * (s - 1), Math.max(width / 2 * (1 - s), t[0]));
+  t[1] = Math.min(height / 2 * (s - 1) + 230 * s, Math.max(height / 2 * (1 - s) - 230 * s, t[1]));
+  zoom.translate(t);
+  d3.select(".main-g").style("stroke-width", 1 / s).attr("transform", "translate(" + t + ")scale(" + s + ")");
+}
 
 function displayHistoricalQuakes() {
     d3.json("/read_quakes_from_db", function(error, points) {
@@ -69,7 +84,7 @@ function displayMap(points) {
             .attr("class", "tectonic")
             .attr("d", path)
             .style("stroke", 0.1)
-            .style("fill", "white")
+            .style("fill", "#EEEEEE")
             .style("opacity", 0.5);
     });
 
@@ -86,7 +101,7 @@ function displayMap(points) {
             .on("slide", function(event, value) {
                 d3.select("#slider-tooltip")
                     .classed("hidden", false)
-                    .style("left", + mouse["x"] + "px")
+                    .style("left", + (mouse["x"] - 12) + "px")
                     .text(value);
 
                 filterPoints(value);
@@ -94,8 +109,8 @@ function displayMap(points) {
 
     var newsvg = d3.select("#filter-by-magnitude")
         .append("newsvg")
-        .attr("height", "80px")
-        .attr("width", "300px");
+        .attr("height", "50px")
+        .attr("width", "200px");
 
     newsvg.append("cirlce")
         .attr("r", function(d) {
@@ -103,7 +118,8 @@ function displayMap(points) {
         })
         .style("fill", function(d) {
             return (pathRamp(6));
-        });
+        })
+        .style("left", "30px");
 
    newsvg.append("cirlce")
         .attr("r", function(d) {
@@ -111,7 +127,8 @@ function displayMap(points) {
         })
         .style("fill", function(d) {
             return (pathRamp(7));
-        });
+        })
+        .style("left", "50px");
 
     newsvg.append("cirlce")
         .attr("r", function(d) {
@@ -119,7 +136,8 @@ function displayMap(points) {
         })
         .style("fill", function(d) {
             return (pathRamp(8));
-        });
+        })
+        .style("left", "70px");
 
     newsvg.append("cirlce")
         .attr("r", function(d) {
@@ -127,7 +145,8 @@ function displayMap(points) {
         })
         .style("fill", function(d) {
             return (pathRamp(9));
-        });
+        })
+        .style("left", "90px");
 
 }
 
@@ -184,7 +203,6 @@ var refreshPoints = function() {
         .remove();
 };
 // refreshPoints(); // this was in example- why is it needed there, and is it needed here?
-
 
 function createHistoricalPoints(points) {
     var pointsList = [];

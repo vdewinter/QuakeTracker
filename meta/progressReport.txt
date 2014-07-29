@@ -175,7 +175,7 @@ don't use eval
 
 
 7/27/2014
-goal: get filter by magnitude working, start working with redis
+goal: add zoom and potentially draggable globe view, get filter by magnitude working, start working with redis
 
 
 LATER:
@@ -192,7 +192,7 @@ set timeout (1 min) - test expiration
 
 -- zoom functionality
 
--- make site repsonsive
+-- make site repsonsive (consider writing a custom timeline to deal- responsive)
 
 -- CSS
 give each elt a class, don't refer by elt type
@@ -204,7 +204,7 @@ make buttons divs to avoid rectangular shadow- also easier to style
 -- smooth animation- make points grow to full size and then disappear - transition() is breaking something?
 -- use queue to async load: https://github.com/mbostock/queue
 -- make slider faster (more DOM manip = less performant)
--- orthographic projection and interactive globe(drag and zoom)
+-- orthographic projection and interactive globe(drag and zoom) - the points would need their clipping param adjusted
 -- use geocoding API to take user to lat/lon of a given search location- include labels and resize radii
 -- migrate to postgres
 -- deploy on heroku

@@ -3,15 +3,14 @@
 /*make buttons divs to avoid rectangular shadow- also easier to style*/
 
 body {
-    background-color: #EEEEEE;
+    background-color: #FFFFFF;
 }
 
 .project-title {
-    margin: 10px 30px;
     color: #42827E;
     font-family: "HelveticaNeue-Light";
     font-size: 200%;
-    text-shadow: 2px 2px #FFFFFF;
+    margin: 10px 30px 20px 30px;
 }
 
 #tooltip {
@@ -25,14 +24,13 @@ body {
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border-radius: 10px;
-    -webkit-box-shadow: 1px 1px 2px rgba(255, 0, 0, 0.4);
-    -moz-box-shadow: 1px 1px 2px rgba(255, 0, 0, 0.4);
-    box-shadow: 1px 1px 2px rgba(255, 0, 0, 0.4);
+    -webkit-box-shadow: .5px .5px 1px rgba(255,255,255, 0.3);
+    -moz-box-shadow: .5px .5px 1px rgba(255,255,255, 0.3);
+    box-shadow: .5px .5px 1px rgba(255,255,255, 0.3);
     pointer-events: none;
     font-family: "HelveticaNeue-Light";
 }
 
-/* needed? */
 #tooltip.hidden {
     display: none;
 }
@@ -40,93 +38,93 @@ body {
 #tooltip p {
     margin: 0;
     font-family: "HelveticaNeue-Light";
-    font-size: 16px;
+    font-size: 12px;
     line-height: 20px;
 }
 
 #slider-tooltip {
-    left: 286px; 
-    /* below should be responsive to title/axis position*/
-    top: 720px;;
+    top: 666px;;
     position: absolute;
     width: auto;
-    height: 10px;
-    padding: 5px;
+    height: 15px;
+    left: 1px;
     pointer-events: none;
+    font-size: 80%;
     font-family: "HelveticaNeue-Light";
 }
 
-/* needed? */
 #slider-tooltip.hidden {
     display: none;
 }
 
-#slider-tooltip p {
-    margin: 0;
-    font-family: "HelveticaNeue-Light";
-    font-size: 50%; 
-    /* above not working */
-    line-height: 20px;
-}
-
 #slider {
-    width: 950px;
+    margin-top: 30px;
     margin-left: 30px;
+    width: 960px;
+    font-family: "HelveticaNeue-Light";
 }
 
 #slider-title {
     margin-left: 30px;
-    margin-bottom: 30px;
+    margin-right: 10px;
+    width: 30%;
     color: #42827E;
     font-family: "HelveticaNeue-Light";
 }
 
-/*not working*/
-#handle-one {
-    color: white;
-}
-
 .map {
-    background-color: #FFFFFF;
-    margin: 10px 30px;
+    background-color: #EEEEEE;
+    margin-left: 30px;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border-radius: 10px;
 }
 
 .d3-slider-axis {
-    background-color: #EEEEEE;
-}
-
-/*not working*/
-.d3-slider-axis>text {
-    color: #FFFFFF;
+    background-color: #FFFFFF;
 }
 
 input {
-    margin: 8px 5px 5px 25px;
+    margin-right: 30px; 
     background: #00A89D;
     color: #FFFFFF;
     font-family: "HelveticaNeue-Light";
     float: left;
     height: 30px;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    border-radius: 10px;
-    -webkit-box-shadow: 1px 1px 2px rgba(255, 0, 0, 0.4);
-    -moz-box-shadow: 1px 1px 2px rgba(255, 0, 0, 0.4);
-    box-shadow: 1px 1px 2px rgba(255, 0, 0, 0.4);
-    font-size: 90%;
+    width: 220px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    font-size: 75%;
+}
+
+#broadcast {
+
+}
+
+#show-all-quakes {
+
 }
 
 /*not working as intended*/
 #filter-by-magnitude {
-    margin: -44px 5px 8px 25px;
-    float: left;
-    width: 430px;
-    height: 120px;
-    padding: 10px;
+    float: right;
+    width: 45%;
+    height: 70px;
+    margin-top: -30px;
+    margin-right: 1.858736059%;
     font-family: "HelveticaNeue-Light";
+}
+
+div {
+    border: solid;
+}
+
+.container {
+    margin-left: 30px;
+    margin-top: 5px;
+    width: 960px;
+    height: 60px;
 }
 
 /*.plates {

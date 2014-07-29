@@ -1,9 +1,3 @@
 bibliography
 
-Smithsonian Institution's Global Volcanism Program. http://volcano.si.edu/search_eruption_results.cfm
-
 National Geophysical Data Center / World Data Service (NGDC/WDS): Significant Earthquake Database. National Geophysical Data Center, NOAA. doi:10.7289/V5TD9V7K, July 7, 2014.
-
-National Geophysical Data Center / World Data Service (NGDC/WDS): Global Historical Tsunami Database. National Geophysical Data Center, NOAA. doi:10.7289/V5PN93H7, July 7, 2014.
-
-http://planetpixelemporium.com/earth.html
