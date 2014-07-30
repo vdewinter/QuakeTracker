@@ -46,9 +46,9 @@ body {
 }
 
 #slider-tooltip {
-    top: 528px;;
+    top: 526px;;
     position: absolute;
-    width: auto;
+    width: 100px;
     right: 10%;
     height: 15px;
     pointer-events: none;
@@ -128,10 +128,6 @@ body {
 
 #historical-filter-title {
     float: right;
-}
-
-div {
-    border: solid;
 }
 
 .container {

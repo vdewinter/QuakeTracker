@@ -125,6 +125,8 @@ function displayMap(points) {
         .on("click", function() {
             d3.selectAll(".circle")
                 .style("display", "none");
+            d3.select("#slider-tooltip")
+                .classed("hidden", true);
             d3.selectAll(".newPoint")
                 .style("display", function(d) {
                     return (Math.floor(d.magnitude) === 2) ? "block" : "none";
@@ -143,6 +145,8 @@ function displayMap(points) {
         .on("click", function() {
             d3.selectAll(".circle")
                 .style("display", "none");
+            d3.select("#slider-tooltip")
+                .classed("hidden", true);
             d3.selectAll(".newPoint")
                 .style("display", function(d) {
                     return (Math.floor(d.magnitude) === 3) ? "block" : "none";
@@ -161,6 +165,8 @@ function displayMap(points) {
         .on("click", function() {
             d3.selectAll(".circle")
                 .style("display", "none");
+            d3.select("#slider-tooltip")
+                .classed("hidden", true);
             d3.selectAll(".newPoint")
                 .style("display", function(d) {
                     return (Math.floor(d.magnitude) === 4) ? "block" : "none";
@@ -179,6 +185,8 @@ function displayMap(points) {
         .on("click", function() {
             d3.selectAll(".circle")
                 .style("display", "none");
+            d3.select("#slider-tooltip")
+                .classed("hidden", true);
             d3.selectAll(".newPoint")
                 .style("display", function(d) {
                     return (Math.floor(d.magnitude) === 5) ? "block" : "none";
@@ -197,6 +205,8 @@ function displayMap(points) {
         .on("click", function() {
             d3.selectAll(".circle")
                 .style("display", "none");
+            d3.select("#slider-tooltip")
+                .classed("hidden", true);
             d3.selectAll(".newPoint")
                 .style("display", function(d) {
                     return (Math.floor(d.magnitude) === 6) ? "block" : "none";
@@ -215,6 +225,8 @@ function displayMap(points) {
         .on("click", function() {
             d3.selectAll(".circle")
                 .style("display", "none");
+            d3.select("#slider-tooltip")
+                .classed("hidden", true);
             d3.selectAll(".newPoint")
                 .style("display", function(d) {
                     return (Math.floor(d.magnitude) === 7) ? "block" : "none";
@@ -233,6 +245,8 @@ function displayMap(points) {
         .on("click", function() {
             d3.selectAll(".circle")
                 .style("display", "none");
+            d3.select("#slider-tooltip")
+                .classed("hidden", true);
             d3.selectAll(".newPoint")
                 .style("display", function(d) {
                     return (Math.floor(d.magnitude) === 8) ? "block" : "none";
@@ -251,6 +265,8 @@ function displayMap(points) {
         .on("click", function() {
             d3.selectAll(".circle")
                 .style("display", "none");
+            d3.select("#slider-tooltip")
+                .classed("hidden", true);
             d3.selectAll(".newPoint")
                 .style("display", function(d) {
                     return (Math.floor(d.magnitude) === 9) ? "block" : "none";
@@ -276,6 +292,8 @@ function displayMap(points) {
         .on("click", function() {
             d3.selectAll(".circle")
                 .style("display", "none");
+            d3.select("#slider-tooltip")
+                .classed("hidden", true);
             d3.selectAll(".point")
                 .style("display", function(d) {
                     return (Math.floor(d.magnitude) === 6) ? "block" : "none";
@@ -294,6 +312,8 @@ function displayMap(points) {
         .on("click", function() {
             d3.selectAll(".circle")
                 .style("display", "none");
+            d3.select("#slider-tooltip")
+                .classed("hidden", true);
             d3.selectAll(".point")
                 .style("display", function(d) {
                     return (Math.floor(d.magnitude) === 7) ? "block" : "none";
@@ -312,6 +332,8 @@ function displayMap(points) {
         .on("click", function() {
             d3.selectAll(".circle")
                 .style("display", "none");
+            d3.select("#slider-tooltip")
+                .classed("hidden", true);
             d3.selectAll(".point")
                 .style("display", function(d) {
                     return (Math.floor(d.magnitude) === 8) ? "block" : "none";
@@ -330,6 +352,8 @@ function displayMap(points) {
         .on("click", function() {
             d3.selectAll(".circle")
                 .style("display", "none");
+            d3.select("#slider-tooltip")
+                .classed("hidden", true);
             d3.selectAll(".point")
                 .style("display", function(d) {
                     return (Math.floor(d.magnitude) === 9) ? "block" : "none";
@@ -450,6 +474,8 @@ function filterPoints(value) {
 }
 
 function displayHistoricalPoints() {
+    d3.select("#slider-tooltip")
+        .classed("hidden", true);
     d3.selectAll(".point")
         .style("display", "block");
     d3.selectAll(".newPoint")
@@ -457,6 +483,8 @@ function displayHistoricalPoints() {
 }
 
 function displayRecentPoints() {
+    d3.select("#slider-tooltip")
+        .classed("hidden", true);
     d3.selectAll(".newPoint")
         .style("display", "block");
     d3.selectAll(".point")

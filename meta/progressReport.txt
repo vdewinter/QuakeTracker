@@ -185,6 +185,8 @@ filter circles are not turning off slider data
 7/30/2014
 goal: label legend, add zoom, add refresh function to db quakes, center content w margin left/right auto
 
+centering done. need to calculate when window resized and then calc position of slider-tooltip. need to hide slider tooltip when any filter clicked.
+
 
 7/31/2014
 goal: implement redis (meeting with rebecca, who used redis as a db in her project)
