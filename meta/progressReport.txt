@@ -177,10 +177,13 @@ Zoom- http://bl.ocks.org/mbostock/4987520- try leaving out overlay
 
 Talked with laura about having a buffer function on slider to group several mousemove pts together- could use underscore.js's debounce func (only executes every x amt of time). talked about front end mvc and backbone, angular and react.
 
+could use a func to format data such that circles are grouped by magnitude. Code is heavily repeated- could make a func to make legend/do filtering
+do i want all circles in legend or circles from all dates to be displayed when legend circle clicked? yellow and orange are overwhelming- consider adding smaller quakes from past and not showing 2,3 magnitudes bc theyre only in North America. Maybe the circles filters should only be for recent events.
 
-need a data format where circles grouped by magnitude
+filter circles are not turning off slider data
 
 7/30/2014
+goal: label legend, add zoom
 
 
 7/31/2014

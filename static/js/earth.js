@@ -126,6 +126,8 @@ function displayMap(points) {
         .attr("cy", "30")
         .on("click", function() {
             d3.selectAll(".circle")
+                .style("display", "none");
+            d3.selectAll(".newPoint")
                 .style("display", function(d) {
                     return (Math.floor(d.magnitude) === 2) ? "block" : "none";
                 });
@@ -144,6 +146,8 @@ function displayMap(points) {
         .attr("cy", "30")
         .on("click", function() {
             d3.selectAll(".circle")
+                .style("display", "none");
+            d3.selectAll(".newPoint")
                 .style("display", function(d) {
                     return (Math.floor(d.magnitude) === 3) ? "block" : "none";
                 });
@@ -162,6 +166,8 @@ function displayMap(points) {
         .attr("cy", "30")
         .on("click", function() {
             d3.selectAll(".circle")
+                .style("display", "none");
+            d3.selectAll(".newPoint")
                 .style("display", function(d) {
                     return (Math.floor(d.magnitude) === 4) ? "block" : "none";
                 });
@@ -180,6 +186,8 @@ function displayMap(points) {
         .attr("cy", "30")
         .on("click", function() {
             d3.selectAll(".circle")
+                .style("display", "none");
+            d3.selectAll(".newPoint")
                 .style("display", function(d) {
                     return (Math.floor(d.magnitude) === 5) ? "block" : "none";
                 });
@@ -199,6 +207,8 @@ function displayMap(points) {
         .attr("cy", "30")
         .on("click", function() {
             d3.selectAll(".circle")
+                .style("display", "none");
+            d3.selectAll(".newPoint")
                 .style("display", function(d) {
                     return (Math.floor(d.magnitude) === 6) ? "block" : "none";
                 });
@@ -217,6 +227,8 @@ function displayMap(points) {
         .attr("cy", "30")
         .on("click", function() {
             d3.selectAll(".circle")
+                .style("display", "none");
+            d3.selectAll(".newPoint")
                 .style("display", function(d) {
                     return (Math.floor(d.magnitude) === 7) ? "block" : "none";
                 });
@@ -235,6 +247,8 @@ function displayMap(points) {
         .attr("cy", "30")
         .on("click", function() {
             d3.selectAll(".circle")
+                .style("display", "none");
+            d3.selectAll(".newPoint")
                 .style("display", function(d) {
                     return (Math.floor(d.magnitude) === 8) ? "block" : "none";
                 });
@@ -253,6 +267,8 @@ function displayMap(points) {
         .attr("cy", "30")
         .on("click", function() {
             d3.selectAll(".circle")
+                .style("display", "none");
+            d3.selectAll(".newPoint")
                 .style("display", function(d) {
                     return (Math.floor(d.magnitude) === 9) ? "block" : "none";
                 });

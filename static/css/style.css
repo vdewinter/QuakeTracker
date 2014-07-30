@@ -10,7 +10,7 @@ body {
     color: #42827E;
     font-family: "HelveticaNeue-Light";
     font-size: 200%;
-    margin: 10px 30px 20px 30px;
+    margin: 10px 30px 10px 30px;
 }
 
 #tooltip {
@@ -43,7 +43,7 @@ body {
 }
 
 #slider-tooltip {
-    top: 666px;;
+    top: 678px;;
     position: absolute;
     width: auto;
     height: 15px;
@@ -64,10 +64,17 @@ body {
     font-family: "HelveticaNeue-Light";
 }
 
-#slider-title {
-    margin-left: 30px;
+#broadcast {
+    float: left;
     margin-right: 10px;
     width: 30%;
+    color: #42827E;
+    font-family: "HelveticaNeue-Light";
+}
+
+#slider-title {
+    margin-left: 30px;
+    width: 290px;
     color: #42827E;
     font-family: "HelveticaNeue-Light";
 }
@@ -75,6 +82,7 @@ body {
 .map {
     background-color: #EEEEEE;
     margin-left: 30px;
+    margin-bottom: 10px;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border-radius: 10px;
@@ -88,27 +96,21 @@ body {
     background-color: #FFFFFF;
 }
 
-input {
-    margin-right: 30px; 
-    background: #00A89D;
-    color: #FFFFFF;
-    font-family: "HelveticaNeue-Light";
-    float: left;
-    height: 30px;
-    width: 220px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    font-size: 75%;
-}
-
 #filter-by-magnitude {
     float: left;
     width: 45%;
-    height: 70px;
-    margin-top: -15px;
+    height: 33px;
     margin-right: 1.858736059%;
     font-family: "HelveticaNeue-Light";
+}
+
+#filter {
+    margin-bottom: 15px;
+    margin-left: 47px;
+    float:left;
+    font-family: "HelveticaNeue-Light";
+    color: #484848;
+    opacity: 0.7;
 }
 
 /*div {
@@ -120,4 +122,40 @@ input {
     margin-top: 5px;
     width: 960px;
     height: 60px;
+}
+
+.more {
+  outline: none;
+  display: block;
+  width: 100%;
+  padding: 6px 0;
+  text-align: center;
+  border: 1px solid #ddd;
+  border-bottom: 1px solid #aaa;
+  border-right: 1px solid #aaa;
+  background-color: #fff;
+  background-repeat: repeat-x;
+  background-position: left top;
+  font-size: 14px;
+  text-shadow: 1px 1px 1px #fff;
+  font-weight: bold;
+  height: 22px;
+  line-height: 1.5em;
+  margin-bottom: 6px;
+}
+
+.more:hover {
+  border: 1px solid #bbb;
+  text-decoration: none;
+  background-position: left -78px;
+}
+
+.more:active {
+  color: #666;
+  background-position: left -38px;
+}
+
+.round {
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
 }

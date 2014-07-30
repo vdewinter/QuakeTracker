@@ -7,6 +7,8 @@
 </head>
 
 <body>
+    <h3 class="project-title">Quake Tracker</h3>
+
     <script src="static/d3/d3.v3.min.js"></script>
     <script src="static/js/topojson.v1.min.js"></script>
     <script src="static/js/jquery.min.js"></script>
@@ -22,17 +24,13 @@
         <p id="p2"></p>
     </div>
 
-    <h3 class="project-title">Quake Tracker</h3>
-
     <div class="container">
-        <form id="broadcast" method='GET' action='#'>
-            <input type="button" name="broadcast_data" id="broadcast_data" value="M2.5+ in the Last Week">
-        </form>
-        <input type="button" name="show-all-quakes" id="show-all-quakes" value="All M6+ since 1900"> 
+        <a id="broadcast" class="more">Earthquakes in the Past Week (M2.5+)</a>
+        <div id="filter">Filter Recent Quakes by Magnitude</div>
         <div id="filter-by-magnitude"></div>
     </div>
 
-    <div id="slider-title">Earthquakes Since 1900 (M6+)</div>
+    <a id="slider-title" class="more">Earthquakes Since 1900 (M6+)</a>
     <div id="slider-tooltip" class="hidden">
         <p id="slider-year"></p>
     </div>
@@ -45,20 +43,16 @@
             // TODO promises- load plate boundaries only after maps and points ready- wait for callback
             dataset = displayHistoricalQuakes();
             var socket = io.connect("http://" +  document.domain + ":" + location.port);
-            socket.on("connect", function() {
-                socket.emit("my event", {data: "I'm connected!"});
-            });
 
             socket.on("new_earthquake", function() {
                 createRecentPoints();
             })
 
-            $("form#broadcast").click(function(e) {
-                console.log("broadcast");
+            $("#broadcast").click(function(e) {
                 displayRecentPoints();
             });
 
-            $("#show-all-quakes").click(function(e) { 
+            $("#slider-title").click(function(e) { 
                 displayHistoricalPoints();
             });
 
