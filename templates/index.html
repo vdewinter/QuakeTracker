@@ -12,6 +12,7 @@
     <script src="static/js/jquery.min.js"></script>
     <script src="static/js/earth.js"></script>
     <script src="static/js/d3.geo.zoom.js"></script>
+    <script src="static/js/underscore.min.js"></script>
     <script src="static/d3Slider/d3.slider.js"></script>
     <link rel="stylesheet" href="static/d3Slider/d3.slider.css"/>
     <script type="text/javascript" src="static/js/socket.io.min.js"></script>
@@ -65,19 +66,17 @@
             //     filterByMagnitude();
             // })
 
-            var original_$emit = socket.$emit;
-            socket.$emit = function() {
-                var args = Array.prototype.slice.call(arguments);
-                original_$emit.apply(socket, ['*'].concat(args));
-                if(!original_$emit.apply(socket, arguments)) {
-                    original_$emit.apply(socket, ['default'].concat(args));
-                }
-            }
+        // $('#slider6').slider({
+        //   min: 1, max: 10, step: 0.5, value: 2,
+        //   slide: $.debounce(this, function(event, ui){
+        //     console.log("jqDeb: ", event, ui);
+        //     waste(600);
+        //     $('#squeezeme6').css({fontSize: ui.value + "em"});
+        //   }, 100)
+        // });
 
-            socket.on('*',function(event, data) {
-                console.log('Event received:');
-            });
         });
+
 
     </script>
     

@@ -148,21 +148,17 @@ Adding this:
 if (! d3.selectAll(".point").classed("hidden")) { displayRecentPoints(); } 
 makes all recent and historical pts disppear when new report comes in but not if slider is displaying a certain year's points
 
-7/26/2014
-day off
+7/26-27/2014
+days off
 
-7/27/2014
+7/28/2014
 goal: make new reports actually display points after deleting those from old report, add labels
 
 historical points are no longer disappearing when new reports come in - forgot what i changed there. Added a refreshPoints function to handle drawing new reports - thanks to this site: http://pothibo.com/2013/09/d3-js-how-to-handle-dynamic-json-data/
-other relevant notes - transition, enter and exit are separated since those three methods are not chainable. It also think it gives a boost on readability.
-
-newsvg is 0 by 0- investigate why
-
+other relevant notes - transition, enter and exit are separated since those three methods are not chainable. Separation helps readability.
+Newsvg is 0 by 0- investigate why - changed this to svg with a class.
 Succesfully added tooltip- was easier to use mouse position (after adding mouse event handler) than getting x,y of circles. Added years above slider handle with tooltip div technique. Need reponsive design because I'm using a constant margin-top on the slider tooltip.
-
 Noticed some magnitudes aren't corresponding to correct color- used Math.floor() to fix.
-
 watched Douglas Crockford videos on JS
 key ideas:
 loose typing
@@ -172,15 +168,24 @@ lambda (funcs as first class citizens)
 linkage thru global vars- global window object- use IFEE to avoid destruction, no block scope
 don't use eval
 
+7/29/2014
+goal: add zoom and potentially draggable globe view, get filter by magnitude working
+
+A note about d3 - to add 2 classes, don't use .attr twice but instead separate w spaces: .attr("class", "newPoint circle")
+Circles for filter by magnitude drawn and spaced well.
+Zoom- http://bl.ocks.org/mbostock/4987520- try leaving out overlay
+
+Talked with laura about having a buffer function on slider to group several mousemove pts together- could use underscore.js's debounce func (only executes every x amt of time). talked about front end mvc and backbone, angular and react.
 
 
-7/27/2014
-goal: add zoom and potentially draggable globe view, get filter by magnitude working, start working with redis
+need a data format where circles grouped by magnitude
 
-a note about d3 - to add 2 classes, don't use .attr first but use .attr("class", "newPoint circle")
-circles for filter by magnitude drawn and spaced well
+7/30/2014
 
-zoom- http://bl.ocks.org/mbostock/4987520- try leaving out overlay
+
+7/31/2014
+goal: implement redis (meeting with rebecca, who used redis as a db in her project)
+
 
 LATER:
 
@@ -188,8 +193,6 @@ LATER:
 look into caching http://betterexplained.com/articles/how-to-optimize-your-site-with-http-caching/
 https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Tips_for_authoring_fast-loading_HTML_pages
 slider should have buffer to group several mouse pts together
-underscore js debounce func- only executes func after certain amt of time
-backbone - fe mvc
 
 -- use an IFEE
 

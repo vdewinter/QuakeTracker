@@ -123,7 +123,13 @@ function displayMap(points) {
         .attr("cx", function() {
             return d3.select(this).attr("r") * 10 + 20;
         })
-        .attr("cy", "30");
+        .attr("cy", "30")
+        .on("click", function() {
+            d3.selectAll(".circle")
+                .style("display", function(d) {
+                    return (Math.floor(d.magnitude) === 2) ? "block" : "none";
+                });
+        });
         
     newsvg.append("circle")
         .attr("r", function() {
@@ -135,7 +141,14 @@ function displayMap(points) {
         .attr("cx", function() {
             return d3.select(this).attr("r") * 10 + 10;
         })
-        .attr("cy", "30");
+        .attr("cy", "30")
+        .on("click", function() {
+            d3.selectAll(".circle")
+                .style("display", function(d) {
+                    return (Math.floor(d.magnitude) === 3) ? "block" : "none";
+                });
+        });
+
     newsvg.append("circle")
         .attr("r", function() {
         return Math.pow(10, Math.sqrt(4))/15;
@@ -146,7 +159,14 @@ function displayMap(points) {
         .attr("cx", function() {
             return d3.select(this).attr("r") * 10 + 20;
         })
-        .attr("cy", "30");
+        .attr("cy", "30")
+        .on("click", function() {
+            d3.selectAll(".circle")
+                .style("display", function(d) {
+                    return (Math.floor(d.magnitude) === 4) ? "block" : "none";
+                });
+        });
+
     newsvg.append("circle")
         .attr("r", function() {
         return Math.pow(10, Math.sqrt(5))/20;
@@ -157,7 +177,13 @@ function displayMap(points) {
         .attr("cx", function() {
             return d3.select(this).attr("r") * 10 + 25;
         })
-        .attr("cy", "30");
+        .attr("cy", "30")
+        .on("click", function() {
+            d3.selectAll(".circle")
+                .style("display", function(d) {
+                    return (Math.floor(d.magnitude) === 5) ? "block" : "none";
+                });
+        });
 
     // when only historical data is displayed, show these; otherwise show these + smaller ones
     newsvg.append("circle")
@@ -170,7 +196,13 @@ function displayMap(points) {
         .attr("cx", function() {
             return d3.select(this).attr("r") * 10 + 28;
         })
-        .attr("cy", "30");
+        .attr("cy", "30")
+        .on("click", function() {
+            d3.selectAll(".circle")
+                .style("display", function(d) {
+                    return (Math.floor(d.magnitude) === 6) ? "block" : "none";
+                });
+        });
 
    newsvg.append("circle")
         .attr("r", function() {
@@ -182,7 +214,13 @@ function displayMap(points) {
         .attr("cx", function() {
             return d3.select(this).attr("r") * 10 + 30;
         })
-        .attr("cy", "30");
+        .attr("cy", "30")
+        .on("click", function() {
+            d3.selectAll(".circle")
+                .style("display", function(d) {
+                    return (Math.floor(d.magnitude) === 7) ? "block" : "none";
+                });
+        });
 
     newsvg.append("circle")
         .attr("r", function() {
@@ -194,7 +232,13 @@ function displayMap(points) {
         .attr("cx", function() {
             return d3.select(this).attr("r") * 10 + 50;
         })
-        .attr("cy", "30");
+        .attr("cy", "30")
+        .on("click", function() {
+            d3.selectAll(".circle")
+                .style("display", function(d) {
+                    return (Math.floor(d.magnitude) === 8) ? "block" : "none";
+                });
+        });
 
     newsvg.append("circle")
         .attr("r", function() {
@@ -206,7 +250,13 @@ function displayMap(points) {
         .attr("cx", function() {
             return d3.select(this).attr("r") * 10 + 24;
         })
-        .attr("cy", "30");
+        .attr("cy", "30")
+        .on("click", function() {
+            d3.selectAll(".circle")
+                .style("display", function(d) {
+                    return (Math.floor(d.magnitude) === 9) ? "block" : "none";
+                });
+        });
 }
 
 var createRecentPoints = function () {
