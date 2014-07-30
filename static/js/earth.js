@@ -4,7 +4,6 @@
 // or
 // make hash table with d3 collection by year, track currently displayed year, 
 // collection#oldyear display: none; collection#newyear display:block
-
 var mouse = {x: 0, y: 0};
 
 document.addEventListener('mousemove', function(e){
@@ -106,260 +105,57 @@ function displayMap(points) {
                 filterPoints(value);
         }));
 
-    // recent filter
+    // magnitude filters
     var newsvg = d3.select("#recent-filter")
         .append("svg")
         .attr("class", "newsvg")
         .attr("height", "60px")
         .attr("width", "400px");
 
-    newsvg.append("circle")
-        .attr("r", function() {
-        return Math.pow(10, Math.sqrt(2))/10;
-        })
-        .style("fill", function() {
-            return (pathRamp(2));
-        })
-        .attr("cx", "11")
-        .attr("cy", "30")
-        .on("click", function() {
-            d3.selectAll(".circle")
-                .style("display", "none");
-            d3.select("#slider-tooltip")
-                .classed("hidden", true);
-            d3.selectAll(".newPoint")
-                .style("display", function(d) {
-                    return (Math.floor(d.magnitude) === 2) ? "block" : "none";
-                });
-        });
-        
-    newsvg.append("circle")
-        .attr("r", function() {
-        return Math.pow(10, Math.sqrt(3))/10;
-        })
-        .style("fill", function() {
-            return (pathRamp(3));
-        })
-        .attr("cx", "27")
-        .attr("cy", "30")
-        .on("click", function() {
-            d3.selectAll(".circle")
-                .style("display", "none");
-            d3.select("#slider-tooltip")
-                .classed("hidden", true);
-            d3.selectAll(".newPoint")
-                .style("display", function(d) {
-                    return (Math.floor(d.magnitude) === 3) ? "block" : "none";
-                });
-        });
-
-    newsvg.append("circle")
-        .attr("r", function() {
-        return Math.pow(10, Math.sqrt(4))/15;
-        })
-        .style("fill", function() {
-            return (pathRamp(4));
-        })
-        .attr("cx", "47")
-        .attr("cy", "30")
-        .on("click", function() {
-            d3.selectAll(".circle")
-                .style("display", "none");
-            d3.select("#slider-tooltip")
-                .classed("hidden", true);
-            d3.selectAll(".newPoint")
-                .style("display", function(d) {
-                    return (Math.floor(d.magnitude) === 4) ? "block" : "none";
-                });
-        });
-
-    newsvg.append("circle")
-        .attr("r", function() {
-        return Math.pow(10, Math.sqrt(5))/20;
-        })
-        .style("fill", function() {
-            return (pathRamp(5));
-        })
-        .attr("cx", "70")
-        .attr("cy", "30")
-        .on("click", function() {
-            d3.selectAll(".circle")
-                .style("display", "none");
-            d3.select("#slider-tooltip")
-                .classed("hidden", true);
-            d3.selectAll(".newPoint")
-                .style("display", function(d) {
-                    return (Math.floor(d.magnitude) === 5) ? "block" : "none";
-                });
-        });
-
-    newsvg.append("circle")
-        .attr("r", function() {
-        return Math.pow(10, Math.sqrt(6))/25;
-        })
-        .style("fill", function() {
-            return (pathRamp(6));
-        })
-        .attr("cx", "97")
-        .attr("cy", "30")
-        .on("click", function() {
-            d3.selectAll(".circle")
-                .style("display", "none");
-            d3.select("#slider-tooltip")
-                .classed("hidden", true);
-            d3.selectAll(".newPoint")
-                .style("display", function(d) {
-                    return (Math.floor(d.magnitude) === 6) ? "block" : "none";
-                });
-        });
-
-   newsvg.append("circle")
-        .attr("r", function() {
-        return Math.pow(10, Math.sqrt(7))/30;
-        })
-        .style("fill", function() {
-            return (pathRamp(7));
-        })
-        .attr("cx","130")
-        .attr("cy", "30")
-        .on("click", function() {
-            d3.selectAll(".circle")
-                .style("display", "none");
-            d3.select("#slider-tooltip")
-                .classed("hidden", true);
-            d3.selectAll(".newPoint")
-                .style("display", function(d) {
-                    return (Math.floor(d.magnitude) === 7) ? "block" : "none";
-                });
-        });
-
-    newsvg.append("circle")
-        .attr("r", function() {
-        return Math.pow(10, Math.sqrt(8))/40;
-        })
-        .style("fill", function() {
-            return (pathRamp(8));
-        })
-        .attr("cx", "168")
-        .attr("cy", "30")
-        .on("click", function() {
-            d3.selectAll(".circle")
-                .style("display", "none");
-            d3.select("#slider-tooltip")
-                .classed("hidden", true);
-            d3.selectAll(".newPoint")
-                .style("display", function(d) {
-                    return (Math.floor(d.magnitude) === 8) ? "block" : "none";
-                });
-        });
-
-    newsvg.append("circle")
-        .attr("r", function() {
-        return Math.pow(10, Math.sqrt(9))/40;
-        })
-        .style("fill", function() {
-            return (pathRamp(9));
-        })
-        .attr("cx", "219")
-        .attr("cy", "30")
-        .on("click", function() {
-            d3.selectAll(".circle")
-                .style("display", "none");
-            d3.select("#slider-tooltip")
-                .classed("hidden", true);
-            d3.selectAll(".newPoint")
-                .style("display", function(d) {
-                    return (Math.floor(d.magnitude) === 9) ? "block" : "none";
-                });
-        });
-
-    // historical filter
     var othersvg = d3.select("#historical-filter")
         .append("svg")
         .attr("class", "othersvg")
         .attr("height", "60px")
         .attr("width", "400px");
 
-    othersvg.append("circle")
+    // for recent points
+    createFilterCircles(newsvg, 2, 10, 11, ".newPoint");
+    createFilterCircles(newsvg, 3, 10, 27, ".newPoint");
+    createFilterCircles(newsvg, 4, 15, 47, ".newPoint");
+    createFilterCircles(newsvg, 5, 20, 70, ".newPoint");
+    createFilterCircles(newsvg, 6, 25, 97, ".newPoint");
+    createFilterCircles(newsvg, 7, 30, 130, ".newPoint");
+    createFilterCircles(newsvg, 8, 40, 170, ".newPoint");
+    createFilterCircles(newsvg, 9, 40, 220, ".newPoint");
+
+    // for historical points
+    createFilterCircles(othersvg, 6, 25, 11, ".point");
+    createFilterCircles(othersvg, 7, 30, 44, ".point");
+    createFilterCircles(othersvg, 8, 40, 84, ".point");
+    createFilterCircles(othersvg, 9, 40, 134, ".point");
+
+}
+
+function createFilterCircles(elt, magnitude, divisor, cx, pointType) {
+    elt.append("circle")
         .attr("r", function() {
-        return Math.pow(10, Math.sqrt(6))/25;
+        return Math.pow(10, Math.sqrt(magnitude))/divisor;
         })
         .style("fill", function() {
-            return (pathRamp(6));
+            return (pathRamp(magnitude));
         })
-        .attr("cx", "11")
+        .attr("cx", cx)
         .attr("cy", "30")
         .on("click", function() {
             d3.selectAll(".circle")
                 .style("display", "none");
             d3.select("#slider-tooltip")
                 .classed("hidden", true);
-            d3.selectAll(".point")
+            d3.selectAll(pointType)
                 .style("display", function(d) {
-                    return (Math.floor(d.magnitude) === 6) ? "block" : "none";
+                    return (Math.floor(d.magnitude) === magnitude) ? "block" : "none";
                 });
         });
-
-   othersvg.append("circle")
-        .attr("r", function() {
-        return Math.pow(10, Math.sqrt(7))/30;
-        })
-        .style("fill", function() {
-            return (pathRamp(7));
-        })
-        .attr("cx", "45")
-        .attr("cy", "30")
-        .on("click", function() {
-            d3.selectAll(".circle")
-                .style("display", "none");
-            d3.select("#slider-tooltip")
-                .classed("hidden", true);
-            d3.selectAll(".point")
-                .style("display", function(d) {
-                    return (Math.floor(d.magnitude) === 7) ? "block" : "none";
-                });
-        });
-
-    othersvg.append("circle")
-        .attr("r", function() {
-        return Math.pow(10, Math.sqrt(8))/40;
-        })
-        .style("fill", function() {
-            return (pathRamp(8));
-        })
-        .attr("cx", "85")
-        .attr("cy", "30")
-        .on("click", function() {
-            d3.selectAll(".circle")
-                .style("display", "none");
-            d3.select("#slider-tooltip")
-                .classed("hidden", true);
-            d3.selectAll(".point")
-                .style("display", function(d) {
-                    return (Math.floor(d.magnitude) === 8) ? "block" : "none";
-                });
-        });
-
-    othersvg.append("circle")
-        .attr("r", function() {
-        return Math.pow(10, Math.sqrt(9))/40;
-        })
-        .style("fill", function() {
-            return (pathRamp(9));
-        })
-        .attr("cx", "135")
-        .attr("cy", "30")
-        .on("click", function() {
-            d3.selectAll(".circle")
-                .style("display", "none");
-            d3.select("#slider-tooltip")
-                .classed("hidden", true);
-            d3.selectAll(".point")
-                .style("display", function(d) {
-                    return (Math.floor(d.magnitude) === 9) ? "block" : "none";
-                });
-        });
-
 }
 
 var createRecentPoints = function () {

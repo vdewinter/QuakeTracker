@@ -185,11 +185,11 @@ filter circles are not turning off slider data
 7/30/2014
 goal: label legend, add zoom, add refresh function to db quakes, center content w margin left/right auto
 
-centering done. need to calculate when window resized and then calc position of slider-tooltip. need to hide slider tooltip when any filter clicked.
+Centering done. Added handler for window resize to dynamically calculate position of slider-tooltip (anchored to bottom right of map). This felt like a lot of work for something that didn't seem it would be difficult at first. Hiding slider tooltip when any filter clicked.
 
 
 7/31/2014
-goal: implement redis (meeting with rebecca, who used redis as a db in her project)
+goal: implement redis
 
 
 LATER:
