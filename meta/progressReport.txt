@@ -183,7 +183,7 @@ do i want all circles in legend or circles from all dates to be displayed when l
 filter circles are not turning off slider data
 
 7/30/2014
-goal: label legend, add zoom
+goal: label legend, add zoom, add refresh function to db quakes, center content w margin left/right auto
 
 
 7/31/2014

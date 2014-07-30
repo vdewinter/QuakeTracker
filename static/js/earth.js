@@ -101,13 +101,13 @@ function displayMap(points) {
             .on("slide", function(event, value) {
                 d3.select("#slider-tooltip")
                     .classed("hidden", false)
-                    .style("left", + (mouse["x"] - 12) + "px")
                     .text(value);
 
                 filterPoints(value);
         }));
 
-    var newsvg = d3.select("#filter-by-magnitude")
+    // recent filter
+    var newsvg = d3.select("#recent-filter")
         .append("svg")
         .attr("class", "newsvg")
         .attr("height", "60px")
@@ -120,9 +120,7 @@ function displayMap(points) {
         .style("fill", function() {
             return (pathRamp(2));
         })
-        .attr("cx", function() {
-            return d3.select(this).attr("r") * 10 + 20;
-        })
+        .attr("cx", "11")
         .attr("cy", "30")
         .on("click", function() {
             d3.selectAll(".circle")
@@ -140,9 +138,7 @@ function displayMap(points) {
         .style("fill", function() {
             return (pathRamp(3));
         })
-        .attr("cx", function() {
-            return d3.select(this).attr("r") * 10 + 10;
-        })
+        .attr("cx", "27")
         .attr("cy", "30")
         .on("click", function() {
             d3.selectAll(".circle")
@@ -160,9 +156,7 @@ function displayMap(points) {
         .style("fill", function() {
             return (pathRamp(4));
         })
-        .attr("cx", function() {
-            return d3.select(this).attr("r") * 10 + 20;
-        })
+        .attr("cx", "47")
         .attr("cy", "30")
         .on("click", function() {
             d3.selectAll(".circle")
@@ -180,9 +174,7 @@ function displayMap(points) {
         .style("fill", function() {
             return (pathRamp(5));
         })
-        .attr("cx", function() {
-            return d3.select(this).attr("r") * 10 + 25;
-        })
+        .attr("cx", "70")
         .attr("cy", "30")
         .on("click", function() {
             d3.selectAll(".circle")
@@ -193,7 +185,6 @@ function displayMap(points) {
                 });
         });
 
-    // when only historical data is displayed, show these; otherwise show these + smaller ones
     newsvg.append("circle")
         .attr("r", function() {
         return Math.pow(10, Math.sqrt(6))/25;
@@ -201,9 +192,7 @@ function displayMap(points) {
         .style("fill", function() {
             return (pathRamp(6));
         })
-        .attr("cx", function() {
-            return d3.select(this).attr("r") * 10 + 28;
-        })
+        .attr("cx", "97")
         .attr("cy", "30")
         .on("click", function() {
             d3.selectAll(".circle")
@@ -221,9 +210,7 @@ function displayMap(points) {
         .style("fill", function() {
             return (pathRamp(7));
         })
-        .attr("cx", function() {
-            return d3.select(this).attr("r") * 10 + 30;
-        })
+        .attr("cx","130")
         .attr("cy", "30")
         .on("click", function() {
             d3.selectAll(".circle")
@@ -241,9 +228,7 @@ function displayMap(points) {
         .style("fill", function() {
             return (pathRamp(8));
         })
-        .attr("cx", function() {
-            return d3.select(this).attr("r") * 10 + 50;
-        })
+        .attr("cx", "168")
         .attr("cy", "30")
         .on("click", function() {
             d3.selectAll(".circle")
@@ -261,9 +246,7 @@ function displayMap(points) {
         .style("fill", function() {
             return (pathRamp(9));
         })
-        .attr("cx", function() {
-            return d3.select(this).attr("r") * 10 + 24;
-        })
+        .attr("cx", "219")
         .attr("cy", "30")
         .on("click", function() {
             d3.selectAll(".circle")
@@ -273,6 +256,86 @@ function displayMap(points) {
                     return (Math.floor(d.magnitude) === 9) ? "block" : "none";
                 });
         });
+
+    // historical filter
+    var othersvg = d3.select("#historical-filter")
+        .append("svg")
+        .attr("class", "othersvg")
+        .attr("height", "60px")
+        .attr("width", "400px");
+
+    othersvg.append("circle")
+        .attr("r", function() {
+        return Math.pow(10, Math.sqrt(6))/25;
+        })
+        .style("fill", function() {
+            return (pathRamp(6));
+        })
+        .attr("cx", "11")
+        .attr("cy", "30")
+        .on("click", function() {
+            d3.selectAll(".circle")
+                .style("display", "none");
+            d3.selectAll(".point")
+                .style("display", function(d) {
+                    return (Math.floor(d.magnitude) === 6) ? "block" : "none";
+                });
+        });
+
+   othersvg.append("circle")
+        .attr("r", function() {
+        return Math.pow(10, Math.sqrt(7))/30;
+        })
+        .style("fill", function() {
+            return (pathRamp(7));
+        })
+        .attr("cx", "45")
+        .attr("cy", "30")
+        .on("click", function() {
+            d3.selectAll(".circle")
+                .style("display", "none");
+            d3.selectAll(".point")
+                .style("display", function(d) {
+                    return (Math.floor(d.magnitude) === 7) ? "block" : "none";
+                });
+        });
+
+    othersvg.append("circle")
+        .attr("r", function() {
+        return Math.pow(10, Math.sqrt(8))/40;
+        })
+        .style("fill", function() {
+            return (pathRamp(8));
+        })
+        .attr("cx", "85")
+        .attr("cy", "30")
+        .on("click", function() {
+            d3.selectAll(".circle")
+                .style("display", "none");
+            d3.selectAll(".point")
+                .style("display", function(d) {
+                    return (Math.floor(d.magnitude) === 8) ? "block" : "none";
+                });
+        });
+
+    othersvg.append("circle")
+        .attr("r", function() {
+        return Math.pow(10, Math.sqrt(9))/40;
+        })
+        .style("fill", function() {
+            return (pathRamp(9));
+        })
+        .attr("cx", "135")
+        .attr("cy", "30")
+        .on("click", function() {
+            d3.selectAll(".circle")
+                .style("display", "none");
+            d3.selectAll(".point")
+                .style("display", function(d) {
+                    return (Math.floor(d.magnitude) === 9) ? "block" : "none";
+                });
+        });
+
 }
 
 var createRecentPoints = function () {
@@ -399,11 +462,6 @@ function displayRecentPoints() {
     d3.selectAll(".point")
         .style("display", "none");
 }
-
-    // turn all current points off
-    // for any point in db, if val = mag, display: block
-    // update legend func
-    // use jquery to select all circles of w/e class, get fill for each, add them to an object, append a circle to newsvg
 
 // add drag behavior
 // ROTATION http://bl.ocks.org/mbostock/5731578

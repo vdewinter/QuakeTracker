@@ -7,7 +7,9 @@
 </head>
 
 <body>
-    <h3 class="project-title">Quake Tracker</h3>
+    <div id="title">
+        <h3>Quake Tracker</h3>
+    </div>
 
     <script src="static/d3/d3.v3.min.js"></script>
     <script src="static/js/topojson.v1.min.js"></script>
@@ -24,17 +26,28 @@
         <p id="p2"></p>
     </div>
 
-    <div class="container">
-        <a id="broadcast" class="more">Earthquakes in the Past Week (M2.5+)</a>
-        <div id="filter">Filter Recent Quakes by Magnitude</div>
-        <div id="filter-by-magnitude"></div>
+    <div class="container" id="container1">
+        <a id="broadcast" class="more">Past Week (M2.5+)</a>
+        <a id="slider-title" class="more">Since 1900 (M6+)</a>
     </div>
 
-    <a id="slider-title" class="more">Earthquakes Since 1900 (M6+)</a>
+    <div class="container" id="container2">
+        <div class="magnitude-titles" id="recent-filter-title">Filter Recent Quakes by Magnitude</div>
+        <div class="magnitude-titles" id="historical-filter-title">Filter Historical Quakes by Magnitude</div>
+    </div>
+
+    <div class="container" id="container3">
+        <div id="recent-filter" class="filter"></div>
+        <div id="historical-filter" class="filter"></div>
+    </div>
+
     <div id="slider-tooltip" class="hidden">
         <p id="slider-year"></p>
     </div>
-    <div id="slider"></div>
+
+    <div id="slider-div">
+        <div id="slider"></div>
+    </div>
 
     <script type="text/javascript">
         var dataset = 1;
