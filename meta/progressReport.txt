@@ -191,6 +191,10 @@ Refactored circle filter creating.
 7/31/2014
 goal: implement redis, add zoom, add refresh function to db quakes
 
+indicate circle not clickable for recent quakes if magnitude not relevant
+change opacity to deal w overlapping
+branch before refactoring
+
 
 LATER:
 

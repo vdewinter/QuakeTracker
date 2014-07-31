@@ -29,8 +29,8 @@ var g = svg.append("g")
 
 // colors quake points by magnitude
 var pathRamp = d3.scale.linear()
-    .domain([2,3,4,5,6,7,8,9])
-    .range(["#9B30FF","#003EFF","teal","#00FF00",
+    .domain([3,4,5,6,7,8,9])
+    .range(["#9B30FF","#003EFF","#00FF00",
         "yellow","orange","red","#B81324"]);
 
 var zoom = d3.behavior.zoom()
@@ -118,17 +118,16 @@ function displayMap(points) {
         .attr("height", "60px")
         .attr("width", "400px");
 
-    // for recent points
-    createFilterCircles(newsvg, 2, 10, 21, ".newPoint");
-    createFilterCircles(newsvg, 3, 10, 37, ".newPoint");
-    createFilterCircles(newsvg, 4, 15, 57, ".newPoint");
-    createFilterCircles(newsvg, 5, 20, 80, ".newPoint");
-    createFilterCircles(newsvg, 6, 25, 107, ".newPoint");
-    createFilterCircles(newsvg, 7, 30, 140, ".newPoint");
-    createFilterCircles(newsvg, 8, 40, 180, ".newPoint");
-    createFilterCircles(newsvg, 9, 40, 230, ".newPoint");
+    // filter for recent points
+    createFilterCircles(newsvg, 3, 10, 21, ".newPoint");
+    createFilterCircles(newsvg, 4, 15, 41, ".newPoint");
+    createFilterCircles(newsvg, 5, 20, 64, ".newPoint");
+    createFilterCircles(newsvg, 6, 25, 91, ".newPoint");
+    createFilterCircles(newsvg, 7, 30, 124, ".newPoint");
+    createFilterCircles(newsvg, 8, 40, 164, ".newPoint");
+    createFilterCircles(newsvg, 9, 40, 214, ".newPoint");
 
-    // for historical points
+    // filter for historical points
     createFilterCircles(othersvg, 6, 25, 21, ".point");
     createFilterCircles(othersvg, 7, 30, 54, ".point");
     createFilterCircles(othersvg, 8, 40, 94, ".point");
@@ -158,16 +157,16 @@ function createFilterCircles(elt, magnitude, divisor, cx, pointType) {
         .on("mouseover", function() {
             d3.select(this)
                 .transition().duration(500).ease("sine")
-                .attr("r", "15")
-                .attr("opacity", "0.7");
+                .attr("r", rad/1.3);
         })
         .on("mouseout", function() {
             d3.select(this)
                 .transition().duration(500).ease("sine")
-                .attr("r", rad)
-                .attr("opacity", "1");
+                .attr("r", rad);
         });
 }
+
+// TODO: add general createMapPoints function to use in refreshPoints and createHistoricalPoints
 
 function createRecentPoints() {
     d3.json("/new_earthquake", function(error, points) {
@@ -181,12 +180,61 @@ function createRecentPoints() {
 function refreshPoints() {
     var recentPoints = d3.select(".recent")
         .selectAll(".newPoint")
-        .data(data);
+        .data(data.filter(function(d) {
+            return d.magnitude >= 3;
+        }));
 
+    // only create circles if magnitude >= 3
     recentPoints.enter().append("circle", ".newPoint")
         .attr("class", "newPoint circle")
         .attr("r", function(d) {
             return Math.pow(10, Math.sqrt(d.magnitude))/40;
+        })
+        .style("fill", function(d) {
+            return (pathRamp(Math.floor(d.magnitude)));
+        })
+        .attr("transform", function(d) {
+            return "translate(" + projection ([d.longitude, d.latitude]) + ")";
+        })
+        .style("display", "none")
+        .on("mouseover", function(d) {
+            console.log(d);
+            var date = new Date(parseInt(d.timestamp));
+            var str = (date.getUTCMonth() + 1) + "/" + date.getUTCDate() + "/" + date.getUTCFullYear(); //also show time/place?
+            console.log(str);
+            d3.select("#p1").text("M" + parseFloat(d.magnitude).toFixed(1));
+            d3.select("#p2").text(str);
+            
+            var xPos = mouse["x"] + 10;
+            var yPos = mouse["y"] + 5;
+
+            d3.select("#tooltip")
+                .classed("hidden", false)
+                .style("left", + xPos + "px")
+                .style("top", + yPos + "px");
+        })
+        .on("mouseout", function() {
+            d3.select("#tooltip")
+                .classed("hidden", true);
+        });
+
+    // remove recent points > 1 week old
+    recentPoints.exit()
+        .remove();
+
+    // also add new earthquakes with magnitude >=6 to historical points
+    var historicalPoints = d3.selectAll(".point")
+        .data(data);
+
+    // only create circles if magnitude >= 6
+    // THIS CREATE DUPLICATE POINTS
+    historicalPoints.enter().append("circle", ".newPoint")
+        .filter(function(d) {
+            return d.magnitude >= 6;
+        })
+        .attr("class", "newPoint circle")
+        .attr("r", function(d) {
+            return Math.pow(10, Math.sqrt(d.magnitude))/90;
         })
         .style("fill", function(d) {
             return (pathRamp(Math.floor(d.magnitude)));
@@ -215,9 +263,6 @@ function refreshPoints() {
             d3.select("#tooltip")
                 .classed("hidden", true);
         });
-
-    recentPoints.exit()
-        .remove();
 }
 
 function createHistoricalPoints(points) {
