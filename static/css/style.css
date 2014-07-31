@@ -4,7 +4,7 @@
 
 body {
     background-color: #FFFFFF;
-    font-family: 'Exo', sans-serif;
+    font-family: 'Droid Sans', sans-serif;
 }
 
 #title {
@@ -39,7 +39,6 @@ body {
 
 #tooltip p {
     margin: 0;
-    font-family: 'Exo', sans-serif;
     font-size: 12px;
     line-height: 20px;
 }
@@ -63,7 +62,6 @@ body {
     margin-right: auto;
     width: 960px;
     margin-top: 18px;
-    font-family: 'Exo', sans-serif;
 }
 
 #broadcast {
@@ -71,7 +69,6 @@ body {
     margin-right: 10px;
     width: 200px;
     color: #42827E;
-    font-family: 'Exo', sans-serif;
 }
 
 #slider-title {
