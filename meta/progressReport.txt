@@ -186,10 +186,10 @@ filter circles are not turning off slider data
 goal: label legend, add zoom, add refresh function to db quakes, center content w margin left/right auto
 
 Centering done. Added handler for window resize to dynamically calculate position of slider-tooltip (anchored to bottom right of map). This felt like a lot of work for something that didn't seem it would be difficult at first. Hiding slider tooltip when any filter clicked.
-
+Refactored circle filter creating.
 
 7/31/2014
-goal: implement redis
+goal: implement redis, add zoom, add refresh function to db quakes
 
 
 LATER:
@@ -211,8 +211,6 @@ set timeout (1 min) - test expiration
 
 -- zoom functionality
 
--- make site repsonsive (consider writing a custom timeline to deal- responsive)
-
 -- Need to test handling when USGS is down
 
 -- make slider faster (more DOM manip = less performant)
@@ -225,7 +223,6 @@ make buttons divs to avoid rectangular shadow- also easier to style
 Extras
 
 -- Could inclue "place" in label and time for recent quakes
--- smooth animation- make points grow to full size and then disappear - transition() is breaking something?
 -- use queue to async load: https://github.com/mbostock/queue
 -- orthographic projection and interactive globe(drag and zoom) - the points would need their clipping param adjusted
 -- migrate to postgres

@@ -10,7 +10,7 @@
     <div id="title">
         <h3>Quake Tracker</h3>
     </div>
-
+    <link href='http://fonts.googleapis.com/css?family=Exo' rel='stylesheet' type='text/css'>
     <script src="static/d3/d3.v3.min.js"></script>
     <script src="static/js/topojson.v1.min.js"></script>
     <script src="static/js/jquery.min.js"></script>
@@ -60,9 +60,14 @@
                 var gutter = ($(window).width() - 960) / 2;
 
                 $("#slider-tooltip").css({
-                    'position': 'absolute',
-                    'top': 528 ,
-                    'right': gutter
+                    "position": "absolute",
+                    "top": 528,
+                    "right": gutter
+                });
+
+                $("#title").css({
+                    "top": 0,
+                    "margin-left": gutter
                 });
             }
 

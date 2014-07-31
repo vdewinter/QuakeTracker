@@ -119,28 +119,27 @@ function displayMap(points) {
         .attr("width", "400px");
 
     // for recent points
-    createFilterCircles(newsvg, 2, 10, 11, ".newPoint");
-    createFilterCircles(newsvg, 3, 10, 27, ".newPoint");
-    createFilterCircles(newsvg, 4, 15, 47, ".newPoint");
-    createFilterCircles(newsvg, 5, 20, 70, ".newPoint");
-    createFilterCircles(newsvg, 6, 25, 97, ".newPoint");
-    createFilterCircles(newsvg, 7, 30, 130, ".newPoint");
-    createFilterCircles(newsvg, 8, 40, 170, ".newPoint");
-    createFilterCircles(newsvg, 9, 40, 220, ".newPoint");
+    createFilterCircles(newsvg, 2, 10, 21, ".newPoint");
+    createFilterCircles(newsvg, 3, 10, 37, ".newPoint");
+    createFilterCircles(newsvg, 4, 15, 57, ".newPoint");
+    createFilterCircles(newsvg, 5, 20, 80, ".newPoint");
+    createFilterCircles(newsvg, 6, 25, 107, ".newPoint");
+    createFilterCircles(newsvg, 7, 30, 140, ".newPoint");
+    createFilterCircles(newsvg, 8, 40, 180, ".newPoint");
+    createFilterCircles(newsvg, 9, 40, 230, ".newPoint");
 
     // for historical points
-    createFilterCircles(othersvg, 6, 25, 11, ".point");
-    createFilterCircles(othersvg, 7, 30, 44, ".point");
-    createFilterCircles(othersvg, 8, 40, 84, ".point");
-    createFilterCircles(othersvg, 9, 40, 134, ".point");
+    createFilterCircles(othersvg, 6, 25, 21, ".point");
+    createFilterCircles(othersvg, 7, 30, 54, ".point");
+    createFilterCircles(othersvg, 8, 40, 94, ".point");
+    createFilterCircles(othersvg, 9, 40, 144, ".point");
 
 }
 
 function createFilterCircles(elt, magnitude, divisor, cx, pointType) {
+    var rad = Math.pow(10, Math.sqrt(magnitude))/divisor;
     elt.append("circle")
-        .attr("r", function() {
-        return Math.pow(10, Math.sqrt(magnitude))/divisor;
-        })
+        .attr("r", rad)
         .style("fill", function() {
             return (pathRamp(magnitude));
         })
@@ -155,27 +154,37 @@ function createFilterCircles(elt, magnitude, divisor, cx, pointType) {
                 .style("display", function(d) {
                     return (Math.floor(d.magnitude) === magnitude) ? "block" : "none";
                 });
+        })
+        .on("mouseover", function() {
+            d3.select(this)
+                .transition().duration(500).ease("sine")
+                .attr("r", "15")
+                .attr("opacity", "0.7");
+        })
+        .on("mouseout", function() {
+            d3.select(this)
+                .transition().duration(500).ease("sine")
+                .attr("r", rad)
+                .attr("opacity", "1");
         });
 }
 
-var createRecentPoints = function () {
+function createRecentPoints() {
     d3.json("/new_earthquake", function(error, points) {
         if (error) return console.error(error);
         console.log(points);
         data = points;
         refreshPoints();
     });
-};
+}
 
-var refreshPoints = function() {
+function refreshPoints() {
     var recentPoints = d3.select(".recent")
         .selectAll(".newPoint")
         .data(data);
 
     recentPoints.enter().append("circle", ".newPoint")
         .attr("class", "newPoint circle")
-        // .attr("r", 0).transition()
-        // .duration(1000) // these lines is making mouseover be considered an undefined func
         .attr("r", function(d) {
             return Math.pow(10, Math.sqrt(d.magnitude))/40;
         })
@@ -209,7 +218,7 @@ var refreshPoints = function() {
 
     recentPoints.exit()
         .remove();
-};
+}
 
 function createHistoricalPoints(points) {
     var pointsList = [];
