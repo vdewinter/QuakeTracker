@@ -195,12 +195,13 @@ indicate circle not clickable for recent quakes if magnitude not relevant
 branch before refactoring (making drawPoints func)
 consider making mouse handling a sep func
 
-earthquakes for 1900-6 not dispalying !!!!
+earthquakes for 1900-6 not dispalying !!!! this has to do with adding the most recent M6+ quakes to the .point collection.
+tried creating recent points before historical points- did not work- earlier years' data is being overwritten by the latest's. I fixed this by associated new reports' data to .historical (a g elt) vs. .points (circles) and dividing the timestamps by 1000 (old data does not have milliseconds in timestamps). HOLLA
 
 
 
 8/1/2014
-goal: finish all labeling and front-end interaction
+goal: finish labeling filters and front-end interaction
 
 
 8/2/2014

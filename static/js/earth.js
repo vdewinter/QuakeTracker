@@ -70,8 +70,8 @@ function displayMap(points) {
             .attr("class", "historical");
         svg.append("g")
             .attr("class", "recent");
-        createHistoricalPoints(points);
         createRecentPoints();
+        createHistoricalPoints(points);
     });
 
     // fault lines
@@ -169,7 +169,7 @@ function createFilterCircles(elt, magnitude, divisor, cx, pointType) {
 function createRecentPoints() {
     d3.json("/new_earthquake", function(error, points) {
         if (error) return console.error(error);
-        console.log(points);
+        // console.log(points);
         data = points;
         refreshPoints();
     });
@@ -198,7 +198,7 @@ function refreshPoints() {
         .style("opacity", 0.8)
         .on("mouseover", function(d) {
             console.log(d);
-            var date = new Date(parseInt(d.timestamp));
+            var date = new Date(parseInt(d.timestamp, 10));
             var str = (date.getUTCMonth() + 1) + "/" + date.getUTCDate() + "/" + date.getUTCFullYear(); //also show time/place?
             console.log(str);
             d3.select("#p1").text("M" + parseFloat(d.magnitude).toFixed(1));
@@ -222,13 +222,13 @@ function refreshPoints() {
         .remove();
 
     // also add new earthquakes with magnitude >= 6 to historical points
-    var historicalPoints = d3.selectAll(".point")
+    var historicalPoints = d3.selectAll(".historical")
         .data(data);
 
     // THIS CREATES DUPLICATE POINTS ?
     historicalPoints.enter().append("circle", ".newPoint")
         .filter(function(d) {
-            return parseFloat(d.magnitude).toFixed(1) === 6;
+            return parseFloat(d.magnitude).toFixed(1) >= 6;
         })
         .attr("class", "newPoint circle")
         .attr("r", function(d) {
@@ -244,7 +244,7 @@ function refreshPoints() {
         .style("opacity", 0.8)
         .on("mouseover", function(d) {
             console.log(d);
-            var date = new Date(parseInt(d.timestamp));
+            var date = new Date(parseInt(d.timestamp, 10)/1000); // convert to seconds
             var str = (date.getUTCMonth() + 1) + "/" + date.getUTCDate() + "/" + date.getUTCFullYear(); //also show time?
             console.log(str);
             d3.select("#p1").text("M" + parseFloat(d.magnitude).toFixed(1));
@@ -292,7 +292,7 @@ function createHistoricalPoints(points) {
         .on("mouseover", function(d) {
             var tooltip = d3.select("#tooltip");
             console.log(d);
-            var date = new Date(parseInt(d.timestamp));
+            var date = new Date(parseInt(d.timestamp, 10));
             var str = (date.getUTCMonth() + 1) + "/" + date.getUTCDate() + "/" + date.getUTCFullYear();
             console.log(str);
             d3.select("#p1").text("M" + parseFloat(d.magnitude).toFixed(1));
@@ -316,7 +316,8 @@ function filterPoints(value) {
     if (dataset.hasOwnProperty(value)) {
         d3.selectAll(".circle")
             .style("display", function(d) {
-                year = new Date(d.timestamp).getUTCFullYear();
+                var timestamp = parseInt(d.timestamp, 10);
+                year = new Date(timestamp).getUTCFullYear();
                 return (year === value) ? "block" : "none";
             });
     }
