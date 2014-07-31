@@ -70,8 +70,8 @@ function displayMap(points) {
             .attr("class", "historical");
         svg.append("g")
             .attr("class", "recent");
-        createRecentPoints();
         createHistoricalPoints(points);
+        createRecentPoints();
     });
 
     // fault lines
@@ -169,7 +169,7 @@ function createFilterCircles(elt, magnitude, divisor, cx, pointType) {
 function createRecentPoints() {
     d3.json("/new_earthquake", function(error, points) {
         if (error) return console.error(error);
-        // console.log(points);
+        console.log(points);
         data = points;
         refreshPoints();
     });
@@ -223,13 +223,12 @@ function refreshPoints() {
 
     // also add new earthquakes with magnitude >= 6 to historical points
     var historicalPoints = d3.selectAll(".historical")
-        .data(data);
+        .data(data.filter(function(d) {
+            return d.magnitude >= 6;
+        }));
 
-    // THIS CREATES DUPLICATE POINTS ?
+    // does this create duplicate points, and does that matter? would affect opacity
     historicalPoints.enter().append("circle", ".newPoint")
-        .filter(function(d) {
-            return parseFloat(d.magnitude).toFixed(1) >= 6;
-        })
         .attr("class", "newPoint circle")
         .attr("r", function(d) {
             return Math.pow(10, Math.sqrt(d.magnitude))/90;
@@ -244,7 +243,7 @@ function refreshPoints() {
         .style("opacity", 0.8)
         .on("mouseover", function(d) {
             console.log(d);
-            var date = new Date(parseInt(d.timestamp, 10)/1000); // convert to seconds
+            var date = new Date(parseInt(d.timestamp, 10));
             var str = (date.getUTCMonth() + 1) + "/" + date.getUTCDate() + "/" + date.getUTCFullYear(); //also show time?
             console.log(str);
             d3.select("#p1").text("M" + parseFloat(d.magnitude).toFixed(1));
@@ -275,7 +274,9 @@ function createHistoricalPoints(points) {
 
     d3.select("g.historical")
         .selectAll(".point")
-        .data(pointsList)
+        .data(pointsList.filter(function(d) {
+            return d.magnitude >= 6;
+        }))
         .enter().append("circle", ".point")
         .attr("class", "point circle")
         .attr("r", function(d) {
@@ -318,7 +319,7 @@ function filterPoints(value) {
             .style("display", function(d) {
                 var timestamp = parseInt(d.timestamp, 10);
                 year = new Date(timestamp).getUTCFullYear();
-                return (year === value) ? "block" : "none";
+                return ((year === value) && (d.magnitude >= 6)) ? "block" : "none";
             });
     }
 }

@@ -189,15 +189,11 @@ Centering done. Added handler for window resize to dynamically calculate positio
 Refactored circle filter creating.
 
 7/31/2014
-goal: add zoom, add refresh function to db quakes
-
-indicate circle not clickable for recent quakes if magnitude not relevant
-branch before refactoring (making drawPoints func)
-consider making mouse handling a sep func
+goal: add zoom, add refresh function to db quakes, indicate circle not clickable for recent quakes if magnitude not relevant
 
 earthquakes for 1900-6 not dispalying !!!! this has to do with adding the most recent M6+ quakes to the .point collection.
-tried creating recent points before historical points- did not work- earlier years' data is being overwritten by the latest's. I fixed this by associated new reports' data to .historical (a g elt) vs. .points (circles) and dividing the timestamps by 1000 (old data does not have milliseconds in timestamps). HOLLA
-
+tried creating recent points before historical points- did not work- earlier years' data is being overwritten by the latest's. I fixed this by associating new reports' data to .historical (a g elt) vs. .points (circles) and dividing the timestamps by 1000 (old data does not have milliseconds in timestamps). HOLLA
+TO CONSIDER: Does this addition create duplicate points in the historical data, and other than changing the opacity of a point, does it matter?
 
 
 8/1/2014
@@ -238,6 +234,8 @@ make buttons divs to avoid rectangular shadow- also easier to style
 
 Extras
 
+-- branch before refactoring (making drawPoints func)
+-- consider making mouse handling a sep func
 -- Could inclue "place" in label and time for recent quakes
 -- use queue to async load: https://github.com/mbostock/queue
 -- orthographic projection and interactive globe(drag and zoom) - the points would need their clipping param adjusted
