@@ -28,7 +28,7 @@ var g = svg.append("g")
     .attr("class", "main-g");
 
 // colors quake points by magnitude
-var pathRamp = d3.scale.linear()
+var colorRamp = d3.scale.linear()
     .domain([3,4,5,6,7,8,9])
     .range(["#9B30FF","#003EFF","#00FF00",
         "yellow","orange","red","#B81324"]);
@@ -63,7 +63,7 @@ function displayMap(points) {
         svg.append("path")
             .datum(topojson.feature(world, world.objects.subunits))
             .attr("d", path)
-            .style("opacity", 0.7);
+            .style("opacity", 0.8);
         
         // create points inside g elt once world.json has loaded
         svg.append("g")
@@ -140,7 +140,7 @@ function createFilterCircles(elt, magnitude, divisor, cx, pointType) {
     elt.append("circle")
         .attr("r", rad)
         .style("fill", function() {
-            return (pathRamp(magnitude));
+            return (colorRamp(magnitude));
         })
         .attr("cx", cx)
         .attr("cy", "30")
@@ -166,8 +166,6 @@ function createFilterCircles(elt, magnitude, divisor, cx, pointType) {
         });
 }
 
-// TODO: add general createMapPoints function to use in refreshPoints and createHistoricalPoints
-
 function createRecentPoints() {
     d3.json("/new_earthquake", function(error, points) {
         if (error) return console.error(error);
@@ -191,12 +189,13 @@ function refreshPoints() {
             return Math.pow(10, Math.sqrt(d.magnitude))/40;
         })
         .style("fill", function(d) {
-            return (pathRamp(Math.floor(d.magnitude)));
+            return (colorRamp(Math.floor(d.magnitude)));
         })
         .attr("transform", function(d) {
             return "translate(" + projection ([d.longitude, d.latitude]) + ")";
         })
         .style("display", "none")
+        .style("opacity", 0.8)
         .on("mouseover", function(d) {
             console.log(d);
             var date = new Date(parseInt(d.timestamp));
@@ -222,27 +221,27 @@ function refreshPoints() {
     recentPoints.exit()
         .remove();
 
-    // also add new earthquakes with magnitude >=6 to historical points
+    // also add new earthquakes with magnitude >= 6 to historical points
     var historicalPoints = d3.selectAll(".point")
         .data(data);
 
-    // only create circles if magnitude >= 6
-    // THIS CREATE DUPLICATE POINTS
+    // THIS CREATES DUPLICATE POINTS ?
     historicalPoints.enter().append("circle", ".newPoint")
         .filter(function(d) {
-            return d.magnitude >= 6;
+            return parseFloat(d.magnitude).toFixed(1) === 6;
         })
         .attr("class", "newPoint circle")
         .attr("r", function(d) {
             return Math.pow(10, Math.sqrt(d.magnitude))/90;
         })
         .style("fill", function(d) {
-            return (pathRamp(Math.floor(d.magnitude)));
+            return (colorRamp(Math.floor(d.magnitude)));
         })
         .attr("transform", function(d) {
             return "translate(" + projection ([d.longitude, d.latitude]) + ")";
         })
         .style("display", "none")
+        .style("opacity", 0.8)
         .on("mouseover", function(d) {
             console.log(d);
             var date = new Date(parseInt(d.timestamp));
@@ -283,13 +282,13 @@ function createHistoricalPoints(points) {
             return Math.pow(10, Math.sqrt(d.magnitude))/90;
         })
         .style("fill", function(d) {
-            return (pathRamp(Math.floor(d.magnitude)));
+            return (colorRamp(Math.floor(d.magnitude)));
         })
         .attr("transform", function(d) {
             return "translate(" + projection ([d.longitude, d.latitude]) + ")";
         })
         .style("display", "none")
-
+        .style("opacity", 0.8)
         .on("mouseover", function(d) {
             var tooltip = d3.select("#tooltip");
             console.log(d);

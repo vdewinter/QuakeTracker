@@ -189,11 +189,22 @@ Centering done. Added handler for window resize to dynamically calculate positio
 Refactored circle filter creating.
 
 7/31/2014
-goal: implement redis, add zoom, add refresh function to db quakes
+goal: add zoom, add refresh function to db quakes
 
 indicate circle not clickable for recent quakes if magnitude not relevant
-change opacity to deal w overlapping
-branch before refactoring
+branch before refactoring (making drawPoints func)
+consider making mouse handling a sep func
+
+earthquakes for 1900-6 not dispalying !!!!
+
+
+
+8/1/2014
+goal: finish all labeling and front-end interaction
+
+
+8/2/2014
+goal: implement redis
 
 
 LATER:
