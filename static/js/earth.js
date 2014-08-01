@@ -31,21 +31,21 @@ var colorRamp = d3.scale.linear()
         "#FFE600","orange","red","#B81324"]);
 
 // for zoom functionality
-var g = svg.append("g")
-    .attr("class", "main-g");
+// var g = svg.append("g")
+//     .attr("class", "main-g");
 
-var zoom = d3.behavior.zoom()
-    .scaleExtent([1,8])
-    .on("zoom", move);
+// var zoom = d3.behavior.zoom()
+//     .scaleExtent([1,8])
+//     .on("zoom", move);
 
-function move() {
-  var t = d3.event.translate,
-      s = d3.event.scale;
-  t[0] = Math.min(width / 2 * (s - 1), Math.max(width / 2 * (1 - s), t[0]));
-  t[1] = Math.min(height / 2 * (s - 1) + 230 * s, Math.max(height / 2 * (1 - s) - 230 * s, t[1]));
-  zoom.translate(t);
-  d3.select(".main-g").style("stroke-width", 1 / s).attr("transform", "translate(" + t + ")scale(" + s + ")");
-}
+// function move() {
+//   var t = d3.event.translate,
+//       s = d3.event.scale;
+//   t[0] = Math.min(width / 2 * (s - 1), Math.max(width / 2 * (1 - s), t[0]));
+//   t[1] = Math.min(height / 2 * (s - 1) + 230 * s, Math.max(height / 2 * (1 - s) - 230 * s, t[1]));
+//   zoom.translate(t);
+//   d3.select(".main-g").style("stroke-width", 1 / s).attr("transform", "translate(" + t + ")scale(" + s + ")");
+// }
 
 function readHistoricalQuakes() {
     d3.json("/read_quakes_from_db", function(error, points) {
@@ -190,6 +190,30 @@ function createFilterCircles(elt, magnitude, divisor, cx, pointType) {
         });
 }
 
+// function handleMouseEvents(selection) {
+//     selection.on("mouseover", function(d) {
+//         var tooltip = d3.select("#tooltip");
+
+//         var date = new Date(parseInt(d.timestamp, 10));
+//         var dateString = (date.getUTCMonth() + 1) + "/" + date.getUTCDate() + "/" + date.getUTCFullYear();
+//         var t = date.getUTCHours() + ":" + ((date.getUTCMinutes()<10?'0':'') + date.getUTCMinutes()) + " GMT";
+//         d3.select("#p1").text("M" + d.magnitude);
+//         d3.select("#p2").text(dateString);
+//         d3.select("#p3").text(t);
+        
+//         var xPos = mouse["x"] + 10;
+//         var yPos = mouse["y"] + 5;
+        
+//         tooltip.classed("hidden", false)
+//             .style("left", + xPos + "px")
+//             .style("top", + yPos + "px");
+//         })
+//         .on("mouseout", function() {
+//             d3.select("#tooltip")
+//                 .classed("hidden", true);
+//         });
+// }
+
 function readRecentQuakes() {
     d3.json("/new_earthquake", function(error, points) {
         if (error) return console.error(error);
@@ -211,9 +235,10 @@ function refreshPoints() {
         .attr("class", "newPoint circle")
         .each(function(d) {
             var that = this;
-            setInterval(function(){d3.select(that)
-                .attr("r", function(d) {
-                    return Math.pow(10, Math.sqrt(d.magnitude))/40;
+            setInterval(function() {
+                d3.select(that)
+                    .attr("r", function(d) {
+                        return Math.pow(10, Math.sqrt(d.magnitude))/40;
                 })
                 .transition()
                 .duration(1500).ease("sine")
@@ -229,7 +254,7 @@ function refreshPoints() {
         })
         .style("fill", function(d) {
             var col = colorRamp(Math.floor(d.magnitude));
-            // recentColObj[col] += (d.id); // todo: make recentColObj with colors as keys and arrays as vals- if empty, don't display filter circel
+            // recentColObj[col] += (d.id); // todo: make recentColObj with colors as keys and arrays as vals- if empty, don't display filter circle
             return col;
         })
         .attr("transform", function(d) {
@@ -237,6 +262,9 @@ function refreshPoints() {
         })
         .style("display", "none")
         .style("opacity", 0.9)
+        // .each(function(d) {
+        //     handleMouseEvents(d);
+        // });
         .on("mouseover", function(d) {
             var tooltip = d3.select("#tooltip");
 

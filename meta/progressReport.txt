@@ -205,11 +205,15 @@ how to deal with overlapping quakes, a bigger one over a smaller one?
 8/1/2014
 goal: finish front-end, do some js refactoring
 
-there is a circle outside of the svg - fix
+there is a circle outside of the svg - fix !!!!!!
 
 added pulsing to recent quakes- could make pulses smaller depending on how long ago quake happened
 
 when changing git repo name use this command to change remote name: git remote set-url origin git@github.com:someuser/newprojectname.git
+
+trying to make handle mouse events func- should this just be a drawPoints func? there is a lot of variation bt types of pts
+
+gray out circle filters that aren't relevant
 
 8/2/2014
 goal: implement redis
