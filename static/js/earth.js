@@ -4,6 +4,7 @@
 // or
 // make hash table with d3 collection by year, track currently displayed year, 
 // collection#oldyear display: none; collection#newyear display:block
+
 var mouse = {x: 0, y: 0};
 
 document.addEventListener('mousemove', function(e){
@@ -27,8 +28,17 @@ var svg = d3.select("body").append("svg")
 // colors quake points by magnitude
 var colorRamp = d3.scale.linear()
     .domain([3,4,5,6,7,8,9])
-    .range(["#9B30FF","#003EFF","#00FF00",
-        "#FFE600","orange","red","#B81324"]);
+    .range(["#9b30ff","#003eff","#00ff00",
+        "#ffe600","#ffa500","#ff0000","#b81324"]);
+
+var recentColObj = {"#9b30ff": false,
+                    "#003eff": false,
+                    "#00ff00": false,
+                    "#ffe600": false,
+                    "#ffa500": false,
+                    "#ff0000": false,
+                    "#b81324": false
+                    };
 
 // for zoom functionality
 // var g = svg.append("g")
@@ -46,14 +56,6 @@ var colorRamp = d3.scale.linear()
 //   zoom.translate(t);
 //   d3.select(".main-g").style("stroke-width", 1 / s).attr("transform", "translate(" + t + ")scale(" + s + ")");
 // }
-
-function readHistoricalQuakes() {
-    d3.json("/read_quakes_from_db", function(error, points) {
-        if (error) return console.error(error);
-        dataset = points;
-        displayMap(points);
-    });
-}
 
 function displayMap(points) {
     // land
@@ -105,90 +107,22 @@ function displayMap(points) {
                     .text(value);
 
                 filterPoints(value);
-        }));
+    }));
 
     // magnitude filters
-    var newsvg = d3.select("#recent-filter")
+    d3.select("#recent-filter")
         .append("svg")
-        .attr("class", "newsvg")
+        .attr("class", "rsvg")
         .attr("height", "90px")
         .attr("width", "400px");
 
-    var othersvg = d3.select("#historical-filter")
+    d3.select("#historical-filter")
         .append("svg")
-        .attr("class", "othersvg")
+        .attr("class", "hsvg")
         .attr("height", "90px")
         .attr("width", "400px");
-
-    // circle filters for recent points
-    createFilterCircles(newsvg, 3, 10, 21, ".newPoint");
-    createFilterCircles(newsvg, 4, 15, 43, ".newPoint");
-    createFilterCircles(newsvg, 5, 20, 69, ".newPoint");
-    createFilterCircles(newsvg, 6, 25, 100, ".newPoint");
-    createFilterCircles(newsvg, 7, 30, 140, ".newPoint");
-    createFilterCircles(newsvg, 8, 40, 188, ".newPoint");
-    createFilterCircles(newsvg, 9, 40, 250, ".newPoint");
-
-    // circle filters for historical points
-    createFilterCircles(othersvg, 6, 25, 21, ".point");
-    createFilterCircles(othersvg, 7, 30, 61, ".point");
-    createFilterCircles(othersvg, 8, 40, 105, ".point");
-    createFilterCircles(othersvg, 9, 40, 164, ".point");
 }
 
-function createFilterCircles(elt, magnitude, divisor, cx, pointType) {
-    var rad = Math.pow(10, Math.sqrt(magnitude))/divisor * 1.3;
-    var circleG = elt.append("g");
-    var col = colorRamp(magnitude);
-
-    var c = circleG.append("circle")
-        .attr("r", rad)
-        .style("fill", col)
-        .attr("cx", cx)
-        .attr("cy", "40")
-        .on("click", function() {
-            d3.selectAll(".circle")
-                .style("display", "none");
-            d3.select("#slider-tooltip")
-                .classed("hidden", true);
-            d3.selectAll(pointType)
-                .style("display", function(d) {
-                    return (Math.floor(d.magnitude) === magnitude) ? "block" : "none";
-                });
-        })
-        .on("mouseover", function() {
-            d3.select(this)
-                .transition().duration(300).ease("sine")
-                .attr("r", rad/1.07);
-        })
-        .on("mouseout", function() {
-            d3.select(this)
-                .transition().duration(300).ease("sine")
-                .attr("r", rad);
-        });
-
-    // disable labels for which no events exist
-    // if (d3.selectAll(pointType).style("fill") === col) {}
-    // else {
-    //     console.log("no results for magnitude " + magnitude);
-    //     c.style("fill", "white")
-    //         .attr("pointer-events", "none");
-    // }
-
-    circleG.append("text")
-        .attr("dy", function() {
-            return 44;
-        })
-        .attr("dx", function() {
-            return cx - 3;
-        })
-        .style("font-size", "11px")
-        .style("fill", "white")
-        .style("pointer-events", "none")
-        .text(function() {
-            return magnitude;
-        });
-}
 
 // function handleMouseEvents(selection) {
 //     selection.on("mouseover", function(d) {
@@ -213,6 +147,65 @@ function createFilterCircles(elt, magnitude, divisor, cx, pointType) {
 //                 .classed("hidden", true);
 //         });
 // }
+
+function readHistoricalQuakes() {
+    d3.json("/read_quakes_from_db", function(error, points) {
+        if (error) return console.error(error);
+        dataset = points;
+        displayMap(points);
+    });
+}
+
+function createHistoricalPoints(points) {
+    var pointsList = [];
+    for (var year in points) {
+        var yearPoints = points[year];
+        for (var i = 0; i < yearPoints.length; i++) {
+            pointsList.push(yearPoints[i]);
+        }
+    }
+
+    d3.select("g.historical")
+        .selectAll(".point")
+        .data(pointsList.filter(function(d) {
+            return d.magnitude >= 6;
+        }))
+        .enter().append("circle", ".point")
+        .attr("class", "point circle")
+        .attr("r", function(d) {
+            return Math.pow(10, Math.sqrt(d.magnitude))/90;
+        })
+        .style("fill", function(d) {
+            return (colorRamp(Math.floor(d.magnitude)));
+        })
+        .attr("transform", function(d) {
+            return "translate(" + projection ([d.longitude, d.latitude]) + ")";
+        })
+        .style("display", "none")
+        .style("opacity", 0.9)
+        .on("mouseover", function(d) {
+            var tooltip = d3.select("#tooltip");
+
+            var date = new Date(parseInt(d.timestamp, 10));
+            var dateString = (date.getUTCMonth() + 1) + "/" + date.getUTCDate() + "/" + date.getUTCFullYear();
+            var t = date.getUTCHours() + ":" + ((date.getUTCMinutes()<10?'0':'') + date.getUTCMinutes()) + " GMT";
+            d3.select("#p1").text("M" + d.magnitude);
+            d3.select("#p2").text(dateString);
+            d3.select("#p3").text(t);
+
+            var xPos = mouse["x"] + 5;
+            var yPos = mouse["y"]+ 5;
+
+            d3.select("#tooltip")
+                .classed("hidden", false)
+                .style("left", + xPos + "px")
+                .style("top", + yPos + "px");
+        })
+        .on("mouseout", function() {
+            d3.select("#tooltip")
+                .classed("hidden", true);
+        });
+}
 
 function readRecentQuakes() {
     d3.json("/new_earthquake", function(error, points) {
@@ -254,7 +247,14 @@ function refreshPoints() {
         })
         .style("fill", function(d) {
             var col = colorRamp(Math.floor(d.magnitude));
-            // recentColObj[col] += (d.id); // todo: make recentColObj with colors as keys and arrays as vals- if empty, don't display filter circle
+
+            console.log(col);
+
+            console.log(recentColObj[col]); // undefined- why
+
+            if (recentColObj.hasOwnProperty(col)) {
+                recentColObj[col] = true;
+            }
             return col;
         })
         .attr("transform", function(d) {
@@ -331,56 +331,77 @@ function refreshPoints() {
             d3.select("#tooltip")
                 .classed("hidden", true);
         });
-}
 
-function createHistoricalPoints(points) {
-    var pointsList = [];
-    for (var year in points) {
-        var yearPoints = points[year];
-        for (var i = 0; i < yearPoints.length; i++) {
-            pointsList.push(yearPoints[i]);
+    // circle filters for recent points
+    createFilterCircles(".rsvg", 3, 10, 21, ".newPoint");
+    createFilterCircles(".rsvg", 4, 15, 43, ".newPoint");
+    createFilterCircles(".rsvg", 5, 20, 69, ".newPoint");
+    createFilterCircles(".rsvg", 6, 25, 100, ".newPoint");
+    createFilterCircles(".rsvg", 7, 30, 140, ".newPoint");
+    createFilterCircles(".rsvg", 8, 40, 188, ".newPoint");
+    createFilterCircles(".rsvg", 9, 40, 250, ".newPoint");
+
+    // circle filters for historical points
+    createFilterCircles(".hsvg", 6, 25, 21, ".point");
+    createFilterCircles(".hsvg", 7, 30, 61, ".point");
+    createFilterCircles(".hsvg", 8, 40, 105, ".point");
+    createFilterCircles(".hsvg", 9, 40, 164, ".point");
+
+    // disable recent point labels for which no events exist
+    for (var color in recentColObj) {
+        if (! recentColObj[color]) {
+            console.log("no results for " + color);
+            d3.selectAll(".newPoint" + color.replace("#",""))
+                .style("fill", "white")
+                .attr("pointer-events", "none");
         }
     }
+}
 
-    d3.select("g.historical")
-        .selectAll(".point")
-        .data(pointsList.filter(function(d) {
-            return d.magnitude >= 6;
-        }))
-        .enter().append("circle", ".point")
-        .attr("class", "point circle")
-        .attr("r", function(d) {
-            return Math.pow(10, Math.sqrt(d.magnitude))/90;
+function createFilterCircles(elt, magnitude, divisor, cx, pointType) {
+    var rad = Math.pow(10, Math.sqrt(magnitude))/divisor * 1.3;
+    var circleG = d3.select(elt).append("g"); // this has wrong parent
+    var col = colorRamp(magnitude);
+
+    var c = circleG.append("circle")
+        .attr("class", pointType.replace(".","") + col.replace("#",""))
+        .attr("r", rad)
+        .style("fill", col)
+        .attr("cx", cx)
+        .attr("cy", "40")
+        .on("click", function() {
+            d3.selectAll(".circle")
+                .style("display", "none");
+            d3.select("#slider-tooltip")
+                .classed("hidden", true);
+            d3.selectAll(pointType)
+                .style("display", function(d) {
+                    return (Math.floor(d.magnitude) === magnitude) ? "block" : "none";
+                });
         })
-        .style("fill", function(d) {
-            return (colorRamp(Math.floor(d.magnitude)));
-        })
-        .attr("transform", function(d) {
-            return "translate(" + projection ([d.longitude, d.latitude]) + ")";
-        })
-        .style("display", "none")
-        .style("opacity", 0.9)
-        .on("mouseover", function(d) {
-            var tooltip = d3.select("#tooltip");
-
-            var date = new Date(parseInt(d.timestamp, 10));
-            var dateString = (date.getUTCMonth() + 1) + "/" + date.getUTCDate() + "/" + date.getUTCFullYear();
-            var t = date.getUTCHours() + ":" + ((date.getUTCMinutes()<10?'0':'') + date.getUTCMinutes()) + " GMT";
-            d3.select("#p1").text("M" + d.magnitude);
-            d3.select("#p2").text(dateString);
-            d3.select("#p3").text(t);
-
-            var xPos = mouse["x"] + 5;
-            var yPos = mouse["y"]+ 5;
-
-            d3.select("#tooltip")
-                .classed("hidden", false)
-                .style("left", + xPos + "px")
-                .style("top", + yPos + "px");
+        .on("mouseover", function() {
+            d3.select(this)
+                .transition().duration(300).ease("sine")
+                .attr("r", rad/1.07);
         })
         .on("mouseout", function() {
-            d3.select("#tooltip")
-                .classed("hidden", true);
+            d3.select(this)
+                .transition().duration(300).ease("sine")
+                .attr("r", rad);
+        });
+
+    circleG.append("text")
+        .attr("dy", function() {
+            return 44;
+        })
+        .attr("dx", function() {
+            return cx - 3;
+        })
+        .style("font-size", "11px")
+        .style("fill", "white")
+        .style("pointer-events", "none")
+        .text(function() {
+            return magnitude;
         });
 }
 
