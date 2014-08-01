@@ -126,6 +126,19 @@ body {
     margin-top: 12px;
 }
 
+#recent-filter {
+    text-align: justify;
+}
+
+.newsvg g {
+    display: inline-block;
+}
+
+#recent-filter:after {
+    width: 100%
+    display: inline-block;
+}
+
 .more {
   outline: none;
   display: block;

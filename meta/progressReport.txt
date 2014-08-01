@@ -207,6 +207,9 @@ goal: finish front-end, do some js refactoring
 
 there is a circle outside of the svg - fix
 
+added pulsing to recent quakes- could make pulses smaller depending on how long ago quake happened
+
+when changing git repo name use this command to change remote name: git remote set-url origin git@github.com:someuser/newprojectname.git
 
 8/2/2014
 goal: implement redis
