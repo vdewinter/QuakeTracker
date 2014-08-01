@@ -67,22 +67,18 @@ body {
     margin-top: 18px;
 }
 
-#broadcast {
+#recent-button {
     float: left;
     margin-right: 10px;
     width: 200px;
     color: #42827E;
 }
 
-#slider-title {
+#historical-button {
     float: right;
     width: 218px;
     color: #42827E;
 }
-
-/*div {
-    border: solid;
-}*/
 
 .map {
     background-color: #EEEEEE;
@@ -109,33 +105,15 @@ body {
     margin-top: -13px
 }
 
-#filter-title {
-    margin-bottom: 15px;
-    margin-left: 47px;
-    float:left;
-    color: #484848;
-    opacity: 0.7;
-}
-
 #historical-filter {
     float: right;
     width: 200px;
 }
 
-#recent-filter-title {
-    float: left;
-}
-
-#historical-filter-title {
-    float: right;
-}
-
 .container {
     margin-left: auto;
     margin-right: auto;
-    margin-top: 12px;
     width: 583px;
-    height: 60px;
 }
 
 #container1 {
@@ -144,18 +122,8 @@ body {
 }
 
 #container2 {
-    height: 12px;
-    font-size: 80%;
-}
-
-#container3 {
     height: 60px;
-}
-
-.magnitude-titles {
-    display: inline-block;
-    margin-top: -6px;
-    opacity: 0.8;
+    margin-top: 12px;
 }
 
 .more {

@@ -195,9 +195,13 @@ earthquakes for 1900-6 not dispalying !!!! this has to do with adding the most r
 tried creating recent points before historical points- did not work- earlier years' data is being overwritten by the latest's. I fixed this by associating new reports' data to .historical (a g elt) vs. .points (circles) and dividing the timestamps by 1000 (old data does not have milliseconds in timestamps). HOLLA
 TO CONSIDER: Does this addition create duplicate points in the historical data, and other than changing the opacity of a point, does it matter?
 
+added labels to magnitude filters
+
+
+how to deal with overlapping quakes, a bigger one over a smaller one?
 
 8/1/2014
-goal: finish labeling filters and front-end interaction
+goal: finish front-end, do some js refactoring
 
 
 8/2/2014
