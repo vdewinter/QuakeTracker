@@ -212,11 +212,11 @@ function readRecentQuakes() {
         if (error) return console.error(error);
         console.log(points);
         data = points;
-        refreshPoints();
+        refreshPoints(data);
     });
 }
 
-function refreshPoints() {
+function refreshPoints(data) {
     var recentPoints = d3.select(".recent")
         .selectAll(".newPoint")
         .data(data.filter(function(d) {
@@ -347,7 +347,9 @@ function refreshPoints() {
     createFilterCircles(".hsvg", 8, 40, 105, ".point");
     createFilterCircles(".hsvg", 9, 40, 164, ".point");
 
-    // disable recent point labels for which no events exist
+    // disable recent point labels for which no events exist- this loop should theoretically run everytime new report comes in
+    // so if a new quake of a magnitude that was hidden before comes in, legend will be redrawn 
+    // downside - legend redrawn every minute
     for (var color in recentColObj) {
         if (! recentColObj[color]) {
             console.log("no results for " + color);
