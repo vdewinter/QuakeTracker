@@ -81,7 +81,7 @@ Talked about enter, append, exit model; scales; transforms; narrative structure 
 
 Big takeaways for my project:
 Put as many handlers and styles in CSS as possible- faster than JS, can control selections with class names- see classed() in D3
-Circles' radii should use the Math.sqrt() function
+Circles' radii should use the Math.sqrt() function to make area proportional to number represented by circle
 Fading in or out (initial fill #eee); grow and shrink; ease(cubic) transition for polished product
 
 follow mbostock's blog
@@ -104,7 +104,7 @@ Mousing over some points on map to see info doesn't always produce text.
 Changed point radii size to better reflect shaking amplitude differences between magnitudes.
 New data is only for 1900 and on- only showing quakes since 1900
 
-1906 SF earthquake displays one month too early- investigate-- added 1 to month, and recent data looks good.
+1906 SF earthquake displays one month too early- investigate-- added 1 to month, and recent data looks good. UTC uses months 0-11 instead of 1-12.
 
 7/23/2014
 goal: finish displaying new data and storing it in db if M >= 6 or an update to a quake in the db has occured
@@ -134,6 +134,7 @@ Data writing to db or updating if already in db. Need memcached bc right now eve
     Highly optimized => see the numbers mentioned in the article. Plus you could consult the docs for additional operations and see their O.
 
 Socket working- needed @socketio.on handler
+
 Added .exit().remove() to recent points drawing function to get rid of data older than 1 week (not in newest report)
 Need to figure out why the following did not work:
     changing tickFormat on slider
@@ -173,7 +174,7 @@ goal: add zoom and potentially draggable globe view, get filter by magnitude wor
 
 A note about d3 - to add 2 classes, don't use .attr twice but instead separate w spaces: .attr("class", "newPoint circle")
 Circles for filter by magnitude drawn and spaced well.
-Zoom- http://bl.ocks.org/mbostock/4987520- try leaving out overlay
+Zoom- http://bl.ocks.org/mbostock/4987520
 
 Talked with laura about having a buffer function on slider to group several mousemove pts together- could use underscore.js's debounce func (only executes every x amt of time). talked about front end mvc and backbone, angular and react.
 
@@ -189,7 +190,7 @@ Centering done. Added handler for window resize to dynamically calculate positio
 Refactored circle filter creating.
 
 7/31/2014
-goal: add zoom, add refresh function to db quakes, indicate circle not clickable for recent quakes if magnitude not relevant
+goal: add zoom, add refresh function to db quakes, label legend, indicate circle not clickable for recent quakes if magnitude not relevant
 
 earthquakes for 1900-6 not dispalying !!!! this has to do with adding the most recent M6+ quakes to the .point collection.
 tried creating recent points before historical points- did not work- earlier years' data is being overwritten by the latest's. I fixed this by associating new reports' data to .historical (a g elt) vs. .points (circles) and dividing the timestamps by 1000 (old data does not have milliseconds in timestamps). HOLLA
@@ -197,6 +198,7 @@ TO CONSIDER: Does this addition create duplicate points in the historical data, 
 
 added labels to magnitude filters
 
+will separate filter circles by CSS technique Using inline-block and justified text @ http://css-tricks.com/equidistant-objects-with-css/
 
 how to deal with overlapping quakes, a bigger one over a smaller one?
 
@@ -216,8 +218,6 @@ https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Tips_for_authoring_fast-
 slider should have buffer to group several mouse pts together
 
 -- use an IFEE
-
--- filter by magnitude
 
 -- redis w a timeout every hour OR when new data is written to DB; script to connect to redis
 check if key exists:
@@ -242,7 +242,6 @@ Extras
 -- consider making mouse handling a sep func
 -- Could inclue "place" in label and time for recent quakes
 -- use queue to async load: https://github.com/mbostock/queue
--- orthographic projection and interactive globe(drag and zoom) - the points would need their clipping param adjusted
 -- migrate to postgres
 -- deploy on heroku
 

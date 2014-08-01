@@ -23,6 +23,7 @@
     <div id="tooltip" class="hidden">
         <p id="p1"></p>
         <p id="p2"></p>
+        <p id="p3"></p>
     </div>
 
     <div class="container" id="container1">
@@ -67,19 +68,19 @@
             }
 
             // TODO promises- load plate boundaries only after maps and points ready- wait for callback
-            dataset = displayHistoricalQuakes();
+            dataset = readHistoricalQuakes();
             var socket = io.connect("http://" +  document.domain + ":" + location.port);
 
             socket.on("new_earthquake", function() {
-                createRecentPoints();
+                readRecentQuakes();
             })
 
             $("#recent-button").click(function(e) {
-                displayRecentPoints();
+                displayAllRecentPoints();
             });
 
             $("#historical-button").click(function(e) { 
-                displayHistoricalPoints();
+                displayAllHistoricalPoints();
             });
 
         // $('#slider6').slider({

@@ -24,14 +24,15 @@ var svg = d3.select("body").append("svg")
     .attr("height", height)
     .attr("class", "map");
 
-var g = svg.append("g")
-    .attr("class", "main-g");
-
 // colors quake points by magnitude
 var colorRamp = d3.scale.linear()
     .domain([3,4,5,6,7,8,9])
     .range(["#9B30FF","#003EFF","#00FF00",
         "#FFE600","orange","red","#B81324"]);
+
+// for zoom functionality
+var g = svg.append("g")
+    .attr("class", "main-g");
 
 var zoom = d3.behavior.zoom()
     .scaleExtent([1,8])
@@ -46,7 +47,7 @@ function move() {
   d3.select(".main-g").style("stroke-width", 1 / s).attr("transform", "translate(" + t + ")scale(" + s + ")");
 }
 
-function displayHistoricalQuakes() {
+function readHistoricalQuakes() {
     d3.json("/read_quakes_from_db", function(error, points) {
         if (error) return console.error(error);
         dataset = points;
@@ -54,7 +55,6 @@ function displayHistoricalQuakes() {
     });
 }
 
-// TODO: use queue to async load: https://github.com/mbostock/queue
 function displayMap(points) {
     // land
     d3.json("/static/world.json", function(error, world) {
@@ -65,13 +65,13 @@ function displayMap(points) {
             .attr("d", path)
             .style("opacity", 0.9);
         
-        // create points inside g elt once world.json has loaded
+        // create points inside g elements
         svg.append("g")
             .attr("class", "historical");
         svg.append("g")
             .attr("class", "recent");
         createHistoricalPoints(points);
-        createRecentPoints();
+        readRecentQuakes();
     });
 
     // fault lines
@@ -93,7 +93,9 @@ function displayMap(points) {
         .call(d3.slider()
             .axis(d3.svg.axis().orient("bottom")
             .ticks(15)
-            .tickFormat(function (d) {return d;}))
+            .tickFormat(function(d) {
+                return d;
+            }))
             .min(1900)
             .max(currentYear)
             .step(1)
@@ -118,7 +120,7 @@ function displayMap(points) {
         .attr("height", "90px")
         .attr("width", "400px");
 
-    // filter for recent points
+    // circle filters for recent points
     createFilterCircles(newsvg, 3, 10, 21, ".newPoint");
     createFilterCircles(newsvg, 4, 15, 43, ".newPoint");
     createFilterCircles(newsvg, 5, 20, 69, ".newPoint");
@@ -127,24 +129,21 @@ function displayMap(points) {
     createFilterCircles(newsvg, 8, 40, 188, ".newPoint");
     createFilterCircles(newsvg, 9, 40, 250, ".newPoint");
 
-    // filter for historical points
+    // circle filters for historical points
     createFilterCircles(othersvg, 6, 25, 21, ".point");
     createFilterCircles(othersvg, 7, 30, 61, ".point");
     createFilterCircles(othersvg, 8, 40, 105, ".point");
     createFilterCircles(othersvg, 9, 40, 164, ".point");
 }
 
-// create a g elt in which circle and text at center will be created
-
 function createFilterCircles(elt, magnitude, divisor, cx, pointType) {
     var rad = Math.pow(10, Math.sqrt(magnitude))/divisor * 1.3;
     var circleG = elt.append("g");
+    var col = colorRamp(magnitude);
 
-    circleG.append("circle")
+    var c = circleG.append("circle")
         .attr("r", rad)
-        .style("fill", function() {
-            return (colorRamp(magnitude));
-        })
+        .style("fill", col)
         .attr("cx", cx)
         .attr("cy", "40")
         .on("click", function() {
@@ -160,13 +159,21 @@ function createFilterCircles(elt, magnitude, divisor, cx, pointType) {
         .on("mouseover", function() {
             d3.select(this)
                 .transition().duration(300).ease("sine")
-                .attr("r", rad/1.2);
+                .attr("r", rad/1.1);
         })
         .on("mouseout", function() {
             d3.select(this)
-                .transition().duration(500).ease("sine")
+                .transition().duration(300).ease("sine")
                 .attr("r", rad);
         });
+
+    // disable labels for which no events exist
+    // if (d3.selectAll(pointType).style("fill") === col) {}
+    // else {
+    //     console.log("no results for magnitude " + magnitude);
+    //     c.style("fill", "white")
+    //         .attr("pointer-events", "none");
+    // }
 
     circleG.append("text")
         .attr("dy", function() {
@@ -183,7 +190,7 @@ function createFilterCircles(elt, magnitude, divisor, cx, pointType) {
         });
 }
 
-function createRecentPoints() {
+function readRecentQuakes() {
     d3.json("/new_earthquake", function(error, points) {
         if (error) return console.error(error);
         console.log(points);
@@ -199,14 +206,16 @@ function refreshPoints() {
             return d.magnitude >= 3;
         }));
 
-    // only create circles if magnitude >= 3
+    // create recent points if magnitude >= 3
     recentPoints.enter().append("circle", ".newPoint")
         .attr("class", "newPoint circle")
         .attr("r", function(d) {
             return Math.pow(10, Math.sqrt(d.magnitude))/40;
         })
         .style("fill", function(d) {
-            return (colorRamp(Math.floor(d.magnitude)));
+            var col = colorRamp(Math.floor(d.magnitude));
+            // recentColObj[col] += (d.id); // todo: make recentColObj with colors as keys and arrays as vals- if empty, don't display filter circel
+            return col;
         })
         .attr("transform", function(d) {
             return "translate(" + projection ([d.longitude, d.latitude]) + ")";
@@ -214,18 +223,19 @@ function refreshPoints() {
         .style("display", "none")
         .style("opacity", 0.9)
         .on("mouseover", function(d) {
-            console.log(d);
+            var tooltip = d3.select("#tooltip");
+
             var date = new Date(parseInt(d.timestamp, 10));
-            var str = (date.getUTCMonth() + 1) + "/" + date.getUTCDate() + "/" + date.getUTCFullYear(); //also show time/place?
-            console.log(str);
-            d3.select("#p1").text("M" + parseFloat(d.magnitude).toFixed(1));
-            d3.select("#p2").text(str);
+            var dateString = (date.getUTCMonth() + 1) + "/" + date.getUTCDate() + "/" + date.getUTCFullYear();
+            var t = date.getUTCHours() + ":" + ((date.getUTCMinutes()<10?'0':'') + date.getUTCMinutes()) + " GMT";
+            d3.select("#p1").text("M" + d.magnitude);
+            d3.select("#p2").text(dateString);
+            d3.select("#p3").text(t);
             
             var xPos = mouse["x"] + 10;
             var yPos = mouse["y"] + 5;
-
-            d3.select("#tooltip")
-                .classed("hidden", false)
+            
+            tooltip.classed("hidden", false)
                 .style("left", + xPos + "px")
                 .style("top", + yPos + "px");
         })
@@ -238,7 +248,7 @@ function refreshPoints() {
     recentPoints.exit()
         .remove();
 
-    // also add new earthquakes with magnitude >= 6 to historical points
+    // create historical points if magnitude >= 6
     var historicalPoints = d3.selectAll(".historical")
         .data(data.filter(function(d) {
             return d.magnitude >= 6;
@@ -259,12 +269,12 @@ function refreshPoints() {
         .style("display", "none")
         .style("opacity", 0.9)
         .on("mouseover", function(d) {
-            console.log(d);
             var date = new Date(parseInt(d.timestamp, 10));
-            var str = (date.getUTCMonth() + 1) + "/" + date.getUTCDate() + "/" + date.getUTCFullYear(); //also show time?
-            console.log(str);
-            d3.select("#p1").text("M" + parseFloat(d.magnitude).toFixed(1));
-            d3.select("#p2").text(str);
+            var dateString = (date.getUTCMonth() + 1) + "/" + date.getUTCDate() + "/" + date.getUTCFullYear();
+            var t = date.getUTCHours() + ":" + ((date.getUTCMinutes()<10?'0':'') + date.getUTCMinutes()) + " GMT";
+            d3.select("#p1").text("M" + d.magnitude);
+            d3.select("#p2").text(dateString);
+            d3.select("#p3").text(t);
             
             var xPos = mouse["x"] + 10;
             var yPos = mouse["y"] + 5;
@@ -309,12 +319,13 @@ function createHistoricalPoints(points) {
         .style("opacity", 0.9)
         .on("mouseover", function(d) {
             var tooltip = d3.select("#tooltip");
-            console.log(d);
+
             var date = new Date(parseInt(d.timestamp, 10));
-            var str = (date.getUTCMonth() + 1) + "/" + date.getUTCDate() + "/" + date.getUTCFullYear();
-            console.log(str);
-            d3.select("#p1").text("M" + parseFloat(d.magnitude).toFixed(1));
-            d3.select("#p2").text(str);
+            var dateString = (date.getUTCMonth() + 1) + "/" + date.getUTCDate() + "/" + date.getUTCFullYear();
+            var t = date.getUTCHours() + ":" + ((date.getUTCMinutes()<10?'0':'') + date.getUTCMinutes()) + " GMT";
+            d3.select("#p1").text("M" + d.magnitude);
+            d3.select("#p2").text(dateString);
+            d3.select("#p3").text(t);
 
             var xPos = mouse["x"] + 5;
             var yPos = mouse["y"]+ 5;
@@ -330,6 +341,7 @@ function createHistoricalPoints(points) {
         });
 }
 
+// only show M6+ earthquakes in year of slider value
 function filterPoints(value) {
     if (dataset.hasOwnProperty(value)) {
         d3.selectAll(".circle")
@@ -341,7 +353,7 @@ function filterPoints(value) {
     }
 }
 
-function displayHistoricalPoints() {
+function displayAllHistoricalPoints() {
     d3.select("#slider-tooltip")
         .classed("hidden", true);
     d3.selectAll(".point")
@@ -350,7 +362,7 @@ function displayHistoricalPoints() {
         .style("display", "none");
 }
 
-function displayRecentPoints() {
+function displayAllRecentPoints() {
     d3.select("#slider-tooltip")
         .classed("hidden", true);
     d3.selectAll(".newPoint")

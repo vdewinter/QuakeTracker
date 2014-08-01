@@ -11,7 +11,7 @@ def load_quakes(session):
             longitude = r["geometry"]["coordinates"][0]
             latitude = r["geometry"]["coordinates"][1]
             tsunami = r["properties"]["tsunami"]
-             
+                         
             q = model.Quake(id = id, timestamp = timestamp, updated = updated,
                 magnitude = magnitude, longitude = longitude, latitude = latitude,
                 tsunami = tsunami)
