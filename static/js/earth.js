@@ -159,7 +159,7 @@ function createFilterCircles(elt, magnitude, divisor, cx, pointType) {
         .on("mouseover", function() {
             d3.select(this)
                 .transition().duration(300).ease("sine")
-                .attr("r", rad/1.1);
+                .attr("r", rad/1.07);
         })
         .on("mouseout", function() {
             d3.select(this)
@@ -209,8 +209,23 @@ function refreshPoints() {
     // create recent points if magnitude >= 3
     recentPoints.enter().append("circle", ".newPoint")
         .attr("class", "newPoint circle")
-        .attr("r", function(d) {
-            return Math.pow(10, Math.sqrt(d.magnitude))/40;
+        .each(function(d) {
+            var that = this;
+            setInterval(function(){d3.select(that)
+                .attr("r", function(d) {
+                    return Math.pow(10, Math.sqrt(d.magnitude))/40;
+                })
+                .transition()
+                .duration(1500).ease("sine")
+                .attr("r", function(d) {
+                    return Math.pow(10, Math.sqrt(d.magnitude))/25;
+                })
+                .transition()
+                .duration(1500).ease("sine")
+                .attr("r", function(d) {
+                    return Math.pow(10, Math.sqrt(d.magnitude))/40;
+                });
+            }, 3000);
         })
         .style("fill", function(d) {
             var col = colorRamp(Math.floor(d.magnitude));
@@ -370,28 +385,3 @@ function displayAllRecentPoints() {
     d3.selectAll(".point")
         .style("display", "none");
 }
-
-// add drag behavior
-// ROTATION http://bl.ocks.org/mbostock/5731578
-// dragging: http://bl.ocks.org/mbostock/3795040 (globe) and http://bl.ocks.org/mbostock/1557377 (dragging) -- interactive, draggable globe
-function globeView() { // orthographic
-//     var projection = d3.geo.orthographic();
-
-//     var lambda = d3.scale.linear()
-//         .domain([0, height])
-//         .range([90, -90]);
-
-//     var phi = d3.scale.linear()
-//         .domain([0, height])
-//         .range([90, -90]);
-
-//     svg.selectAll("#map")
-//         .attr("cx", function(d) {
-//             return d.x;
-//         })
-//         .attr("cy", function(d) {
-//             return d.y;
-//         })
-//         .call(drag);
-}
-

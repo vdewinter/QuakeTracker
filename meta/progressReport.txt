@@ -205,10 +205,13 @@ how to deal with overlapping quakes, a bigger one over a smaller one?
 8/1/2014
 goal: finish front-end, do some js refactoring
 
+there is a circle outside of the svg - fix
+
 
 8/2/2014
 goal: implement redis
 
+consider including place in DB/labels
 
 LATER:
 
