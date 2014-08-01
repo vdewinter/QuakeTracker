@@ -31,7 +31,7 @@ var g = svg.append("g")
 var colorRamp = d3.scale.linear()
     .domain([3,4,5,6,7,8,9])
     .range(["#9B30FF","#003EFF","#00FF00",
-        "yellow","orange","red","#B81324"]);
+        "#FFE600","orange","red","#B81324"]);
 
 var zoom = d3.behavior.zoom()
     .scaleExtent([1,8])
@@ -63,7 +63,7 @@ function displayMap(points) {
         svg.append("path")
             .datum(topojson.feature(world, world.objects.subunits))
             .attr("d", path)
-            .style("opacity", 0.8);
+            .style("opacity", 0.9);
         
         // create points inside g elt once world.json has loaded
         svg.append("g")
@@ -109,41 +109,44 @@ function displayMap(points) {
     var newsvg = d3.select("#recent-filter")
         .append("svg")
         .attr("class", "newsvg")
-        .attr("height", "60px")
+        .attr("height", "90px")
         .attr("width", "400px");
 
     var othersvg = d3.select("#historical-filter")
         .append("svg")
         .attr("class", "othersvg")
-        .attr("height", "60px")
+        .attr("height", "90px")
         .attr("width", "400px");
 
     // filter for recent points
     createFilterCircles(newsvg, 3, 10, 21, ".newPoint");
-    createFilterCircles(newsvg, 4, 15, 41, ".newPoint");
-    createFilterCircles(newsvg, 5, 20, 64, ".newPoint");
-    createFilterCircles(newsvg, 6, 25, 91, ".newPoint");
-    createFilterCircles(newsvg, 7, 30, 124, ".newPoint");
-    createFilterCircles(newsvg, 8, 40, 164, ".newPoint");
-    createFilterCircles(newsvg, 9, 40, 214, ".newPoint");
+    createFilterCircles(newsvg, 4, 15, 43, ".newPoint");
+    createFilterCircles(newsvg, 5, 20, 69, ".newPoint");
+    createFilterCircles(newsvg, 6, 25, 100, ".newPoint");
+    createFilterCircles(newsvg, 7, 30, 140, ".newPoint");
+    createFilterCircles(newsvg, 8, 40, 188, ".newPoint");
+    createFilterCircles(newsvg, 9, 40, 250, ".newPoint");
 
     // filter for historical points
     createFilterCircles(othersvg, 6, 25, 21, ".point");
-    createFilterCircles(othersvg, 7, 30, 54, ".point");
-    createFilterCircles(othersvg, 8, 40, 94, ".point");
-    createFilterCircles(othersvg, 9, 40, 144, ".point");
-
+    createFilterCircles(othersvg, 7, 30, 61, ".point");
+    createFilterCircles(othersvg, 8, 40, 105, ".point");
+    createFilterCircles(othersvg, 9, 40, 164, ".point");
 }
 
+// create a g elt in which circle and text at center will be created
+
 function createFilterCircles(elt, magnitude, divisor, cx, pointType) {
-    var rad = Math.pow(10, Math.sqrt(magnitude))/divisor;
-    elt.append("circle")
+    var rad = Math.pow(10, Math.sqrt(magnitude))/divisor * 1.3;
+    var circleG = elt.append("g");
+
+    circleG.append("circle")
         .attr("r", rad)
         .style("fill", function() {
             return (colorRamp(magnitude));
         })
         .attr("cx", cx)
-        .attr("cy", "30")
+        .attr("cy", "40")
         .on("click", function() {
             d3.selectAll(".circle")
                 .style("display", "none");
@@ -156,13 +159,27 @@ function createFilterCircles(elt, magnitude, divisor, cx, pointType) {
         })
         .on("mouseover", function() {
             d3.select(this)
-                .transition().duration(500).ease("sine")
-                .attr("r", rad/1.3);
+                .transition().duration(300).ease("sine")
+                .attr("r", rad/1.2);
         })
         .on("mouseout", function() {
             d3.select(this)
                 .transition().duration(500).ease("sine")
                 .attr("r", rad);
+        });
+
+    circleG.append("text")
+        .attr("dy", function() {
+            return 44;
+        })
+        .attr("dx", function() {
+            return cx - 3;
+        })
+        .style("font-size", "11px")
+        .style("fill", "white")
+        .style("pointer-events", "none")
+        .text(function() {
+            return magnitude;
         });
 }
 
@@ -195,7 +212,7 @@ function refreshPoints() {
             return "translate(" + projection ([d.longitude, d.latitude]) + ")";
         })
         .style("display", "none")
-        .style("opacity", 0.8)
+        .style("opacity", 0.9)
         .on("mouseover", function(d) {
             console.log(d);
             var date = new Date(parseInt(d.timestamp, 10));
@@ -240,7 +257,7 @@ function refreshPoints() {
             return "translate(" + projection ([d.longitude, d.latitude]) + ")";
         })
         .style("display", "none")
-        .style("opacity", 0.8)
+        .style("opacity", 0.9)
         .on("mouseover", function(d) {
             console.log(d);
             var date = new Date(parseInt(d.timestamp, 10));
@@ -289,7 +306,7 @@ function createHistoricalPoints(points) {
             return "translate(" + projection ([d.longitude, d.latitude]) + ")";
         })
         .style("display", "none")
-        .style("opacity", 0.8)
+        .style("opacity", 0.9)
         .on("mouseover", function(d) {
             var tooltip = d3.select("#tooltip");
             console.log(d);
