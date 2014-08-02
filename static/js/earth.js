@@ -313,10 +313,10 @@ function redrawLegend() {
     createFilterCircles(".rsvg", 9, 40, 250, ".newPoint");
 
     // create magnitude filters for historical points
-    createFilterCircles(".hsvg", 6, 25, 21, ".point");
-    createFilterCircles(".hsvg", 7, 30, 61, ".point");
-    createFilterCircles(".hsvg", 8, 40, 105, ".point");
-    createFilterCircles(".hsvg", 9, 40, 164, ".point");
+    createFilterCircles(".hsvg", 6, 25, 15, ".point");
+    createFilterCircles(".hsvg", 7, 30, 55, ".point");
+    createFilterCircles(".hsvg", 8, 40, 99, ".point");
+    createFilterCircles(".hsvg", 9, 40, 158, ".point");
 
     // dynamically disable recent point labels for which no events exist
     for (var color in recentColObj) {
