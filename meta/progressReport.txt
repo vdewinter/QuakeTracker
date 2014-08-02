@@ -226,6 +226,13 @@ goal: implement redis (consider including place in DB/labels)
 this site has been very helpful to my understandig of dynamically updating data in d3: http://pothibo.com/2013/09/d3-js-how-to-handle-dynamic-json-data/
 enter() only affects new data that are not bound to nodes, so i believe i won't be creating duplicate nodes every time a new report comes in. this would  make the points look weird because dupe points would be more opaque.
 
+notes about making d3 faster - https://blog.safaribooksonline.com/2014/02/20/speeding-d3-js-checklist/
+Remove unneeded g's. Since render time scales approximately linearly with the number of elements, eliminating the group elements would reduce render time by ~1/3.
+Use d3.timer() instead of setInterval because 
+Don't redraw elts that havent changed- use update pattern http://bl.ocks.org/mbostock/3808218 (DONE)
+When polling server for updated data, fetch data incrementally e.g. Cubism.js
+
+
 8/3/2014
 goal: create a test earthquake button that shows socket functionality for demo day
 
@@ -277,4 +284,5 @@ Extras
 -- deploy on heroku
 
 FOR FUNSIES:
+Developing a D3.js Edge http://www.safaribooksonline.com/library/view/developing-a-d3js/9781939902023/
 finish Eloquent JS

@@ -4,9 +4,9 @@ import model
 import json
 import datetime
 import time
+import os
 from threading import Thread
 import requests
-import pdb
 
 app = Flask(__name__)
 app.secret_key = 'secret_key' # TODO: change
@@ -135,4 +135,6 @@ def read_quakes_from_db():
     return json.dumps(response_dict)
     
 if __name__ == "__main__":
-    socketio.run(app)
+
+    port = os.environ.get('PORT', 5000)
+    socketio.run(app, port=int(port))
