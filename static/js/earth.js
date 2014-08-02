@@ -1,10 +1,3 @@
-// look at performance measuring tools--
-// currently changing attrs is time intensive
-// to make slider faster, filter by old year- display none; fiter by new year display block
-// or
-// make hash table with d3 collection by year, track currently displayed year, 
-// collection#oldyear display: none; collection#newyear display:block
-
 var mouse = {x: 0, y: 0};
 
 document.addEventListener('mousemove', function(e){
@@ -25,12 +18,13 @@ var svg = d3.select("body").append("svg")
     .attr("height", height)
     .attr("class", "map");
 
-// colors quake points by magnitude
+// colors quake circles by magnitude
 var colorRamp = d3.scale.linear()
     .domain([3,4,5,6,7,8,9])
     .range(["#9b30ff","#003eff","#00ff00",
         "#ffe600","#ffa500","#ff0000","#b81324"]);
 
+// disable irrelevant magnitude filters for recent quakes
 var recentColObj = {"#9b30ff": false,
                     "#003eff": false,
                     "#00ff00": false,
@@ -39,23 +33,6 @@ var recentColObj = {"#9b30ff": false,
                     "#ff0000": false,
                     "#b81324": false
                     };
-
-// for zoom functionality
-// var g = svg.append("g")
-//     .attr("class", "main-g");
-
-// var zoom = d3.behavior.zoom()
-//     .scaleExtent([1,8])
-//     .on("zoom", move);
-
-// function move() {
-//   var t = d3.event.translate,
-//       s = d3.event.scale;
-//   t[0] = Math.min(width / 2 * (s - 1), Math.max(width / 2 * (1 - s), t[0]));
-//   t[1] = Math.min(height / 2 * (s - 1) + 230 * s, Math.max(height / 2 * (1 - s) - 230 * s, t[1]));
-//   zoom.translate(t);
-//   d3.select(".main-g").style("stroke-width", 1 / s).attr("transform", "translate(" + t + ")scale(" + s + ")");
-// }
 
 function displayMap(points) {
     // land
@@ -67,7 +44,6 @@ function displayMap(points) {
             .attr("d", path)
             .style("opacity", 0.9);
         
-        // create points inside g elements
         svg.append("g")
             .attr("class", "historical");
         svg.append("g")
@@ -109,7 +85,7 @@ function displayMap(points) {
                 filterPoints(value);
     }));
 
-    // magnitude filters
+    // set up svg's for magnitude filters
     d3.select("#recent-filter")
         .append("svg")
         .attr("class", "rsvg")
@@ -122,7 +98,6 @@ function displayMap(points) {
         .attr("height", "90px")
         .attr("width", "400px");
 }
-
 
 // function handleMouseEvents(selection) {
 //     selection.on("mouseover", function(d) {
@@ -217,13 +192,13 @@ function readRecentQuakes() {
 }
 
 function refreshPoints(data) {
+    // dynamically create recent circles if magnitude >= 3
     var recentPoints = d3.select(".recent")
         .selectAll(".newPoint")
         .data(data.filter(function(d) {
             return d.magnitude >= 3;
         }));
 
-    // create recent points if magnitude >= 3
     recentPoints.enter().append("circle", ".newPoint")
         .attr("class", "newPoint circle")
         .each(function(d) {
@@ -257,9 +232,6 @@ function refreshPoints(data) {
         })
         .style("display", "none")
         .style("opacity", 0.9)
-        // .each(function(d) {
-        //     handleMouseEvents(d);
-        // });
         .on("mouseover", function(d) {
             var tooltip = d3.select("#tooltip");
 
@@ -282,17 +254,16 @@ function refreshPoints(data) {
                 .classed("hidden", true);
         });
 
-    // remove recent points > 1 week old
+    // remove recent circles > 1 week old
     recentPoints.exit()
         .remove();
 
-    // create historical points if magnitude >= 6
+    // dynamically create historical circles if magnitude >= 6
     var historicalPoints = d3.selectAll(".historical")
         .data(data.filter(function(d) {
             return d.magnitude >= 6;
         }));
 
-    // does this create duplicate points, and does that matter? would affect opacity
     historicalPoints.enter().append("circle", ".newPoint")
         .attr("class", "newPoint circle")
         .attr("r", function(d) {
@@ -327,7 +298,11 @@ function refreshPoints(data) {
                 .classed("hidden", true);
         });
 
-    // circle filters for recent points
+    redrawLegend();
+}
+
+function redrawLegend() {
+    // create magnitude filters for recent points
     createFilterCircles(".rsvg", 3, 10, 21, ".newPoint");
     createFilterCircles(".rsvg", 4, 15, 43, ".newPoint");
     createFilterCircles(".rsvg", 5, 20, 69, ".newPoint");
@@ -342,14 +317,12 @@ function refreshPoints(data) {
     createFilterCircles(".hsvg", 8, 40, 105, ".point");
     createFilterCircles(".hsvg", 9, 40, 164, ".point");
 
-    // disable recent point labels for which no events exist- this loop should theoretically run everytime new report comes in
-    // so if a new quake of a magnitude that was hidden before comes in, legend will be redrawn 
-    // downside - legend redrawn every minute
+    // dynamically disable recent point labels for which no events exist
     for (var color in recentColObj) {
         if (! recentColObj[color]) {
             console.log("no results for " + color);
             d3.selectAll(".newPoint" + color.replace("#",""))
-                .style("fill", "white")
+                .style("fill", "gray")
                 .attr("pointer-events", "none");
         }
     }
@@ -402,7 +375,7 @@ function createFilterCircles(elt, magnitude, divisor, cx, pointType) {
         });
 }
 
-// only show M6+ earthquakes in year of slider value
+// show M6+ earthquakes in year of slider value
 function filterPoints(value) {
     if (dataset.hasOwnProperty(value)) {
         d3.selectAll(".circle")

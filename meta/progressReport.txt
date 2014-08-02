@@ -193,7 +193,8 @@ Refactored circle filter creating.
 goal: add zoom, add refresh function to db quakes, label legend, indicate circle not clickable for recent quakes if magnitude not relevant
 
 earthquakes for 1900-6 not dispalying !!!! this has to do with adding the most recent M6+ quakes to the .point collection.
-tried creating recent points before historical points- did not work- earlier years' data is being overwritten by the latest's. I fixed this by associating new reports' data to .historical (a g elt) vs. .points (circles) and dividing the timestamps by 1000 (old data does not have milliseconds in timestamps). HOLLA
+tried creating recent points before historical points- did not work- earlier years' data is being overwritten by the latest's. I fixed this by associating new reports' data to .historical (a g elt) vs. .points (circles) and dividing the timestamps by 1000 (old data does not have milliseconds in timestamps). 
+
 TO CONSIDER: Does this addition create duplicate points in the historical data, and other than changing the opacity of a point, does it matter?
 
 added labels to magnitude filters
@@ -211,28 +212,42 @@ added pulsing to recent quakes- could make pulses smaller depending on how long 
 
 when changing git repo name use this command to change remote name: git remote set-url origin git@github.com:someuser/newprojectname.git
 
-trying to make handle mouse events func- should this just be a drawPoints func? there is a lot of variation bt types of pts
+trying to make handle mouse events func- should there be a drawPoints func? there is a lot of variation bt types of pts
 
-recent filter circles that aren't relevant to actual recent data are whited out and pointer-events:none'd
+recent filter circles that aren't relevant to actual recent data are grayed out and pointer-events:none'd
 
 reordered js functions to match page load/flow better
 
-realized client wasn't receiving data anymore - socket.on("connect") function appears to be needed- had to use git bisect to track down when i changed this code/realize that that func was important. i was too focused on front end to realize when it broke.
+realized client wasn't receiving data anymore - socket.on("connect") function appears to be needed in the js on index.html- had to use git bisect to track down when i changed this code/realize that that func was important. i was too focused on front end to notice when it broke.
 
 8/2/2014
-goal: implement redis
+goal: implement redis (consider including place in DB/labels)
 
-consider including place in DB/labels
+this site has been very helpful to my understandig of dynamically updating data in d3: http://pothibo.com/2013/09/d3-js-how-to-handle-dynamic-json-data/
+enter() only affects new data that are not bound to nodes, so i believe i won't be creating duplicate nodes every time a new report comes in. this would  make the points look weird because dupe points would be more opaque.
 
 8/3/2014
 goal: create a test earthquake button that shows socket functionality for demo day
+
+
+
+
+
 
 LATER:
 
 -- optimize js performance- move scripts to end of body
 look into caching http://betterexplained.com/articles/how-to-optimize-your-site-with-http-caching/
 https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Tips_for_authoring_fast-loading_HTML_pages
-slider should have buffer to group several mouse pts together
+
+// look at performance measuring tools--
+// currently changing attrs is time intensive
+// to make slider faster, filter by old year- display none; fiter by new year display block
+// or
+// make hash table with d3 collection by year, track currently displayed year, 
+// collection#oldyear display: none; collection#newyear display:block
+
+-- make slider faster (more DOM manip = less performant); slider should have buffer to group several mouse pts together
 
 -- use an IFEE
 
@@ -246,8 +261,6 @@ set timeout (1 min) - test expiration
 
 -- Need to test handling when USGS is down
 
--- make slider faster (more DOM manip = less performant)
-
 -- CSS
 give each elt a class, don't refer by elt type
 css reset
@@ -257,9 +270,8 @@ Extras
 
 -- branch before refactoring (making drawPoints func)
 -- consider making mouse handling a sep func
--- Could inclue "place" in label and time for recent quakes
 -- use queue to async load: https://github.com/mbostock/queue
--- migrate to postgres
+-- migrate db
 -- deploy on heroku
 
 FOR FUNSIES:
