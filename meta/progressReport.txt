@@ -236,6 +236,8 @@ goal: create a test earthquake button that shows socket functionality for demo d
 
 LATER:
 
+-- look into promises- load plate boundaries only after maps and points ready- wait for callback
+
 -- optimize js performance- move scripts to end of body
 look into caching http://betterexplained.com/articles/how-to-optimize-your-site-with-http-caching/
 https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Tips_for_authoring_fast-loading_HTML_pages

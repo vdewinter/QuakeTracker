@@ -7,11 +7,6 @@ body {
     font-family: 'Droid Sans', sans-serif;
 }
 
-/*.overlay {
-  fill: none;
-  pointer-events: all;
-}*/
-
 #title {
     height: 74px;
     width: 173px;
@@ -89,10 +84,6 @@ body {
     -moz-border-radius: 10px;
     border-radius: 10px;
 }
-
-./*main-g {
-    pointer-events: all;
-}*/
 
 .d3-slider-axis {
     background-color: #FFFFFF;
