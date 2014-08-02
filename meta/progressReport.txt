@@ -213,12 +213,19 @@ when changing git repo name use this command to change remote name: git remote s
 
 trying to make handle mouse events func- should this just be a drawPoints func? there is a lot of variation bt types of pts
 
-gray out circle filters that aren't relevant
+recent filter circles that aren't relevant to actual recent data are whited out and pointer-events:none'd
+
+reordered js functions to match page load/flow better
+
+realized client wasn't receiving data anymore - socket.on("connect") function appears to be needed- had to use git bisect to track down when i changed this code/realize that that func was important. i was too focused on front end to realize when it broke.
 
 8/2/2014
 goal: implement redis
 
 consider including place in DB/labels
+
+8/3/2014
+goal: create a test earthquake button that shows socket functionality for demo day
 
 LATER:
 

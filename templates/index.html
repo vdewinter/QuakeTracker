@@ -70,12 +70,12 @@
             dataset = readHistoricalQuakes();
             var socket = io.connect("http://" +  document.domain + ":" + location.port);
 
-            socket.on("new_earthquake", function() {
-                readRecentQuakes();
-            })
-
             socket.on("connect", function() {
                 socket.emit("my event", {data: "I'm connected!"});
+            });
+
+            socket.on("new_earthquake", function() {
+                readRecentQuakes();
             });
 
             $("#recent-button").click(function(e) {

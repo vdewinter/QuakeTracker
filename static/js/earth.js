@@ -247,11 +247,6 @@ function refreshPoints(data) {
         })
         .style("fill", function(d) {
             var col = colorRamp(Math.floor(d.magnitude));
-
-            console.log(col);
-
-            console.log(recentColObj[col]); // undefined- why
-
             if (recentColObj.hasOwnProperty(col)) {
                 recentColObj[col] = true;
             }
