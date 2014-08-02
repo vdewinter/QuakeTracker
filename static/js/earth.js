@@ -237,7 +237,7 @@ function refreshPoints(data) {
 
             var date = new Date(parseInt(d.timestamp, 10));
             var dateString = (date.getUTCMonth() + 1) + "/" + date.getUTCDate() + "/" + date.getUTCFullYear();
-            var t = date.getUTCHours() + ":" + ((date.getUTCMinutes()<10?'0':'') + date.getUTCMinutes()) + " GMT";
+            var t = date.getUTCHours() + ":" + ((date.getUTCMinutes() < 10 ? "0":"") + date.getUTCMinutes()) + " GMT";
             d3.select("#p1").text("M" + d.magnitude);
             d3.select("#p2").text(dateString);
             d3.select("#p3").text(t);
@@ -280,7 +280,7 @@ function refreshPoints(data) {
         .on("mouseover", function(d) {
             var date = new Date(parseInt(d.timestamp, 10));
             var dateString = (date.getUTCMonth() + 1) + "/" + date.getUTCDate() + "/" + date.getUTCFullYear();
-            var t = date.getUTCHours() + ":" + ((date.getUTCMinutes()<10?'0':'') + date.getUTCMinutes()) + " GMT";
+            var t = date.getUTCHours() + ":" + ((date.getUTCMinutes() < 10 ? "0":"") + date.getUTCMinutes()) + " GMT";
             d3.select("#p1").text("M" + d.magnitude);
             d3.select("#p2").text(dateString);
             d3.select("#p3").text(t);
@@ -298,6 +298,7 @@ function refreshPoints(data) {
                 .classed("hidden", true);
         });
 
+    // dynamically update magnitude filters
     redrawLegend();
 }
 
@@ -311,7 +312,7 @@ function redrawLegend() {
     createFilterCircles(".rsvg", 8, 40, 188, ".newPoint");
     createFilterCircles(".rsvg", 9, 40, 250, ".newPoint");
 
-    // circle filters for historical points
+    // create magnitude filters for historical points
     createFilterCircles(".hsvg", 6, 25, 21, ".point");
     createFilterCircles(".hsvg", 7, 30, 61, ".point");
     createFilterCircles(".hsvg", 8, 40, 105, ".point");
