@@ -74,6 +74,10 @@
                 readRecentQuakes();
             })
 
+            socket.on("connect", function() {
+                socket.emit("my event", {data: "I'm connected!"});
+            });
+
             $("#recent-button").click(function(e) {
                 displayAllRecentPoints();
             });
