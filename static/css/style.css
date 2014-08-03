@@ -149,7 +149,7 @@ body {
 }
 
 .more:hover {
-  border: 2px solid #bbb;
+  border: 1px solid #bbb;
   text-decoration: none;
   background-position: left -78px;
 }
