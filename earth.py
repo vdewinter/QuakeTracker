@@ -86,7 +86,7 @@ def handle_new_quake_json():
 
 def write_new_quakes_to_db(new_quake_dict):
     print "writing to db"
-    db = model.session.query(model.Quake).all() # inefficient to read from db every time -> memcached/redis
+    db = model.session.query(model.Quake).all() # inefficient to read from db every time
 
     db_objects = {}
     for obj in db:
@@ -135,6 +135,5 @@ def read_quakes_from_db():
     return json.dumps(response_dict)
     
 if __name__ == "__main__":
-
     port = os.environ.get('PORT', 5000)
     socketio.run(app, port=int(port))
