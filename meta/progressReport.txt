@@ -245,7 +245,7 @@ goal: create a simulate earthquake button that shows socket functionality for de
 
 discovered that pushing to heroku requires you to activate your env
 
-there is a circle outside of the svg - fix !!!!!!
+there is a circle outside of the svg - fix !!!!!!-- needed to use selectAll instead of select.
 
 
 

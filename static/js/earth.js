@@ -193,7 +193,7 @@ function readRecentQuakes() {
 
 function refreshPoints(data) {
     // dynamically create recent circles if magnitude >= 3
-    var recentPoints = d3.select(".recent")
+    var recentPoints = d3.selectAll(".recent")
         .selectAll(".newPoint")
         .data(data.filter(function(d) {
             return d.magnitude >= 3;
@@ -264,8 +264,8 @@ function refreshPoints(data) {
             return d.magnitude >= 6;
         }));
 
-    historicalPoints.enter().append("circle", ".newPoint")
-        .attr("class", "newPoint circle")
+    historicalPoints.enter().append("circle", ".point")
+        .attr("class", "point circle")
         .attr("r", function(d) {
             return Math.pow(10, Math.sqrt(d.magnitude))/90;
         })
