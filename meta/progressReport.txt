@@ -243,6 +243,7 @@ for testing- test web layer separately and avoid contacting db when testing
 8/3/2014
 goal: create a simulate earthquake button that shows socket functionality for demo day
 
+discovered that pushing to heroku requires you to activate your env
 
 there is a circle outside of the svg - fix !!!!!!
 
