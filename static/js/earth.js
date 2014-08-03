@@ -140,7 +140,7 @@ function createHistoricalPoints(points) {
         }
     }
 
-    d3.select("g.historical")
+    d3.select(".historical")
         .selectAll(".point")
         .data(pointsList.filter(function(d) {
             return d.magnitude >= 6;
@@ -260,6 +260,7 @@ function refreshPoints(data) {
 
     // dynamically create historical circles if magnitude >= 6
     var historicalPoints = d3.selectAll(".historical")
+        .selectAll(".point")
         .data(data.filter(function(d) {
             return d.magnitude >= 6;
         }));
