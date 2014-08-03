@@ -6,7 +6,7 @@ import os
 
 
 engine = create_engine("sqlite:///quakes.db", echo = False)
-engine = create_engine(os.environ["DATABASE_URL"], echo=True) # for postgres
+engine = create_engine(os.environ["DATABASE_URL"], echo=True)
 session = scoped_session(sessionmaker(bind = engine,
                                     autocommit = False,
                                     autoflush = False))

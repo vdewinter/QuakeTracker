@@ -232,9 +232,16 @@ Use d3.timer() instead of setInterval because
 Don't redraw elts that havent changed- use update pattern http://bl.ocks.org/mbostock/3808218 (DONE)
 When polling server for updated data, fetch data incrementally e.g. Cubism.js
 
+decided redis doesn't have that great of a use case at this point in my app and could cause more complication that it's worth. if i were starting over it could have been a good idea. postgres db was set up and site is now deployed on heroku. An .env file with the DATABASE_URL was necessary as well as the line engine = create_engine(os.environ["DATABASE_URL"], echo=True) in the model. loading into postgres with the seed file was slow, so i changed seed.py to commit to db in batches of 50. had to seed postgres db with  $DATABASE_URL= ... python seed.py
+heroku has a 10K row limit for the free plan - i may buy more space for $9/mo. a procfile containing web: gunicorn earth:app -b 0.0.0.0:$PORT --worker-class socketio.sgunicorn.GeventSocketIOWorker was necessary. integers in model had to be changed to postgresql.BIGINT.
+
+I got a few pieces of advice for polishing up from Chris at Uber:
+break up js into sep modules
+use jsdoc
+for testing- test web layer separately and avoid contacting db when testing
 
 8/3/2014
-goal: create a test earthquake button that shows socket functionality for demo day
+goal: create a simulate earthquake button that shows socket functionality for demo day
 
 
 

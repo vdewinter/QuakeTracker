@@ -4,9 +4,6 @@ Flask-SQLAlchemy==1.0
 Flask-Script==2.0.5
 Flask-SocketIO==0.3.8
 Flask-Sockets==0.1
-Flask-WTF==0.8
-Jinja2==2.6
-Mako==1.0.0
 MarkupSafe==0.23
 SQLAlchemy==0.7.9
 WTForms==1.0.2
