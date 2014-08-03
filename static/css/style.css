@@ -1,7 +1,5 @@
 /*give each elt a class, dont refer by elt type*/
 /*css reset*/
-/*make buttons divs to avoid rectangular shadow- also easier to style*/
-
 body {
     background-color: #FFFFFF;
     font-family: 'Droid Sans', sans-serif;
@@ -151,7 +149,7 @@ body {
 }
 
 .more:hover {
-  border: 1px solid #bbb;
+  border: 1px solid #1b1b1b;
   text-decoration: none;
   background-position: left -78px;
 }

@@ -214,7 +214,7 @@ when changing git repo name use this command to change remote name: git remote s
 
 trying to make handle mouse events func- should there be a drawPoints func? there is a lot of variation bt types of pts
 
-recent filter circles that aren't relevant to actual recent data are grayed out and pointer-events:none'd
+recent filter circles that aren't relevant to actual recent data are grayed out and pointer-events:none'd- d3's scale converts hex alpha chars to all lowercase- something to be aware of.
 
 reordered js functions to match page load/flow better
 
@@ -244,7 +244,7 @@ for testing- test web layer separately and avoid contacting db when testing
 goal: create a simulate earthquake button that shows socket functionality for demo day
 
 
-
+there is a circle outside of the svg - fix !!!!!!
 
 
 
@@ -287,8 +287,6 @@ Extras
 -- branch before refactoring (making drawPoints func)
 -- consider making mouse handling a sep func
 -- use queue to async load: https://github.com/mbostock/queue
--- migrate db
--- deploy on heroku
 
 FOR FUNSIES:
 Developing a D3.js Edge http://www.safaribooksonline.com/library/view/developing-a-d3js/9781939902023/
