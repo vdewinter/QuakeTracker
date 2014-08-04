@@ -251,7 +251,7 @@ http://bost.ocks.org/mike/selection/
 
 the since 1900 button is not including new quakes?
 
-wondering about secret keys...
+wondering about secret keys... i don't have browser sessions stored so i just took it out
 
 
 

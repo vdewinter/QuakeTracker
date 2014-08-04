@@ -365,20 +365,11 @@ function filterPoints(value) {
     }
 }
 
-function displayAllHistoricalPoints() {
+function displayPoints(pointsToDisplay, pointsToHide) {
     d3.select("#slider-tooltip")
         .classed("hidden", true);
-    d3.selectAll(".point")
+    d3.selectAll(pointsToDisplay)
         .style("display", "block");
-    d3.selectAll(".newPoint")
-        .style("display", "none");
-}
-
-function displayAllRecentPoints() {
-    d3.select("#slider-tooltip")
-        .classed("hidden", true);
-    d3.selectAll(".newPoint")
-        .style("display", "block");
-    d3.selectAll(".point")
+    d3.selectAll(pointsToHide)
         .style("display", "none");
 }

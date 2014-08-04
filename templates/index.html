@@ -78,11 +78,11 @@
             });
 
             $("#recent-button").click(function(e) {
-                displayAllRecentPoints();
+                displayPoints(".newPoint", ".point");
             });
 
             $("#historical-button").click(function(e) { 
-                displayAllHistoricalPoints();
+                displayPoints(".point", ".newPoint");
             });
         });
 
