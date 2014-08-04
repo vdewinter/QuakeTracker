@@ -10,6 +10,10 @@ body {
     font-size: 130%;
 }
 
+.circle {
+  opacity: 0.9;
+}
+
 #tooltip {
     left: 286px; 
     top: 185px;;
