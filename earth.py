@@ -7,9 +7,10 @@ import time
 import os
 from threading import Thread
 import requests
+import S3Client
 
 app = Flask(__name__)
-app.secret_key = 'secret_key' # TODO: change
+app.secret_key = S3Client(os.environ['S3_SECRET'])
 app.debug = True
 socketio = SocketIO(app)
 thread = None

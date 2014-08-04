@@ -241,11 +241,18 @@ use jsdoc
 for testing- test web layer separately and avoid contacting db when testing
 
 8/3/2014
-goal: create a simulate earthquake button that shows socket functionality for demo day
+goal: create a simulate earthquake button that shows socket functionality for demo day and/or refactor js
 
 discovered that pushing to heroku requires you to activate your env
 
-there is a circle outside of the svg - fix !!!!!!-- needed to use selectAll instead of select.
+there is a circle outside of the svg and even the body - fix !!!!!!-- needed to use selectAll instead of select AND forgot to add selectAll(".points) after selectAll(".historical").
+With selectAll, every element in the old selection becomes a group in the new selection; each group contains an old element’s matching descendant elements. Only selectAll has special behavior regarding grouping; select preserves the existing grouping.
+http://bost.ocks.org/mike/selection/
+
+the since 1900 button is not including new quakes?
+
+wondering about secret keys...
+
 
 
 
