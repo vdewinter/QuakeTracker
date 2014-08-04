@@ -48,7 +48,7 @@ function displayMap(points) {
             .attr("class", "historical");
         svg.append("g")
             .attr("class", "recent");
-        createHistoricalPoints(points);
+        prepareHistoricalPoints(points);
         readRecentQuakes();
     });
 
@@ -107,7 +107,7 @@ function readHistoricalQuakes() {
     });
 }
 
-function createHistoricalPoints(points) {
+function prepareHistoricalPoints(points) {
     var pointsList = [];
     for (var year in points) {
         var yearPoints = points[year];
@@ -115,13 +115,12 @@ function createHistoricalPoints(points) {
             pointsList.push(yearPoints[i]);
         }
     }
+    var historicalPoints = d3.selectAll(".historical");
+    drawHistoricalPoints(historicalPoints);
+}
 
-    d3.select(".historical")
-        .selectAll(".point")
-        .data(pointsList.filter(function(d) {
-            return d.magnitude >= 6;
-        }))
-        .enter().append("circle", ".point")
+function drawHistoricalPoints(appendee) {
+    appendee.enter().append("circle", ".point")
         .attr("class", "point circle")
         .attr("r", function(d) {
             return Math.pow(10, Math.sqrt(d.magnitude))/90;
@@ -135,17 +134,15 @@ function createHistoricalPoints(points) {
         .style("display", "none")
         .style("opacity", 0.9)
         .on("mouseover", function(d) {
-            var tooltip = d3.select("#tooltip");
-
             var date = new Date(parseInt(d.timestamp, 10));
             var dateString = (date.getUTCMonth() + 1) + "/" + date.getUTCDate() + "/" + date.getUTCFullYear();
-            var t = date.getUTCHours() + ":" + ((date.getUTCMinutes()<10?'0':'') + date.getUTCMinutes()) + " GMT";
+            var t = date.getUTCHours() + ":" + ((date.getUTCMinutes() < 10 ? "0":"") + date.getUTCMinutes()) + " GMT";
             d3.select("#p1").text("M" + d.magnitude);
             d3.select("#p2").text(dateString);
             d3.select("#p3").text(t);
-
-            var xPos = mouse["x"] + 5;
-            var yPos = mouse["y"]+ 5;
+            
+            var xPos = mouse["x"] + 10;
+            var yPos = mouse["y"] + 5;
 
             d3.select("#tooltip")
                 .classed("hidden", false)
@@ -241,59 +238,27 @@ function refreshPoints(data) {
             return d.magnitude >= 6;
         }));
 
-    historicalPoints.enter().append("circle", ".point")
-        .attr("class", "point circle")
-        .attr("r", function(d) {
-            return Math.pow(10, Math.sqrt(d.magnitude))/90;
-        })
-        .style("fill", function(d) {
-            return (colorRamp(Math.floor(d.magnitude)));
-        })
-        .attr("transform", function(d) {
-            return "translate(" + projection ([d.longitude, d.latitude]) + ")";
-        })
-        .style("display", "none")
-        .style("opacity", 0.9)
-        .on("mouseover", function(d) {
-            var date = new Date(parseInt(d.timestamp, 10));
-            var dateString = (date.getUTCMonth() + 1) + "/" + date.getUTCDate() + "/" + date.getUTCFullYear();
-            var t = date.getUTCHours() + ":" + ((date.getUTCMinutes() < 10 ? "0":"") + date.getUTCMinutes()) + " GMT";
-            d3.select("#p1").text("M" + d.magnitude);
-            d3.select("#p2").text(dateString);
-            d3.select("#p3").text(t);
-            
-            var xPos = mouse["x"] + 10;
-            var yPos = mouse["y"] + 5;
-
-            d3.select("#tooltip")
-                .classed("hidden", false)
-                .style("left", + xPos + "px")
-                .style("top", + yPos + "px");
-        })
-        .on("mouseout", function() {
-            d3.select("#tooltip")
-                .classed("hidden", true);
-        });
+    drawHistoricalPoints(historicalPoints);
 
     // dynamically update magnitude filters
-    redrawLegend();
+    createLegend();
 }
 
-function redrawLegend() {
+function createLegend() {
     // create magnitude filters for recent points
-    createFilterCircles(".rsvg", 3, 10, 21, ".newPoint");
-    createFilterCircles(".rsvg", 4, 15, 43, ".newPoint");
-    createFilterCircles(".rsvg", 5, 20, 69, ".newPoint");
-    createFilterCircles(".rsvg", 6, 25, 100, ".newPoint");
-    createFilterCircles(".rsvg", 7, 30, 140, ".newPoint");
-    createFilterCircles(".rsvg", 8, 40, 188, ".newPoint");
-    createFilterCircles(".rsvg", 9, 40, 250, ".newPoint");
+    drawFilterCircles(".rsvg", 3, 10, 21, ".newPoint");
+    drawFilterCircles(".rsvg", 4, 15, 43, ".newPoint");
+    drawFilterCircles(".rsvg", 5, 20, 69, ".newPoint");
+    drawFilterCircles(".rsvg", 6, 25, 100, ".newPoint");
+    drawFilterCircles(".rsvg", 7, 30, 140, ".newPoint");
+    drawFilterCircles(".rsvg", 8, 40, 188, ".newPoint");
+    drawFilterCircles(".rsvg", 9, 40, 250, ".newPoint");
 
     // create magnitude filters for historical points
-    createFilterCircles(".hsvg", 6, 25, 15, ".point");
-    createFilterCircles(".hsvg", 7, 30, 55, ".point");
-    createFilterCircles(".hsvg", 8, 40, 99, ".point");
-    createFilterCircles(".hsvg", 9, 40, 158, ".point");
+    drawFilterCircles(".hsvg", 6, 25, 15, ".point");
+    drawFilterCircles(".hsvg", 7, 30, 55, ".point");
+    drawFilterCircles(".hsvg", 8, 40, 99, ".point");
+    drawFilterCircles(".hsvg", 9, 40, 158, ".point");
 
     // dynamically disable recent point labels for which no events exist
     for (var color in recentColObj) {
@@ -306,7 +271,7 @@ function redrawLegend() {
     }
 }
 
-function createFilterCircles(elt, magnitude, divisor, cx, pointType) {
+function drawFilterCircles(elt, magnitude, divisor, cx, pointType) {
     var rad = Math.pow(10, Math.sqrt(magnitude))/divisor * 1.3;
     var circleG = d3.select(elt).append("g");
     var col = colorRamp(magnitude);
