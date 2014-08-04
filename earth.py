@@ -70,7 +70,7 @@ def handle_new_quake_json():
             new_quake_list.append(quake)
     else:
         global last_update 
-        last_update = int(new_quakes["metadata"]["generated"])
+        last_update = int(new_quakes_json["metadata"]["generated"])
         db_last_update = model.session.query(model.QuakeUpdate).one()
         db_last_update.update_time = last_update
         model.session.commit()

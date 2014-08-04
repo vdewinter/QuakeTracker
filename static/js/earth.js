@@ -175,7 +175,7 @@ function refreshPoints(points) {
     // dynamically create recent circles if magnitude >= 3
     var recentPoints = d3.selectAll(".recent")
         .selectAll(".newPoint")
-        .data(data.filter(function(d) {
+        .data(points.filter(function(d) {
             return d.magnitude >= 3;
         }));
 
@@ -221,7 +221,7 @@ function refreshPoints(points) {
     // dynamically create historical circles if magnitude >= 6
     var historicalPoints = d3.selectAll(".historical")
         .selectAll(".point")
-        .data(data.filter(function(d) {
+        .data(points.filter(function(d) {
             return d.magnitude >= 6;
         }));
 
