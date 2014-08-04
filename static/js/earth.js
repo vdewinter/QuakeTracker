@@ -101,20 +101,20 @@ function displayMap(points) {
 
 function handleMouseEvents(selection) {
     selection.on("mouseover", function(d) {
-            var date = new Date(parseInt(d.timestamp, 10));
-            var dateString = (date.getUTCMonth() + 1) + "/" + date.getUTCDate() + "/" + date.getUTCFullYear();
-            var t = date.getUTCHours() + ":" + ((date.getUTCMinutes() < 10 ? "0":"") + date.getUTCMinutes()) + " GMT";
-            d3.select("#p1").text("M" + d.magnitude);
-            d3.select("#p2").text(dateString);
-            d3.select("#p3").text(t);
-            
-            var xPos = mouse["x"] + 10;
-            var yPos = mouse["y"] + 5;
+        var date = new Date(parseInt(d.timestamp, 10));
+        var dateString = (date.getUTCMonth() + 1) + "/" + date.getUTCDate() + "/" + date.getUTCFullYear();
+        var t = date.getUTCHours() + ":" + ((date.getUTCMinutes() < 10 ? "0":"") + date.getUTCMinutes()) + " GMT";
+        d3.select("#p1").text("M" + d.magnitude);
+        d3.select("#p2").text(dateString);
+        d3.select("#p3").text(t);
+        
+        var xPos = mouse["x"] + 10;
+        var yPos = mouse["y"] + 5;
 
-            d3.select("#tooltip")
-                .classed("hidden", false)
-                .style("left", + xPos + "px")
-                .style("top", + yPos + "px");
+        d3.select("#tooltip")
+            .classed("hidden", false)
+            .style("left", + xPos + "px")
+            .style("top", + yPos + "px");
         })
         .on("mouseout", function() {
             d3.select("#tooltip")
