@@ -257,7 +257,8 @@ wondering about secret keys... i don't have browser sessions stored so i just to
 goal: refactor for a code review tomorrow
 
 had to add export DATABASE_URL=... to my bash_profile to get localhost running
-big func to draw historical points is hard to get working
+
+refactoring was a little difficult but not if i pay a lot of attention to what's being selected.
 
 
 LATER:

@@ -1,7 +1,7 @@
 import model
 import datetime
 from flask import Flask, render_template
-from flask.ext.socketio import SocketIO, emit
+from flask.ext.socketio import SocketIO
 import json
 import os
 import requests
@@ -14,7 +14,8 @@ socketio = SocketIO(app)
 thread = None
 
 last_update = 0
-ms_per_week = 604800000
+MS_PER_WEEK = 604800000
+USGS_URL = "http://earthquake.usgs.gov/earthquakes/feed/geojson/2.5/week"
 
 def background_thread():
     count = 0
@@ -55,13 +56,13 @@ def create_quake_dict(quake):
 @socketio.on("new_earthquake")
 @app.route("/new_earthquake")
 def handle_new_quake_json():
-    r = requests.get("http://earthquake.usgs.gov/earthquakes/feed/geojson/2.5/week")
-    new_quakes = r.json()
+    r = requests.get(USGS_URL)
+    new_quakes_json = r.json()
 
     if not r.status_code == 200:
         print "USGS server down"
         # read all quakes from last week from db
-        one_week_ago = int(time.time()) - ms_per_week
+        one_week_ago = (int(time.time()) * 1000) - MS_PER_WEEK
         new_quakes = model.session.query(model.Quake).filter(model.Quake.timestamp >= one_week_ago).all()
         
         new_quake_list = []
@@ -76,7 +77,7 @@ def handle_new_quake_json():
         
         new_quake_list = []
 
-        for quake in new_quakes["features"]:
+        for quake in new_quakes_json["features"]:
             response = create_quake_dict(quake)
             new_quake_list.append(response)
 
@@ -94,7 +95,7 @@ def write_new_quakes_to_db(new_quake_dict):
         # update quakes that are already in db if they were updated after occurence and update greater than last report time- TEST
         global last_update
         quake_update = int(quake["updated"])
-        if quake["id"] in db_objects.keys() and ( quake_update > int(quake["timestamp"]) ) and ( quake_update > (last_update - ms_per_week) ):
+        if quake["id"] in db_objects.keys() and ( quake_update > int(quake["timestamp"]) ) and ( quake_update > (last_update - MS_PER_WEEK) ):
             print "updating quake %s" % quake["id"]
             existing_quake = model.Quake.query.get(quake["id"])
             existing_quake.timestamp = quake["timestamp"]

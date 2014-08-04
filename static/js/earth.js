@@ -165,13 +165,13 @@ function drawHistoricalPoints(selection) {
 function readRecentQuakes() {
     d3.json("/new_earthquake", function(error, points) {
         if (error) return console.error(error);
-        console.log(points);
-        data = points;
-        refreshPoints(data);
+        console.log("readRecentQuakes " + points);
+        refreshPoints(points);
     });
 }
 
-function refreshPoints(data) {
+// dynamically adds new points and removes old points
+function refreshPoints(points) {
     // dynamically create recent circles if magnitude >= 3
     var recentPoints = d3.selectAll(".recent")
         .selectAll(".newPoint")
