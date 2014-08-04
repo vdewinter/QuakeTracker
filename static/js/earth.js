@@ -115,12 +115,15 @@ function prepareHistoricalPoints(points) {
             pointsList.push(yearPoints[i]);
         }
     }
-    var historicalPoints = d3.selectAll(".historical");
+    var historicalPoints = d3.selectAll(".historical")
+        .selectAll(".point")
+        .data(pointsList);
+
     drawHistoricalPoints(historicalPoints);
 }
 
-function drawHistoricalPoints(appendee) {
-    appendee.enter().append("circle", ".point")
+function drawHistoricalPoints(selection) {
+    selection.enter().append("circle", ".point")
         .attr("class", "point circle")
         .attr("r", function(d) {
             return Math.pow(10, Math.sqrt(d.magnitude))/90;
@@ -295,7 +298,7 @@ function drawFilterCircles(elt, magnitude, divisor, cx, pointType) {
         .on("mouseover", function() {
             d3.select(this)
                 .transition().duration(300).ease("sine")
-                .attr("r", rad/1.07);
+                .attr("r", rad/1.1);
         })
         .on("mouseout", function() {
             d3.select(this)

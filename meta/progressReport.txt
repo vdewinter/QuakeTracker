@@ -253,7 +253,11 @@ the since 1900 button is not including new quakes?
 
 wondering about secret keys... i don't have browser sessions stored so i just took it out
 
+8/4/2014 
+goal: refactor for a code review tomorrow
 
+had to add export DATABASE_URL=... to my bash_profile to get localhost running
+big func to draw historical points is hard to get working
 
 
 LATER:

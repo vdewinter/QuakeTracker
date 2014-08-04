@@ -9,6 +9,7 @@ from threading import Thread
 import time
 
 app = Flask(__name__)
+app.debug = True
 socketio = SocketIO(app)
 thread = None
 
@@ -57,9 +58,8 @@ def handle_new_quake_json():
     r = requests.get("http://earthquake.usgs.gov/earthquakes/feed/geojson/2.5/week")
     new_quakes = r.json()
 
-    # when USGS is down- TEST
     if not r.status_code == 200:
-        print "USGS down"
+        print "USGS server down"
         # read all quakes from last week from db
         one_week_ago = int(time.time()) - ms_per_week
         new_quakes = model.session.query(model.Quake).filter(model.Quake.timestamp >= one_week_ago).all()
