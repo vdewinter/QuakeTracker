@@ -54,6 +54,12 @@ def create_quake_dict(quake):
         "magnitude":quake_magnitude, "tsunami":quake_tsunami, 
         "longitude":quake_longitude, "latitude":quake_latitude}
 
+@socketio.on("connected")
+def connect():
+    print "I'm connected"
+    socketio.emit("connected")
+
+
 @socketio.on("new_earthquake")
 @app.route("/new_earthquake")
 def handle_new_quake_json():
