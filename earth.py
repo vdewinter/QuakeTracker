@@ -28,6 +28,7 @@ def background_thread():
         count += 1
         new_earthquake = handle_new_quake_json()
         socketio.emit("new_earthquake", new_earthquake)
+        print new_earthquake
         new_earthquake = json.loads(new_earthquake, "latin-1")
         write_new_quakes_to_db(new_earthquake)
 
