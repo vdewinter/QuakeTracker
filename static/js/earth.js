@@ -18,13 +18,13 @@ var svg = d3.select("body").append("svg")
     .attr("height", height)
     .attr("class", "map");
 
-// colors quake circles by magnitude
+// scale to color earthquake points by magnitude
 var colorRamp = d3.scale.linear()
     .domain([3,4,5,6,7,8,9])
     .range(["#9b30ff","#003eff","#00ff00",
         "#ffe600","#ffa500","#ff0000","#b81324"]);
 
-// disable irrelevant magnitude filters for recent quakes
+// track which magnitudes/colors occur in new reports
 var recentColObj = {"#9b30ff": false,
                     "#003eff": false,
                     "#00ff00": false,
@@ -34,6 +34,7 @@ var recentColObj = {"#9b30ff": false,
                     "#b81324": false
                     };
 
+// draw all static elements on page
 function displayMap(points) {
     // land
     d3.json("/static/world.json", function(error, world) {
@@ -48,6 +49,8 @@ function displayMap(points) {
             .attr("class", "historical");
         svg.append("g")
             .attr("class", "recent");
+
+        // draw map points with display: none
         prepareHistoricalPoints(points);
         readRecentQuakes();
     });
@@ -99,6 +102,7 @@ function displayMap(points) {
         .attr("width", "400px");
 }
 
+// format data for display in tooltip, control mouseover and mouseout events
 function handleMouseEvents(selection) {
     selection.on("mouseover", function(d) {
         var date = new Date(parseInt(d.timestamp, 10));
@@ -122,6 +126,7 @@ function handleMouseEvents(selection) {
         });
 }
 
+// request points from the backend to display on the map
 function readHistoricalQuakes() {
     d3.json("/read_quakes_from_db", function(error, points) {
         if (error) return console.error(error);
@@ -130,6 +135,7 @@ function readHistoricalQuakes() {
     });
 }
 
+// put points from backend into array, select the correct g element to append historical points to, call drawing function
 function prepareHistoricalPoints(points) {
     var pointsList = [];
     for (var year in points) {
@@ -138,6 +144,7 @@ function prepareHistoricalPoints(points) {
             pointsList.push(yearPoints[i]);
         }
     }
+
     var historicalPoints = d3.selectAll(".historical")
         .selectAll(".point")
         .data(pointsList);
@@ -145,6 +152,7 @@ function prepareHistoricalPoints(points) {
     drawHistoricalPoints(historicalPoints);
 }
 
+// draw circles for historical points
 function drawHistoricalPoints(selection) {
     selection.enter().append("circle", ".point")
         .attr("class", "point circle")
@@ -162,6 +170,7 @@ function drawHistoricalPoints(selection) {
     handleMouseEvents(selection);
 }
 
+// read array of objects emitted by backend every minute
 function readRecentQuakes() {
     d3.json("/new_earthquake", function(error, points) {
         if (error) return console.error(error);
@@ -170,9 +179,9 @@ function readRecentQuakes() {
     });
 }
 
-// dynamically adds new points and removes old points
+// dynamically add recent points for new earthquakes, remove recent points for earthquakes older than one week,
+// add new points to the historical points collection, and update filter circles
 function refreshPoints(points) {
-    // dynamically create recent circles if magnitude >= 3
     var recentPoints = d3.selectAll(".recent")
         .selectAll(".newPoint")
         .data(points.filter(function(d) {
@@ -182,6 +191,7 @@ function refreshPoints(points) {
     recentPoints.enter().append("circle", ".newPoint")
         .attr("class", "newPoint circle")
         .each(function(d) {
+            // pulsing behavior
             var that = this;
             setInterval(function() {
                 d3.select(that)
@@ -201,6 +211,7 @@ function refreshPoints(points) {
             }, 3000);
         })
         .style("fill", function(d) {
+            // track magnitudes of earthquakes in new reports to determine which filters to deactivate
             var col = colorRamp(Math.floor(d.magnitude));
             if (recentColObj.hasOwnProperty(col)) {
                 recentColObj[col] = true;
@@ -214,11 +225,11 @@ function refreshPoints(points) {
 
     handleMouseEvents(recentPoints);
 
-    // remove recent circles > 1 week old
+    // remove recent circles older than one week
     recentPoints.exit()
         .remove();
 
-    // dynamically create historical circles if magnitude >= 6
+    // create historical circles if magnitude >= 6
     var historicalPoints = d3.selectAll(".historical")
         .selectAll(".point")
         .data(points.filter(function(d) {
@@ -227,7 +238,7 @@ function refreshPoints(points) {
 
     drawHistoricalPoints(historicalPoints);
 
-    // dynamically update magnitude filters
+    // update magnitude filters
     updateLegend();
 }
 
@@ -258,6 +269,7 @@ function updateLegend() {
     }
 }
 
+// draw and label circles for filtering by magnitude
 function drawFilterCircles(elt, magnitude, divisor, cx, pointType) {
     var rad = Math.pow(10, Math.sqrt(magnitude))/divisor * 1.3;
     var circleG = d3.select(elt).append("g");
@@ -317,6 +329,7 @@ function filterPoints(value) {
     }
 }
 
+// control which set of points are displayed when buttons are pressed
 function displayPoints(pointsToDisplay, pointsToHide) {
     d3.select("#slider-tooltip")
         .classed("hidden", true);
