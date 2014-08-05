@@ -18,8 +18,8 @@ class Quake(Base):
     updated = Column(BigInteger)
     magnitude = Column(Float, nullable = False, index = True)
     tsunami = Column(BigInteger, nullable = True)
-    latitude = Column(String(10), nullable = False)
-    longitude = Column(String(10), nullable = False)
+    latitude = Column(String(30), nullable = False)
+    longitude = Column(String(30), nullable = False)
 
 class QuakeUpdate(Base):
     __tablename__ = "quake_update"

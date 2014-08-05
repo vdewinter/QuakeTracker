@@ -165,7 +165,7 @@ function drawHistoricalPoints(selection) {
 function readRecentQuakes() {
     d3.json("/new_earthquake", function(error, points) {
         if (error) return console.error(error);
-        console.log("readRecentQuakes " + points);
+        console.log(points);
         refreshPoints(points);
     });
 }
