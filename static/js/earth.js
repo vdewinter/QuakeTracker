@@ -228,10 +228,10 @@ function refreshPoints(points) {
     drawHistoricalPoints(historicalPoints);
 
     // dynamically update magnitude filters
-    createLegend();
+    updateLegend();
 }
 
-function createLegend() {
+function updateLegend() {
     // create magnitude filters for recent points
     drawFilterCircles(".rsvg", 3, 10, 21, ".newPoint");
     drawFilterCircles(".rsvg", 4, 15, 43, ".newPoint");
