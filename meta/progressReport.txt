@@ -260,6 +260,11 @@ had to add export DATABASE_URL=... to my bash_profile to get localhost running
 
 refactoring was a little difficult but not if i pay a lot of attention to what's being selected.
 
+8/5/2014
+
+found a weird bug- big purple circles after a long time running
+
+added doc-string style comments above each function
 
 LATER:
 
