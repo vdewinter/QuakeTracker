@@ -269,6 +269,8 @@ added doc-string style comments above each function
 had a detached head and tried to commit
 used reflog to find untracked commits (e.g. detached head), checkout master, merged changes from branch
 
+alter table quakes alter column latitude type varchar(30);
+alter table quakes alter column longitude type varchar(30)
 
 LATER:
 

@@ -21,10 +21,6 @@ USGS_URL = "http://earthquake.usgs.gov/earthquakes/feed/geojson/2.5/week"
 # reformat the data, send it to the client, and save it in the database
 def background_thread():
     count = 0
-    db_last_update = model.session.query(model.QuakeUpdate).one()
-    global last_update 
-    last_update = db_last_update.update_time
-
     while True:
         time.sleep(60)
         count += 1
@@ -39,10 +35,6 @@ def background_thread():
 # set up background thread, render html
 @app.route('/')
 def index():
-    global thread
-    if thread is None:
-        thread = Thread(target=background_thread)
-        thread.start()
     return render_template("index.html")
 
 # function for reformatting new earthquake data
@@ -69,20 +61,20 @@ def handle_new_quake_json():
     new_quakes_json = r.json()
 
     # read database and send to client all quakes from the last week
-    if not r.status_code == 200:
+    if r.status_code != 200:
         print "USGS server down"
 
         # get epoch timestamp of one week ago
         ms_per_week = 604800000
         one_week_ago = (int(time.time()) * 1000) - ms_per_week
         new_quakes = model.session.query(model.Quake).filter(model.Quake.timestamp >= one_week_ago).all()
+        print new_quakes
         
         new_quake_list = []
         for quake in new_quakes:
             new_quake_list.append(quake)
     else:
         # get latest report timestamp
-        global last_update 
         last_update = int(new_quakes_json["metadata"]["generated"])
         
         # update database with the latest report timestamp
@@ -110,7 +102,6 @@ def write_new_quakes_to_db(new_quake_dict):
 
     for quake in new_quake_dict:
         # update earthquakes that are already in database if they were updated (re-estimated magnitude, etc.) after the quake occurred
-        global last_update
         quake_update = int(quake["updated"])
         if quake["id"] in db_objects.keys() and (quake_update > int(quake["timestamp"])):
             print "updating quake %s" % quake["id"]
@@ -154,6 +145,9 @@ def read_quakes_from_db():
     # send json to client
     return json.dumps(response_dict)
     
+thread = Thread(target=background_thread)
+thread.start()
+
 if __name__ == "__main__":
     port = os.environ.get('PORT', 5000)
     socketio.run(app, port=int(port))
