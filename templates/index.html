@@ -74,10 +74,6 @@
                 socket.emit("my event", {data: "I'm connected!"});
             });
 
-            socket.on("connected", function() {
-
-            })
-
             socket.on("new_earthquake", function() {
                 readRecentQuakes();
             });
