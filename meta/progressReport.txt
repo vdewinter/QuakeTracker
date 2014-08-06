@@ -262,9 +262,13 @@ refactoring was a little difficult but not if i pay a lot of attention to what's
 
 8/5/2014
 
-found a weird bug- big purple circles after a long time running
+found a weird bug- big purple circles after a long time running- have not recreated
 
 added doc-string style comments above each function
+
+had a detached head and tried to commit
+used reflog to find untracked commits (e.g. detached head), checkout master, merged changes from branch
+
 
 LATER:
 
