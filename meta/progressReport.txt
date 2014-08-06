@@ -272,6 +272,12 @@ used reflog to find untracked commits (e.g. detached head), checkout master, mer
 alter table quakes alter column latitude type varchar(30);
 alter table quakes alter column longitude type varchar(30)
 
+
+could move mouse stuff into index.html
+don't need IIFE bc everything in document ready/only 1 file
+module patter in js
+
+
 LATER:
 
 -- look into promises- load plate boundaries only after maps and points ready- wait for callback

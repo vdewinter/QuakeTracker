@@ -108,7 +108,7 @@ function handleMouseEvents(selection) {
         var date = new Date(parseInt(d.timestamp, 10));
         var dateString = (date.getUTCMonth() + 1) + "/" + date.getUTCDate() + "/" + date.getUTCFullYear();
         var t = date.getUTCHours() + ":" + ((date.getUTCMinutes() < 10 ? "0":"") + date.getUTCMinutes()) + " GMT";
-        d3.select("#p1").text("M" + d.magnitude);
+        d3.select("#p1").text("M " + d.magnitude);
         d3.select("#p2").text(dateString);
         d3.select("#p3").text(t);
         
