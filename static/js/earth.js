@@ -319,8 +319,10 @@ function drawFilterCircles(elt, magnitude, divisor, cx, pointType) {
 
 // show M6+ earthquakes in year of slider value
 function filterPoints(value) {
+    d3.selectAll(".circle")
+        .style("display", "none");
     if (dataset.hasOwnProperty(value)) {
-        d3.selectAll(".circle")
+        d3.selectAll(".point")
             .style("display", function(d) {
                 var timestamp = parseInt(d.timestamp, 10);
                 year = new Date(timestamp).getUTCFullYear();
