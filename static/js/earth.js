@@ -38,7 +38,9 @@ var recentColObj = {"#9b30ff": false,
 function displayMap(points) {
     // land
     d3.json("/static/world.json", function(error, world) {
-        if (error) return console.error(error);
+        if (error) {
+            return console.error(error);
+        }
 
         svg.append("path")
             .datum(topojson.feature(world, world.objects.subunits))
@@ -57,7 +59,9 @@ function displayMap(points) {
 
     // fault lines
     d3.json("/static/tectonics.json", function(error, data) {
-        if (error) return console.error(error);
+        if (error) {
+            return console.error(error);
+        }
 
         svg.append("path")
             .datum(topojson.feature(data, data.objects.tec))
@@ -129,7 +133,10 @@ function handleMouseEvents(selection) {
 // request points from the backend to display on the map
 function readHistoricalQuakes() {
     d3.json("/read_quakes_from_db", function(error, points) {
-        if (error) return console.error(error);
+        if (error) {
+            return console.error(error);
+        }
+
         dataset = points;
         displayMap(points);
     });
@@ -173,7 +180,10 @@ function drawHistoricalPoints(selection) {
 // read array of objects emitted by backend every minute
 function readRecentQuakes() {
     d3.json("/new_earthquake", function(error, points) {
-        if (error) return console.error(error);
+        if (error) {
+            return console.error(error);
+        }
+        
         console.log(points);
         refreshPoints(points);
     });
