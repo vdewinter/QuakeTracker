@@ -3,6 +3,11 @@ body {
     font-family: 'Droid Sans', sans-serif;
 }
 
+.overlay {
+  fill: none;
+  pointer-events: all;
+}
+
 #title {
     height: 74px;
     width: 173px;

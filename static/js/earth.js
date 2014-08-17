@@ -17,6 +17,9 @@ var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height)
     .attr("class", "map");
+    // .append("g") (paths below should be appended to this elt)
+    // .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
+    // .call(zoom);
 
 // scale to color earthquake points by magnitude
 var colorRamp = d3.scale.linear()
@@ -34,6 +37,27 @@ var recentColObj = {"#9b30ff": false,
                     "#b81324": false
                     };
 
+// zoom functionality
+// var zoom = d3.behavior.zoom()
+//     .scaleExtent([1, 8])
+//     .on("zoom", move);
+
+// svg.append("rect")
+//     .attr("class", "overlay")
+//     .attr("x", -width / 2)
+//     .attr("y", -height / 2)
+//     .attr("width", width)
+//     .attr("height", height);
+
+// function move() {
+//   var t = d3.event.translate,
+//       s = d3.event.scale;
+//   t[0] = Math.min(width / 2 * (s - 1), Math.max(width / 2 * (1 - s), t[0]));
+//   t[1] = Math.min(height / 2 * (s - 1) + 230 * s, Math.max(height / 2 * (1 - s) - 230 * s, t[1]));
+//   zoom.translate(t);
+//   g.style("stroke-width", 1 / s).attr("transform", "translate(" + t + ")scale(" + s + ")");
+// }
+
 // draw all static elements on page
 function displayMap(points) {
     // land
@@ -42,7 +66,7 @@ function displayMap(points) {
             return console.error(error);
         }
 
-        svg.append("path")
+        svg.append("path") // append path to top level g instead
             .datum(topojson.feature(world, world.objects.subunits))
             .attr("d", path)
             .style("opacity", 0.9);
@@ -63,7 +87,7 @@ function displayMap(points) {
             return console.error(error);
         }
 
-        svg.append("path")
+        svg.append("path")  // append path to top level g instead
             .datum(topojson.feature(data, data.objects.tec))
             .attr("class", "tectonic")
             .attr("d", path)
