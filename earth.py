@@ -51,38 +51,25 @@ def create_quake_dict(quake):
         "longitude":quake_longitude, "latitude":quake_latitude}
 
 # make request to USGS server, update latest report timestamp in database,
-# send reformatted report data to client, handle status codes != 200 (in development)
+# send reformatted report data to client
 @socketio.on("new_earthquake")
 @app.route("/new_earthquake")
 def handle_new_quake_json():
     r = requests.get(USGS_URL)
     new_quakes_json = r.json()
 
-    # read database and send to client all quakes from the last week
-    if r.status_code == 200:
-        # get latest report timestamp
-        last_update = int(new_quakes_json["metadata"]["generated"])
+    # get latest report timestamp
+    last_update = int(new_quakes_json["metadata"]["generated"])
 
-        # update database with the latest report timestamp
-        db_last_update = model.session.query(model.QuakeUpdate).one()
-        db_last_update.update_time = last_update
-        model.session.commit()
+    # update database with the latest report timestamp
+    db_last_update = model.session.query(model.QuakeUpdate).one()
+    db_last_update.update_time = last_update
+    model.session.commit()
 
-        new_quake_list = []
-        for quake in new_quakes_json["features"]:
-            response = create_quake_dict(quake)
-            new_quake_list.append(response)
-    # else:
-    #     print "USGS server down"
-    #     # get epoch timestamp of one week ago
-    #     ms_per_week = 604800000
-    #     one_week_ago = (int(time.time()) * 1000) - ms_per_week
-    #     new_quakes = model.session.query(model.Quake).filter(model.Quake.timestamp >= one_week_ago).all()
-    #  ^ this needs to be in a sequence, write quake_model list and model_to_json/json_to_model functions
-
-    #     new_quake_list = []
-    #     for quake in new_quakes:
-    #         new_quake_list.append(quake)
+    new_quake_list = []
+    for quake in new_quakes_json["features"]:
+        response = create_quake_dict(quake)
+        new_quake_list.append(response)
 
     # send new report data to client as a json-encoded list of dictionaries/objects
     return json.dumps(new_quake_list)
