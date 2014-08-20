@@ -15,6 +15,5 @@ gevent-websocket==0.9.3
 greenlet==0.4.2
 gunicorn==19.0.0
 psycopg2==2.5.3
-redis==2.10.1
 requests==2.3.0
 wsgiref==0.1.2
