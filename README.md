@@ -2,6 +2,10 @@ QuakeTracker
 ============
 ![alt tag] (https://github.com/vdewinter/QuakeTracker/blob/master/QuakeTracker.png)
 
+
+http://whispering-hamlet-2412.herokuapp.com/
+
+
 QuakeTracker is an interactive visualization of earthquakes magnitude 3 or greater from the past week and all earthquakes of magnitude 6 or greater since 1900 colored and sized by magnitude. The application's Python backend requests GeoJSON reports of the last week of earthquakes from the US Geological Survey in real-time. 
 
 
@@ -9,3 +13,5 @@ QuakeTracker uses a websocket connection between the client and backend in order
 
 
 To filter recent or historical earthquakes by magnitude, click on the labeled circles. Filters are grayed out when no earthquakes of a certain magnitude are present in the recent quakes data. The filter circles reactivate when a new relevant earthquake is reported. Use the slider to display quakes since 1900 by year. Hover over any map point for information about an earthquake's magnitude and when it occurred.
+
+Coming soon: zoom and pan for the map, show past week of quakes from database when USGS is down 
