@@ -222,6 +222,10 @@ function refreshPoints(points) {
             return d.magnitude >= 3;
         }));
 
+    // remove recent circles older than one week
+    recentPoints.exit()
+        .remove();
+
     recentPoints.enter().append("circle", ".newPoint")
         .attr("class", "newPoint circle")
         .each(function(d) {
@@ -258,10 +262,6 @@ function refreshPoints(points) {
         .style("display", "none");
 
     handleMouseEvents(recentPoints);
-
-    // remove recent circles older than one week
-    recentPoints.exit()
-        .remove();
 
     // create historical circles if magnitude >= 6
     var historicalPoints = d3.selectAll(".historical")
