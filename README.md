@@ -1,7 +1,6 @@
 QuakeTracker
 ============
-https://github.com/vdewinter/QuakeTracker/blob/master/QuakeTracker.png
-
+<img width="806" alt="QuakeTracker" src="https://user-images.githubusercontent.com/2593889/138005059-32d6a166-e661-4ee6-b0f3-af99e7fca8a7.png">
 
 http://whispering-hamlet-2412.herokuapp.com/
 
