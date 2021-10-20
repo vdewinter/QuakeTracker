@@ -88,7 +88,7 @@ def write_new_quakes_to_db(new_quake_dict):
     for quake in new_quake_dict:
         quake_update = int(quake["updated"])
         if quake["id"] in list(db_objects.keys()) and (quake_update > int(quake["timestamp"])):
-            print("updating quake %s" % quake["id"])
+            print(("updating quake %s" % quake["id"]))
             existing_quake = model.Quake.query.get(quake["id"])
             existing_quake.timestamp = quake["timestamp"]
             existing_quake.updated = quake_update
