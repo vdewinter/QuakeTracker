@@ -17,9 +17,6 @@ var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height)
     .attr("class", "map");
-    // .append("g") (paths below should be appended to this elt)
-    // .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
-    // .call(zoom);
 
 // scale to color earthquake points by magnitude
 var colorRamp = d3.scale.linear()
@@ -28,48 +25,27 @@ var colorRamp = d3.scale.linear()
         "#ffe600","#ffa500","#ff0000","#b81324"]);
 
 // track which magnitudes/colors occur in new reports
-var recentColObj = {"#9b30ff": false,
-                    "#003eff": false,
-                    "#00ff00": false,
-                    "#ffe600": false,
-                    "#ffa500": false,
-                    "#ff0000": false,
-                    "#b81324": false
-                    };
-
-// zoom functionality
-// var zoom = d3.behavior.zoom()
-//     .scaleExtent([1, 8])
-//     .on("zoom", move);
-
-// svg.append("rect")
-//     .attr("class", "overlay")
-//     .attr("x", -width / 2)
-//     .attr("y", -height / 2)
-//     .attr("width", width)
-//     .attr("height", height);
-
-// function move() {
-//   var t = d3.event.translate,
-//       s = d3.event.scale;
-//   t[0] = Math.min(width / 2 * (s - 1), Math.max(width / 2 * (1 - s), t[0]));
-//   t[1] = Math.min(height / 2 * (s - 1) + 230 * s, Math.max(height / 2 * (1 - s) - 230 * s, t[1]));
-//   zoom.translate(t);
-//   g.style("stroke-width", 1 / s).attr("transform", "translate(" + t + ")scale(" + s + ")");
-// }
+var recentColObj = {
+    "#9b30ff": false,
+    "#003eff": false,
+    "#00ff00": false,
+    "#ffe600": false,
+    "#ffa500": false,
+    "#ff0000": false,
+    "#b81324": false
+};
 
 // draw all static elements on page
 function displayMap(points) {
-    // land
     d3.json("/static/world.json", function(error, world) {
         if (error) {
             return console.error(error);
         }
 
-        svg.append("path") // append path to top level g instead
+        svg.append("path")
             .datum(topojson.feature(world, world.objects.subunits))
             .attr("d", path)
-            .style("opacity", 0.9);
+            .style("opacity", 0.8);
         
         svg.append("g")
             .attr("class", "historical");
@@ -87,12 +63,12 @@ function displayMap(points) {
             return console.error(error);
         }
 
-        svg.append("path")  // append path to top level g instead
+        svg.append("path")
             .datum(topojson.feature(data, data.objects.tec))
             .attr("class", "tectonic")
             .attr("d", path)
             .style("stroke", 0.1)
-            .style("fill", "#EEEEEE")
+            .style("fill", "#6b6b6b")
             .style("opacity", 0.5);
     });
 
@@ -207,8 +183,6 @@ function readRecentQuakes() {
         if (error) {
             return console.error(error);
         }
-        
-        console.log(points);
         refreshPoints(points);
     });
 }
@@ -294,8 +268,7 @@ function updateLegend() {
 
     // dynamically disable recent point labels for which no events exist
     for (var color in recentColObj) {
-        if (! recentColObj[color]) {
-            console.log("no results for " + color);
+        if (!recentColObj[color]) {
             d3.selectAll(".newPoint" + color.replace("#",""))
                 .style("fill", "gray")
                 .attr("pointer-events", "none");
@@ -309,7 +282,7 @@ function drawFilterCircles(elt, magnitude, divisor, cx, pointType) {
     var circleG = d3.select(elt).append("g");
     var col = colorRamp(magnitude);
 
-    var c = circleG.append("circle")
+    circleG.append("circle")
         .attr("class", pointType.replace(".","") + col.replace("#",""))
         .attr("r", rad)
         .style("fill", col)

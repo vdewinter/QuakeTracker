@@ -12,7 +12,7 @@ app = Flask(__name__)
 app.debug = True
 socketio = SocketIO(app)
 
-USGS_URL = "http://earthquake.usgs.gov/earthquakes/feed/geojson/2.5/week"
+USGS_URL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojson"
 
 # grab the last report update time from the database
 # set up loop to request new report from USGS every minute
@@ -27,7 +27,7 @@ def background_thread():
         socketio.emit("new_earthquake", new_earthquake)
         print(new_earthquake)
         # decode json for writing to database
-        new_earthquake = json.loads(new_earthquake, "latin-1")
+        new_earthquake = json.loads(new_earthquake)
         write_new_quakes_to_db(new_earthquake)
 
 # set up background thread, render html
@@ -55,15 +55,19 @@ def create_quake_dict(quake):
 @socketio.on("new_earthquake")
 @app.route("/new_earthquake")
 def handle_new_quake_json():
-    r = requests.get(USGS_URL)
-    new_quakes_json = r.json()
+    new_quakes_json = requests.get(USGS_URL).json()
 
     # get latest report timestamp
     last_update = int(new_quakes_json["metadata"]["generated"])
 
     # update database with the latest report timestamp
-    db_last_update = model.session.query(model.QuakeUpdate).one()
-    db_last_update.update_time = last_update
+    db_last_update = model.session.query(model.QuakeUpdate).first()
+    if not db_last_update:
+        new_update = model.QuakeUpdate(update_time = last_update)
+        model.session.add(new_update)
+    else:
+        db_last_update.update_time = last_update
+
     model.session.commit()
 
     new_quake_list = []
