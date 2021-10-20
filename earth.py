@@ -25,7 +25,7 @@ def background_thread():
         new_earthquake = handle_new_quake_json()
         # emit new data to client
         socketio.emit("new_earthquake", new_earthquake)
-        print new_earthquake
+        print(new_earthquake)
         # decode json for writing to database
         new_earthquake = json.loads(new_earthquake, "latin-1")
         write_new_quakes_to_db(new_earthquake)
@@ -76,7 +76,7 @@ def handle_new_quake_json():
 
 # update earthquakes from past week that are already in the database, otherwise add new earthquakes to database
 def write_new_quakes_to_db(new_quake_dict):
-    print "writing to db"
+    print("writing to db")
     db = model.session.query(model.Quake).all()
 
     # put database objects into dictionary for fast lookup
@@ -87,8 +87,8 @@ def write_new_quakes_to_db(new_quake_dict):
     # update earthquakes already in database if they were updated after quake occurred
     for quake in new_quake_dict:
         quake_update = int(quake["updated"])
-        if quake["id"] in db_objects.keys() and (quake_update > int(quake["timestamp"])):
-            print "updating quake %s" % quake["id"]
+        if quake["id"] in list(db_objects.keys()) and (quake_update > int(quake["timestamp"])):
+            print("updating quake %s" % quake["id"])
             existing_quake = model.Quake.query.get(quake["id"])
             existing_quake.timestamp = quake["timestamp"]
             existing_quake.updated = quake_update
