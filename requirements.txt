@@ -15,7 +15,7 @@ gevent==21.8.0
 gevent-socketio==0.3.6
 gevent-websocket==0.10.1
 greenlet==1.1.2
-gunicorn==19.5.0
+gunicorn==20.1.0
 idna==2.7
 importlib-metadata==4.8.1
 itsdangerous==2.0.1
